@@ -24,7 +24,8 @@ public class Patrol : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (speed < topSpeed) speed += 0.0625f;
+        if (speed < topSpeed) speed += 0.25f;
+        else if (speed > topSpeed) speed = topSpeed;
         m_RigidBody.velocity = new Vector2(speed * direction, 0);
     }
     private void OnTriggerEnter2D(Collider2D collision)

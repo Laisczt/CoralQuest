@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Stalk : MonoBehaviour
 {
-    private Vector3 homePos;
+    private Vector2 homePos;
     public GameObject target;
     public float radius;
     public float speed;
@@ -27,15 +27,14 @@ public class Stalk : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 travelDirection;
-        if (Vector3.Distance(target.transform.position, transform.position) < radius)
+        Vector2 travelDirection = Vector2.zero;
+        if(this.gameObject.Sees(target, radius))
         {
             travelDirection = target.transform.position - transform.position;
         }
-        else
+        else if(Vector2.Distance(transform.position, homePos) > 0.3f)
         {
-            if (Vector3.Distance(transform.position, homePos) > 0.3f) travelDirection = homePos - transform.position;
-            else travelDirection = Vector2.zero;
+            travelDirection = homePos - (Vector2) transform.position;
         }
         travelDirection.Normalize();
 

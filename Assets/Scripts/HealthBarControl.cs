@@ -22,42 +22,30 @@ public class HealthBarControl : MonoBehaviour
         
     }
 
-    public void Damage(int value)
+    public void UpdateHB()
     {
-        if (hp - value <= 0) value = 0; // Caps damage at 0
-        else value = hp - value;    // value becomes hp after damage
+        var a = target.GetComponent<PlayerControl>().health;
 
-        for (int i = hp; i > value; i--)
+        if (a < hp)
         {
-            healthBar[i - 1].SetActive(false); // damage ui heart
+            for (int i = hp; i > a; i--)
+            {
+                healthBar[i - 1].transform.GetChild(0).gameObject.SetActive(false);
+                healthBar[i - 1].transform.GetChild(1).gameObject.SetActive(true);
+            }
         }
-        hp = value;
-    }
-
-    [ContextMenu("Damage 1")]
-    public void Damage1()
-    {
-        Damage(1);
-    }
-
-
-    public void Heal(int value)
-    {
-        if (hp + value >= maxHp) value = maxHp; // Caps heal at max health
-        else value += hp;   // value becomes hp after heal
-
-        for (int i = hp; i < value; i++)
+        else if (a > hp)
         {
-            healthBar[i].SetActive(true);   // restore ui heart
+            for (int i = hp; i < a; i++)
+            {
+                healthBar[i].transform.GetChild(0).gameObject.SetActive(true);
+                healthBar[i].transform.GetChild(1).gameObject.SetActive(false);
+            }
         }
-        hp = value;
+
+        hp = a;
     }
 
-    [ContextMenu("Heal 1")]
-    public void Heal1()
-    {
-        Heal(1);
-    }
 
     public void AsignTarget(GameObject target)
     {
@@ -75,6 +63,6 @@ public class HealthBarControl : MonoBehaviour
             pos += new Vector3(90, 0, 0);
         }
 
-        target.gameObject.GetComponent<PlayerControl>().m_HealthBar = transform.gameObject;
+        target.gameObject.GetComponent<PlayerControl>().m_HealthBar = this;
     }
 }
