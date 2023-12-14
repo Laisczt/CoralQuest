@@ -35,7 +35,8 @@ public class Turret : MonoBehaviour
 
         if (curr_Cooldown == 0 && this.gameObject.Sees(target, radius))
         {
-            direction = (target.transform.position - transform.position).normalized;
+            direction = (target.transform.position + (Vector3) target.GetComponent<Collider2D>().offset) - transform.position;
+            direction.Normalize();
 
             var projec = Instantiate(shot, headPos + (direction * shotSpawnDistance), Quaternion.identity);
             projec.GetComponent<Projectile_Straight>().direction = direction;

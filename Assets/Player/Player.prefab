@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8773071266150089486}
   - component: {fileID: 8773071266150089487}
+  - component: {fileID: 8773071266150089488}
   - component: {fileID: 8773071266150089489}
   - component: {fileID: 8773071266150089484}
-  - component: {fileID: 8773071266150089488}
   - component: {fileID: -6585452675328134231}
   m_Layer: 0
   m_Name: Player
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8773071266150089485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.152, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -88,6 +88,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8773071266150089488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773071266150089485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e62709ee468cc14883c927a0b9df3ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
+  m_HealthBar: {fileID: 0}
+  maxHealth: 5
+  health: 7
+  maxSpeedX: 7
+  jumpPower: 20
+  maxJumps: 2
+  attackCooldown: 10
+  alive: 1
+  score: 0
 --- !u!61 &8773071266150089489
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -105,7 +127,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.3333334, y: 2.3333333}
+    oldSize: {x: 1.25, y: 2.1875}
     newSize: {x: 2, y: 3.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -135,27 +157,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8773071266150089488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8773071266150089485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e62709ee468cc14883c927a0b9df3ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myRigidBody: {fileID: 8773071266150089484}
-  baseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
-  score: 0
-  maxHealth: 5
-  health: 7
-  maxSpeedX: 7
-  jumpPower: 20
-  maxJumps: 2
-  attackCooldown: 10
 --- !u!95 &-6585452675328134231
 Animator:
   serializedVersion: 5

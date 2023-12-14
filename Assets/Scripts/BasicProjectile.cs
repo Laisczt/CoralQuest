@@ -8,6 +8,7 @@ public class BasicProjectile : MonoBehaviour
     public int value = 1;
     public int lifespan = 300;
     public bool breaksOnSolidHit;
+    public bool breaksOnPlayerHit;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,8 @@ public class BasicProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (breaksOnSolidHit && collision.gameObject.CompareTag("Solid"))
+        if ((breaksOnSolidHit && collision.gameObject.CompareTag("Solid")) || 
+            (breaksOnPlayerHit && collision.gameObject.name == "Player"))
         {
             Destroy(gameObject);
         }

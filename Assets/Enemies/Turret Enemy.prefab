@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5327839080405381505}
   - component: {fileID: -8288508326789859707}
   - component: {fileID: -7884068912655532900}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Turret Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -50,12 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: 25
   damage: 1
-  dropCount: 0
-  healthDropValue: 1
-  healthDropChance: 1
-  DropVariance: 1
-  drop: {fileID: 3861013056592176642, guid: cd1c812db50ce2c498e23248aec82457, type: 3}
-  healthDrop: {fileID: 0}
 --- !u!114 &5327839080405381505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,7 +123,7 @@ GameObject:
   - component: {fileID: 1788622042297520865}
   - component: {fileID: 4972634697135239688}
   - component: {fileID: 72690554801974247}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,9 +211,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: 25
   damage: 1
-  dropCount: 3
-  healthDropValue: 1
-  healthDropChance: 1
-  DropVariance: 0
-  drop: {fileID: 0}
-  healthDrop: {fileID: 0}

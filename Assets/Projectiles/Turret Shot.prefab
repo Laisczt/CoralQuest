@@ -153,6 +153,7 @@ MonoBehaviour:
   value: 1
   lifespan: 210
   breaksOnSolidHit: 1
+  breaksOnPlayerHit: 1
 --- !u!50 &7808435985166101163
 Rigidbody2D:
   serializedVersion: 4
