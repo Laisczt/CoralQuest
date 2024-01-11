@@ -20,7 +20,7 @@ public class GameControl : MonoBehaviour
         healthBar.name = "Health Bar";
         healthBar.GetComponent<HealthBarControl>().AsignTarget(player);
 
-        Camera.GetComponent<CameraMovement>().AsignTarget(player);
+        Camera.GetComponent<CameraMovement>().SetTarget(player);
     }
 
     // Update is called once per frame

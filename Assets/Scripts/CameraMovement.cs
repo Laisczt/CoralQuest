@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
-{
+{   
+    [HideInInspector]
     public GameObject target;
 
     // Start is called before the first frame update
@@ -12,12 +13,12 @@ public class CameraMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position = new Vector3(target.transform.position.x, transform.position.y, transform.position.z);
+        transform.position = new Vector3(target.transform.position.x, target.transform.position.y, transform.position.z);
     }
 
-    public void AsignTarget(GameObject target)
+    public void SetTarget(GameObject target)
     {
         this.target = target;
     }

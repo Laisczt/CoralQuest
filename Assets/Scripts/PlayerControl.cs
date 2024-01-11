@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+
 public class PlayerControl : MonoBehaviour
 {
     public GameObject baseAttack;           // Ataque comum
@@ -18,7 +19,7 @@ public class PlayerControl : MonoBehaviour
     public float maxSpeedX = 1f;            // Velocidade horizontal máxima
     public float jumpPower = 1f;            // Força do pulo
 
-    private bool jumping = false;           // Verdadeiro se o player estiver tentando pular
+    private ushort jumping = 0;             // Buffer de pulo
     public ushort maxJumps = 2;             // Quantia máxima de pulos que podem ser feitos antes de tocar no chão
     private ushort jumps;                   // Quantia de pulos restantes
     private bool canWallJump = false;       // Verdadeiro se o player pode fazer wall jump
@@ -26,6 +27,7 @@ public class PlayerControl : MonoBehaviour
     private ushort wallJumping = 0;         // Duração do kick do wall jump restante
 
     private bool grounded = true;           // Verdadeiro se o player estiver tocando o chão
+    private ushort groundBuff = 0;
     public bool alive = true;               // Player vivo
     public int score = 0;                   // Placar
     private bool healing = false;           // Player está tentando curar
@@ -35,6 +37,8 @@ public class PlayerControl : MonoBehaviour
 
     public int attackCooldown = 10;         // Cooldown entre attacks
     private int rAttackCooldown = 0;        // Cooldown restante
+
+    
 
 
     // Awake is called when an enabled script instance is being loaded.
@@ -62,10 +66,10 @@ public class PlayerControl : MonoBehaviour
         
         if (Input.GetButtonDown("Jump"))
         {
-            jumping = true;
+            jumping = 5;
         }
 
-        if (Input.GetButtonDown("Fire1") && rAttackCooldown == 0) // Attack input
+        if (Input.GetButton("Fire1") && rAttackCooldown == 0) // Attack input
         {
             rAttackCooldown = attackCooldown;
             Instantiate(baseAttack, transform.position, Quaternion.Euler(new Vector3(0,(m_SpriteRenderer.flipX)? 180 : 0,0)));
@@ -80,7 +84,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (!alive) return;
 
-        m_Animator.SetFloat("Y speed", m_RigidBody.velocity.y); // Reporta a velocidade vertical ao animador 
+        m_Animator.SetFloat("Y speed", m_RigidBody.velocity.y); // Reporta a velocidade vertical ao animator 
 
         CheckGround(); // Verifica se o player está no chão
         if (grounded) // Reseta os pulos se o player estiver no chão e atualiza o animador
@@ -92,6 +96,15 @@ public class PlayerControl : MonoBehaviour
         else
         {
             m_Animator.SetBool("Grounded", false);
+        }
+
+        if(!grounded && m_RigidBody.velocity.y < 0f)
+        {
+            m_RigidBody.drag = 5f;
+        }
+        else
+        {
+            m_RigidBody.drag = 0f;
         }
 
 
@@ -112,7 +125,7 @@ public class PlayerControl : MonoBehaviour
 
 
         // PULO
-        if (jumping)
+        if (jumping > 0)
         {
             if (canWallJump && !grounded && -inputXdiscrete == wallJumpDirection)
             // Realiza wall jump se o player estiver deslizando numa parede e se movendo na direção dela
@@ -120,22 +133,39 @@ public class PlayerControl : MonoBehaviour
                 wallJumping = 12; // Duração do kick
 
                 if (jumps == maxJumps) jumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam não gastar pulos)
+                jumping = 0;
 
-                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, jumpPower*0.7f); // Wall jumps são menos verticais que pulos normais
+                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, jumpPower); // Wall jumps são menos verticais que pulos normais
             }
-            else if (jumps > 0) // Pulos Comuns
+            else if (jumps > 0)
             {
-                m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower);
-                jumps--;
+                if (grounded)
+                {
+                    m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower);
+                    jumps--;
+                    groundBuff = 0;
 
-                m_Animator.SetTrigger("Jump");
+                    jumping = 0;
+                    m_Animator.SetTrigger("Jump");
+                }
+                else if (maxJumps > 1)
+                {
+                    m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower * 1.1f);
+                    if (jumps == maxJumps) jumps--;
+                    if (jumps > 0) jumps--;
+
+                    jumping = 0;
+                    m_Animator.SetTrigger("Jump");
+
+                }
+                
             }
         }
 
         // Reset de variáveis
         canWallJump = false;
-        jumping = false;
         healing = false;
+        if (jumping > 0) jumping--;
         if (wallJumping > 0) wallJumping--;
         if (rAttackCooldown > 0) rAttackCooldown--;
     }
@@ -192,12 +222,14 @@ public class PlayerControl : MonoBehaviour
         //Debug.DrawRay(transform.position, (_playerHeight + 0.05f) * Vector2.down, Color.red);
         if (hit.transform != null)
         {
-            grounded = hit.transform.CompareTag("Solid");
+            groundBuff = (ushort) ((hit.transform.CompareTag("Solid")) ? 5 : 0);
         }
         else
         {
-            grounded = false;
+            if(groundBuff > 0) groundBuff--;
         }
+
+        grounded = groundBuff > 0;
         
     }
 
