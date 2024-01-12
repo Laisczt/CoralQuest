@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarControl : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     private GameObject target;
     public GameObject heart;
     private int maxHp;
     private int hp;
     GameObject[] healthBar;
-
-    // Start is called before the first frame update
-    void Start()
+    
+    public static HealthBar Instance
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        get
+        {
+            return FindObjectOfType<HealthBar>();
+        }
     }
 
     public void UpdateHB()
@@ -47,9 +44,9 @@ public class HealthBarControl : MonoBehaviour
     }
 
 
-    public void AsignTarget(GameObject target)
+    public void FindPlayer()
     {
-        this.target = target;
+        target = GameObject.Find("Player");
 
         maxHp = target.GetComponent<PlayerControl>().maxHealth;
         hp = target.GetComponent<PlayerControl>().health;
@@ -62,7 +59,5 @@ public class HealthBarControl : MonoBehaviour
             healthBar[i].name = "Heart " + (i + 1).ToString();
             pos += new Vector3(90, 0, 0);
         }
-
-        target.gameObject.GetComponent<PlayerControl>().m_HealthBar = this;
     }
 }

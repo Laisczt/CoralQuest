@@ -12,8 +12,7 @@ public class PlayerControl : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;// Sprite
     private Animator m_Animator;            // Handler de animações
     [HideInInspector]           
-    public HealthBarControl m_HealthBar;    // Barra de Vida
-
+    
     private float inputX;                   // Input esquerda/direita (com suavização)
     private short inputXdiscrete;           // Input esquerda/direita (puro)
     public float maxSpeedX = 1f;            // Velocidade horizontal máxima
@@ -37,6 +36,7 @@ public class PlayerControl : MonoBehaviour
 
     public int attackCooldown = 10;         // Cooldown entre attacks
     private int rAttackCooldown = 0;        // Cooldown restante
+    private bool attacking = false;
 
     
 
@@ -71,8 +71,7 @@ public class PlayerControl : MonoBehaviour
 
         if (Input.GetButton("Fire1") && rAttackCooldown == 0) // Attack input
         {
-            rAttackCooldown = attackCooldown;
-            Instantiate(baseAttack, transform.position, Quaternion.Euler(new Vector3(0,(m_SpriteRenderer.flipX)? 180 : 0,0)));
+            attacking = true;
         }
         if (Input.GetButtonDown("Fire2"))
         {
@@ -162,7 +161,16 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        // Reset de variáveis
+        // ATAQUE
+        if (attacking)
+        {
+            rAttackCooldown = attackCooldown;
+            Instantiate(baseAttack, transform.position, Quaternion.Euler(new Vector3(0, (m_SpriteRenderer.flipX) ? 180 : 0, 0)));
+        }
+
+
+        // Redefinir variaveis
+        attacking = false;
         canWallJump = false;
         healing = false;
         if (jumping > 0) jumping--;
@@ -247,7 +255,7 @@ public class PlayerControl : MonoBehaviour
         {
             m_Animator.SetTrigger("Damage");
         }
-        m_HealthBar.UpdateHB();
+        HealthBar.Instance.UpdateHB();
     }
 
     private void Heal(int value)
@@ -259,7 +267,7 @@ public class PlayerControl : MonoBehaviour
         {
             health = maxHealth;
         }
-        m_HealthBar.UpdateHB();
+        HealthBar.Instance.UpdateHB();
         Debug.Log(health);
     }
 
