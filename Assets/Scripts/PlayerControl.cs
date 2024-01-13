@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour
     private short inputXdiscrete;           // Input esquerda/direita (puro)
     public float maxSpeedX = 1f;            // Velocidade horizontal máxima
     public float jumpPower = 1f;            // Força do pulo
+    public bool lockMovement = false;
 
     private ushort jumping = 0;             // Buffer de pulo
     public ushort maxJumps = 2;             // Quantia máxima de pulos que podem ser feitos antes de tocar no chão
@@ -38,8 +39,7 @@ public class PlayerControl : MonoBehaviour
     private int rAttackCooldown = 0;        // Cooldown restante
     private bool attacking = false;
 
-    
-
+    private bool startingAreaSet = false;
 
     // Awake is called when an enabled script instance is being loaded.
     private void Awake()
@@ -54,6 +54,8 @@ public class PlayerControl : MonoBehaviour
         m_RigidBody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
+
+        
     }
     
     // Update is called once per frame
@@ -108,19 +110,27 @@ public class PlayerControl : MonoBehaviour
 
 
         // MOVIMENTO HORIZONTAL
-        if(wallJumping > 0) // Caso o player tenha feito um wall jump, sua velocidade é travada por alguns frames
+        if (!lockMovement)
         {
-            m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
-        }
-        else // Movimentação normal pelo input horizontal
-        {
-            m_Animator.SetBool("Running", inputXdiscrete != 0);
-            m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
-        }
+            if (wallJumping > 0) // Caso o player tenha feito um wall jump, sua velocidade é travada por alguns frames
+            {
+                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
+            }
+            else // Movimentação normal pelo input horizontal
+            {
+                m_Animator.SetBool("Running", inputXdiscrete != 0);
+                m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
+            }
 
-        // Orientação do sprite
-        if (inputX < 0) m_SpriteRenderer.flipX = true;
-        else if (inputX > 0) m_SpriteRenderer.flipX = false;
+            // Orientação do sprite
+            if (inputX < 0) m_SpriteRenderer.flipX = true;
+            else if (inputX > 0) m_SpriteRenderer.flipX = false;
+        }
+        else
+        {
+            m_RigidBody.velocity = (m_RigidBody.velocity.x > 0) ? new Vector2(maxSpeedX, m_RigidBody.velocity.y) : new Vector2(-maxSpeedX, m_RigidBody.velocity.y);
+        }
+        
 
 
         // PULO
@@ -216,10 +226,21 @@ public class PlayerControl : MonoBehaviour
             var damage = collision.gameObject.GetComponent<BasicProjectile>().value;
             Damage(damage);
         }
-        else if (collision.gameObject.CompareTag("Heal"))
+        /*else if (collision.gameObject.CompareTag("Heal"))
         {
             var heal = collision.gameObject.GetComponent<BasicProjectile>().value;
             Heal(heal);
+        }*/
+
+        if (!startingAreaSet)
+        {
+            // A área da câmera quando o jogo começa será a mesma área em que o jogador está
+            if (collision.gameObject.CompareTag("Camera Areas"))
+            {
+                startingAreaSet = true;
+                MainCamera.Instance.ChangeArea(collision.gameObject);       // Muda a área da câmera
+                collision.transform.Find("Exits").gameObject.SetActive(true); // Ativa as saídas da área
+            }
         }
     }
 
@@ -300,4 +321,5 @@ public class PlayerControl : MonoBehaviour
         m_Animator.SetBool("Running", false);
         m_RigidBody.velocity = Vector2.zero;
     }
+
 }

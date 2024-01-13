@@ -172,7 +172,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bef73cd5438d6a441bf54cd677360d06, type: 3}
+  m_Sprite: {fileID: -1045407155, guid: 8b3ad744f27154045bca1954f2793989, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -196,7 +196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
-  m_HealthBar: {fileID: 0}
   maxSpeedX: 10
   jumpPower: 20
   maxJumps: 1
