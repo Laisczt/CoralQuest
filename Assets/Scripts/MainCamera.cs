@@ -83,6 +83,7 @@ public class MainCamera : MonoBehaviour
             transform.position += (Vector3) distance * SpeedFactor; // Se não, nos aproximamos uma fração da distancia
         }
 
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPos); // Mantemos a posição Z da Câmera no valor padrão
     }
 
     public void FindTarget()    // Atribuição de alvo da câmera (será o player, por padrão)
