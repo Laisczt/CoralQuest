@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,30 +8,30 @@ using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour
 {
     public GameObject baseAttack;           // Ataque comum
-    private Rigidbody2D m_RigidBody;        // Corpo Rígido para física
+    private Rigidbody2D m_RigidBody;        // Corpo Rï¿½gido para fï¿½sica
     private SpriteRenderer m_SpriteRenderer;// Sprite
-    private Animator m_Animator;            // Handler de animações
-    [HideInInspector]           
-    
-    private float inputX;                   // Input esquerda/direita (com suavização)
+    private Animator m_Animator;            // Handler de animaï¿½ï¿½es
+    [HideInInspector]
+
+    private float inputX;                   // Input esquerda/direita (com suavizaï¿½ï¿½o)
     private short inputXdiscrete;           // Input esquerda/direita (puro)
-    public float maxSpeedX = 1f;            // Velocidade horizontal máxima
-    public float jumpPower = 1f;            // Força do pulo
+    public float maxSpeedX = 1f;            // Velocidade horizontal mï¿½xima
+    public float jumpPower = 1f;            // Forï¿½a do pulo
     public bool lockMovement = false;
 
     private ushort jumping = 0;             // Buffer de pulo
-    public ushort maxJumps = 2;             // Quantia máxima de pulos que podem ser feitos antes de tocar no chão
+    public ushort maxJumps = 2;             // Quantia mï¿½xima de pulos que podem ser feitos antes de tocar no chï¿½o
     private ushort jumps;                   // Quantia de pulos restantes
     private bool canWallJump = false;       // Verdadeiro se o player pode fazer wall jump
-    private short wallJumpDirection;        // Direção do wall jump (-1 para esquerda e 1 para direita)
-    private ushort wallJumping = 0;         // Duração do kick do wall jump restante
+    private short wallJumpDirection;        // Direï¿½ï¿½o do wall jump (-1 para esquerda e 1 para direita)
+    private ushort wallJumping = 0;         // Duraï¿½ï¿½o do kick do wall jump restante
 
-    private bool grounded = true;           // Verdadeiro se o player estiver tocando o chão
+    private bool grounded = true;           // Verdadeiro se o player estiver tocando o chï¿½o
     private ushort groundBuff = 0;
     public bool alive = true;               // Player vivo
     public int score = 0;                   // Placar
-    private bool healing = false;           // Player está tentando curar
-    public ushort maxHealth;                // Vida máxima do Player
+    private bool healing = false;           // Player estï¿½ tentando curar
+    public ushort maxHealth;                // Vida mï¿½xima do Player
     [HideInInspector]
     public int health;                      // Vida atual do Player
 
@@ -50,22 +50,31 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Atribuições de componentes (m_HealthBar é feita pela própria barra de vida)
+        // Atribuiï¿½ï¿½es de componentes (m_HealthBar ï¿½ feita pela prï¿½pria barra de vida)
         m_RigidBody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
 
-        
+
     }
-    
+
     // Update is called once per frame
     void Update()
     {
-        inputX = Input.GetAxis("Horizontal");
-        inputXdiscrete = (short) Input.GetAxisRaw("Horizontal");
+        if (lockMovement)
+        {
+            inputXdiscrete = (short)Mathf.Sign(inputX);
+            inputX = inputXdiscrete;
+        }
+        else
+        {
+            inputX = Input.GetAxis("Horizontal");
+            inputXdiscrete = (short)Input.GetAxisRaw("Horizontal");
+        }
 
-        if (!alive) return;
         
+        if (!alive) return;
+
         if (Input.GetButtonDown("Jump"))
         {
             jumping = 5;
@@ -87,10 +96,10 @@ public class PlayerControl : MonoBehaviour
 
         m_Animator.SetFloat("Y speed", m_RigidBody.velocity.y); // Reporta a velocidade vertical ao animator 
 
-        CheckGround(); // Verifica se o player está no chão
-        if (grounded) // Reseta os pulos se o player estiver no chão e atualiza o animador
+        CheckGround(); // Verifica se o player estï¿½ no chï¿½o
+        if (grounded) // Reseta os pulos se o player estiver no chï¿½o e atualiza o animador
         {
-            jumps = maxJumps; 
+            jumps = maxJumps;
 
             m_Animator.SetBool("Grounded", true);
         }
@@ -99,7 +108,7 @@ public class PlayerControl : MonoBehaviour
             m_Animator.SetBool("Grounded", false);
         }
 
-        if(!grounded && m_RigidBody.velocity.y < 0f)
+        if (!grounded && m_RigidBody.velocity.y < 0f)
         {
             m_RigidBody.drag = 5f;
         }
@@ -110,41 +119,35 @@ public class PlayerControl : MonoBehaviour
 
 
         // MOVIMENTO HORIZONTAL
-        if (!lockMovement)
+        if (wallJumping > 0) // Caso o player tenha feito um wall jump, sua velocidade ï¿½ travada por alguns frames
         {
-            if (wallJumping > 0) // Caso o player tenha feito um wall jump, sua velocidade é travada por alguns frames
-            {
-                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
-            }
-            else // Movimentação normal pelo input horizontal
-            {
-                m_Animator.SetBool("Running", inputXdiscrete != 0);
-                m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
-            }
+            m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
+        }
+        else // Movimentaï¿½ï¿½o normal pelo input horizontal
+        {
+            m_Animator.SetBool("Running", inputXdiscrete != 0);
+            m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
+        }
 
-            // Orientação do sprite
-            if (inputX < 0) m_SpriteRenderer.flipX = true;
-            else if (inputX > 0) m_SpriteRenderer.flipX = false;
-        }
-        else
-        {
-            m_RigidBody.velocity = (m_RigidBody.velocity.x > 0) ? new Vector2(maxSpeedX, m_RigidBody.velocity.y) : new Vector2(-maxSpeedX, m_RigidBody.velocity.y);
-        }
+        // Orientaï¿½ï¿½o do sprite
+        if (inputX < 0) m_SpriteRenderer.flipX = true;
+        else if (inputX > 0) m_SpriteRenderer.flipX = false;
         
+
 
 
         // PULO
         if (jumping > 0)
         {
             if (canWallJump && !grounded && -inputXdiscrete == wallJumpDirection)
-            // Realiza wall jump se o player estiver deslizando numa parede e se movendo na direção dela
+            // Realiza wall jump se o player estiver deslizando numa parede e se movendo na direï¿½ï¿½o dela
             {
-                wallJumping = 12; // Duração do kick
+                wallJumping = 12; // Duraï¿½ï¿½o do kick
 
-                if (jumps == maxJumps) jumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam não gastar pulos)
+                if (jumps == maxJumps) jumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam nï¿½o gastar pulos)
                 jumping = 0;
 
-                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, jumpPower); // Wall jumps são menos verticais que pulos normais
+                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, jumpPower); // Wall jumps sï¿½o menos verticais que pulos normais
             }
             else if (jumps > 0)
             {
@@ -167,7 +170,7 @@ public class PlayerControl : MonoBehaviour
                     m_Animator.SetTrigger("Jump");
 
                 }
-                
+
             }
         }
 
@@ -188,11 +191,11 @@ public class PlayerControl : MonoBehaviour
         if (rAttackCooldown > 0) rAttackCooldown--;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) 
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-    
+
     }
-    private void OnCollisionStay2D(Collision2D collision) 
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Solid"))
         {
@@ -206,22 +209,22 @@ public class PlayerControl : MonoBehaviour
                 wallJumpDirection = 1;
                 canWallJump = true;
             }
-        }       
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-       
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
-        { 
+        {
             var damage = collision.gameObject.GetComponent<BasicEnemy>().damage;
             Damage(damage);
         }
-        else if(collision.gameObject.CompareTag("Enemy Projectile"))
+        else if (collision.gameObject.CompareTag("Enemy Projectile"))
         {
             var damage = collision.gameObject.GetComponent<BasicProjectile>().value;
             Damage(damage);
@@ -234,12 +237,12 @@ public class PlayerControl : MonoBehaviour
 
         if (!startingAreaSet)
         {
-            // A área da câmera quando o jogo começa será a mesma área em que o jogador está
+            // A ï¿½rea da cï¿½mera quando o jogo comeï¿½a serï¿½ a mesma ï¿½rea em que o jogador estï¿½
             if (collision.gameObject.CompareTag("Camera Areas"))
             {
                 startingAreaSet = true;
-                MainCamera.Instance.ChangeArea(collision.gameObject);       // Muda a área da câmera
-                collision.transform.Find("Exits").gameObject.SetActive(true); // Ativa as saídas da área
+                MainCamera.Instance.ChangeArea(collision.gameObject);       // Muda a ï¿½rea da cï¿½mera
+                collision.transform.Find("Exits").gameObject.SetActive(true); // Ativa as saï¿½das da ï¿½rea
             }
         }
     }
@@ -251,15 +254,15 @@ public class PlayerControl : MonoBehaviour
         //Debug.DrawRay(transform.position, (_playerHeight + 0.05f) * Vector2.down, Color.red);
         if (hit.transform != null)
         {
-            groundBuff = (ushort) ((hit.transform.CompareTag("Solid")) ? 5 : 0);
+            groundBuff = (ushort)((hit.transform.CompareTag("Solid")) ? 5 : 0);
         }
         else
         {
-            if(groundBuff > 0) groundBuff--;
+            if (groundBuff > 0) groundBuff--;
         }
 
         grounded = groundBuff > 0;
-        
+
     }
 
     private void Damage(int value)

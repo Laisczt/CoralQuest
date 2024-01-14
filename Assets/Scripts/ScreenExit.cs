@@ -27,7 +27,7 @@ public class ScreenExit : MonoBehaviour
     IEnumerator ChangeArea(GameObject newArea)
     {
         
-        Time.timeScale = 0.7f;
+        Time.timeScale = 0.4f;
 
         // Caso essa saída seja na horizontal e não uma queda ou subida (definido pelas proporções do collider) travamos o movimento do jogador
         if (m_Collider.bounds.extents.x < m_Collider.bounds.extents.y){

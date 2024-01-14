@@ -7,7 +7,7 @@ public class MainCamera : MonoBehaviour
 {   
     private GameObject target;      // O objeto que a câmera segue (alvo)
     public Collider2D area;         // A região em que a câmera está
-    public float SpeedFactor = 0.6f;// A Velocidade de aproximação da câmera
+    public float SpeedFactor = 3f;// A Velocidade de aproximação da câmera
 
     private Camera m_Camera;        // Acesso ao script Camera
     private float aspectRatioOffset;// Compensação ao tamanho horizontal da camera ao depender do formato da tela
@@ -34,7 +34,7 @@ public class MainCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 
         Vector2 newPos;
@@ -74,13 +74,18 @@ public class MainCamera : MonoBehaviour
 
         Vector2 distance =  newPos - (Vector2)transform.position; // Distancia entre a posição final e a posição atual
 
-        if(distance.magnitude < 0.1f)
+        if(distance.magnitude < 0.6f)
         {
             transform.position = newPos; // Caso a câmera ja esteja perto da personagem, pulamos diretamente à ela
         }
         else
         {
-            transform.position += (Vector3) distance * SpeedFactor; // Se não, nos aproximamos uma fração da distancia
+            transform.position += (Vector3)distance * ((float)-1.957 * (Mathf.Pow(0.6f, Time.deltaTime)-1)) * SpeedFactor;
+            /* Caso contrário, aproxima a câmera da personagem de forma exponencial
+             Movimento desejado é  transform.position += distance * 0.6
+             Porém ao levar em consideração deltaTime, a fórmula que corretamente aproxima esse movimento é  distance * -1.957 * (0.6^deltaTime - 1)
+             Fórmula obtida através da integral definida de 0.6^x entre 0 e deltaTime
+            */
         }
 
         transform.position = new Vector3(transform.position.x, transform.position.y, zPos); // Mantemos a posição Z da Câmera no valor padrão
@@ -101,5 +106,8 @@ public class MainCamera : MonoBehaviour
         area = newArea.GetComponent<Collider2D>();
 
         m_Camera.orthographicSize = area.GetComponent<ScreenZone>().cameraSize; // Utilizamos o tamanho de câmera especificado pela área
+
+        // Usamos o tamanho vertical da camera e as dimensões da tela para calcular o tamanho horizontal
+        aspectRatioOffset = (((float)Screen.width) / ((float)Screen.height)) * m_Camera.orthographicSize;
     }
 }
