@@ -6,26 +6,23 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour
 {
     public GameObject Player;
-    public GameObject PlayerSpawn;
-    public GameObject HealthBar;
-    public GameObject UI;
-    public GameObject Camera;
+    private GameObject PlayerSpawn;
+
     // Start is called before the first frame update
     void Start()
     {
-        var player = Instantiate(Player, PlayerSpawn.transform.position, Quaternion.identity);
-        player.name = "Player";
+        PlayerSpawn = GameObject.Find("Player Spawn");
+        var _player = Instantiate(Player, PlayerSpawn.transform.position, Quaternion.identity);
+        _player.name = "Player";
 
+        /*
         var healthBar = Instantiate(HealthBar, UI.transform);
         healthBar.name = "Health Bar";
-        healthBar.GetComponent<HealthBarControl>().AsignTarget(player);
+        */
 
-        Camera.GetComponent<CameraMovement>().AsignTarget(player);
+        HealthBar.Instance.FindPlayer();
+        MainCamera.Instance.FindTarget();
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

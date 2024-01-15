@@ -109,9 +109,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 210
-        width: 40
-        height: 70
+        y: 110
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: player_idle-Sheet_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 210
-        width: 40
-        height: 70
+        x: 35
+        y: 110
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: player_idle-Sheet_2
       rect:
         serializedVersion: 2
-        x: 80
-        y: 210
-        width: 40
-        height: 70
+        x: 70
+        y: 110
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: player_idle-Sheet_3
       rect:
         serializedVersion: 2
-        x: 120
-        y: 210
-        width: 40
-        height: 70
+        x: 105
+        y: 110
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,9 +193,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 140
-        width: 40
-        height: 70
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,10 +213,10 @@ TextureImporter:
       name: player_idle-Sheet_5
       rect:
         serializedVersion: 2
-        x: 40
-        y: 140
-        width: 40
-        height: 70
+        x: 35
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,10 +234,10 @@ TextureImporter:
       name: player_idle-Sheet_6
       rect:
         serializedVersion: 2
-        x: 80
-        y: 140
-        width: 40
-        height: 70
+        x: 70
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -255,10 +255,10 @@ TextureImporter:
       name: player_idle-Sheet_7
       rect:
         serializedVersion: 2
-        x: 120
-        y: 140
-        width: 40
-        height: 70
+        x: 105
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,9 +277,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 70
-        width: 40
-        height: 70
+        y: 0
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,10 +297,10 @@ TextureImporter:
       name: player_idle-Sheet_9
       rect:
         serializedVersion: 2
-        x: 40
-        y: 70
-        width: 40
-        height: 70
+        x: 35
+        y: 0
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,10 +318,10 @@ TextureImporter:
       name: player_idle-Sheet_10
       rect:
         serializedVersion: 2
-        x: 80
-        y: 70
-        width: 40
-        height: 70
+        x: 70
+        y: 0
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -331,90 +331,6 @@ TextureImporter:
       bones: []
       spriteID: 9137105911e2d934da93a350290faf39
       internalID: -323338169
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_idle-Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 120
-        y: 70
-        width: 40
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3e971d0cb673a9343803082c85db6f7a
-      internalID: 105882923
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_idle-Sheet_12
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 40
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd5754156b848f14eaa4af1139d1ba64
-      internalID: -623490081
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_idle-Sheet_13
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 0
-        width: 40
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 17503d7466ab9094a82e9029d77dbdc2
-      internalID: 1274505068
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_idle-Sheet_14
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 40
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4233d7e7dae5d5441bb8fa7ed645ca28
-      internalID: -1781707927
       vertices: []
       indices: 
       edges: []
@@ -433,10 +349,6 @@ TextureImporter:
       player_idle-Sheet_0: -1045407155
       player_idle-Sheet_1: -1588916665
       player_idle-Sheet_10: -323338169
-      player_idle-Sheet_11: 105882923
-      player_idle-Sheet_12: -623490081
-      player_idle-Sheet_13: 1274505068
-      player_idle-Sheet_14: -1781707927
       player_idle-Sheet_2: -583768426
       player_idle-Sheet_3: -494461278
       player_idle-Sheet_4: 699575775

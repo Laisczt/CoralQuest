@@ -8,6 +8,9 @@ TagManager:
   - Solid
   - Enemy
   - Health Bar
+  - Healing Base
+  - Enemy Projectile
+  - Camera Areas
   layers:
   - Default
   - TransparentFX
