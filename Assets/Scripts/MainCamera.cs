@@ -8,6 +8,7 @@ public class MainCamera : MonoBehaviour
     private GameObject target;      // O objeto que a câmera segue (alvo)
     public Collider2D area;         // A região em que a câmera está
     public float SpeedFactor = 3f;// A Velocidade de aproximação da câmera
+    public bool smoothMovement = false;
 
     private Camera m_Camera;        // Acesso ao script Camera
     private float aspectRatioOffset;// Compensação ao tamanho horizontal da camera ao depender do formato da tela
@@ -74,7 +75,7 @@ public class MainCamera : MonoBehaviour
 
         Vector2 distance =  newPos - (Vector2)transform.position; // Distancia entre a posição final e a posição atual
 
-        if(distance.magnitude < 0.6f)
+        if(!smoothMovement)
         {
             transform.position = newPos; // Caso a câmera ja esteja perto da personagem, pulamos diretamente à ela
         }

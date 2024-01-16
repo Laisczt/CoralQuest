@@ -14,6 +14,8 @@ public class PlayerControl : MonoBehaviour
 
     private float inputX;                   // Input esquerda/direita (com suaviza��o)
     private short inputXdiscrete;           // Input esquerda/direita (puro)
+    private short inputLeftBuffer = 0;
+    private short inputRightBuffer = 0;
     public float maxSpeedX = 1f;            // Velocidade horizontal m�xima
     public float jumpPower = 1f;            // For�a do pulo
     public bool lockMovement = false;
@@ -24,7 +26,7 @@ public class PlayerControl : MonoBehaviour
     private ushort jumps;                   // Quantia de pulos restantes
     private bool canWallJump = false;       // Verdadeiro se o player pode fazer wall jump
     private short wallJumpDirection;        // Dire��o do wall jump (-1 para esquerda e 1 para direita)
-    private ushort wallJumping = 0;         // Dura��o do kick do wall jump restante
+    private bool wallJumping = false;         // Dura��o do kick do wall jump restante
 
     private bool grounded = true;           // Verdadeiro se o player estiver tocando o ch�o
     private ushort groundBuff = 0;
@@ -96,6 +98,20 @@ public class PlayerControl : MonoBehaviour
         {
             inputXdiscrete = 0;
         }
+
+
+        short walljumpbuffer = 3;
+        var rawInput = inputX;
+        if (Mathf.Abs(rawInput) != 1) rawInput = 0;
+
+        if (rawInput > 0)
+        {
+            inputRightBuffer = walljumpbuffer;
+        }
+        else if (inputXdiscrete < 0)
+        {
+            inputLeftBuffer = walljumpbuffer;
+        }
         
         
         if (!alive) return;
@@ -145,15 +161,10 @@ public class PlayerControl : MonoBehaviour
 
 
         // MOVIMENTO HORIZONTAL
-        if (wallJumping > 0) // Caso o player tenha feito um wall jump, sua velocidade � travada por alguns frames
-        {
-            m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
-        }
-        else // Movimenta��o normal pelo input horizontal
-        {
-            m_Animator.SetBool("Running", inputXdiscrete != 0);
-            m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
-        }
+        m_Animator.SetBool("Running", inputXdiscrete != 0);
+
+        if (!wallJumping) m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
+
 
         // Orienta��o do sprite
         if (inputX < 0) m_SpriteRenderer.flipX = true;
@@ -165,15 +176,17 @@ public class PlayerControl : MonoBehaviour
         // PULO
         if (jumping > 0)
         {
-            if (canWallJump && !grounded && -inputXdiscrete == wallJumpDirection)
+            if (canWallJump && !grounded && ((wallJumpDirection == 1)? inputLeftBuffer > 0: inputRightBuffer > 0))
             // Realiza wall jump se o player estiver deslizando numa parede e se movendo na dire��o dela
             {
-                wallJumping = 12; // Dura��o do kick
+                StartCoroutine(WallJumpKick(wallJumpDirection));
+
+                Debug.Log((wallJumpDirection == 1) ? inputLeftBuffer : inputRightBuffer);
 
                 if (jumps == maxJumps) jumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam n�o gastar pulos)
                 jumping = 0;
 
-                m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, jumpPower); // Wall jumps s�o menos verticais que pulos normais
+                m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower); 
             }
             else if (jumps > 0)
             {
@@ -210,15 +223,28 @@ public class PlayerControl : MonoBehaviour
 
         // Redefinir variaveis
         attacking = false;
-        canWallJump = false;
         healing = false;
+        canWallJump = false;
+        if (inputLeftBuffer > 0) inputLeftBuffer--;
+        if (inputRightBuffer > 0) inputRightBuffer--;
         if (jumping > 0) jumping--;
-        if (wallJumping > 0) wallJumping--;
         if (rAttackCooldown > 0) rAttackCooldown--;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    IEnumerator WallJumpKick(int direction)
     {
+        wallJumping = true;
+        int i = 0;
+        m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
+        
+        while (i < 12)
+        {
+            if (wallJumpDirection != direction) break;
+            i++;
+            yield return new WaitForFixedUpdate();
+        }
+
+        wallJumping = false;
 
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -275,18 +301,26 @@ public class PlayerControl : MonoBehaviour
 
     private void CheckGround()
     {
-        var _playerHeight = GetComponent<Collider2D>().bounds.extents.y - GetComponent<Collider2D>().offset.y;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _playerHeight + 0.05f);
-        //Debug.DrawRay(transform.position, (_playerHeight + 0.05f) * Vector2.down, Color.red);
-        if (hit.transform != null)
+        if (groundBuff > 0) groundBuff--;
+
+        var collider = GetComponent<Collider2D>();
+        var _playerHeight = collider.bounds.extents.y - collider.offset.y;
+        Vector3 characterLeftEdge = transform.position - new Vector3(collider.bounds.extents.x, 0, 0);
+        var step = collider.bounds.extents.x;
+
+        var hits = new List<RaycastHit2D>();
+
+        for (int i = 0; i < 3; i++)
         {
-            groundBuff = (ushort)((hit.transform.CompareTag("Solid")) ? 5 : 0);
-        }
-        else
-        {
-            if (groundBuff > 0) groundBuff--;
+            hits.Add(Physics2D.Raycast(characterLeftEdge + new Vector3(step * i,0,0), Vector2.down, _playerHeight + 0.05f));
+            //Debug.DrawRay(characterLeftEdge + new Vector3(step * i, 0, 0), Vector2.down * (_playerHeight + 0.05f), Color.red);
         }
 
+        foreach(var element in hits)
+        {
+            if (element.transform != null && element.transform.CompareTag("Solid")) groundBuff = 5;
+        }
+        
         grounded = groundBuff > 0;
 
     }
