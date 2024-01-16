@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IDataSaver
 {
     public GameObject baseAttack;           // Ataque comum
     private Rigidbody2D m_RigidBody;        // Corpo R�gido para f�sica
@@ -32,8 +32,7 @@ public class PlayerControl : MonoBehaviour
     public int score = 0;                   // Placar
     private bool healing = false;           // Player est� tentando curar
     public ushort maxHealth;                // Vida m�xima do Player
-    [HideInInspector]
-    public int health;                      // Vida atual do Player
+    public int health = 5;                      // Vida atual do Player
 
     public int attackCooldown = 10;         // Cooldown entre attacks
     private int rAttackCooldown = 0;        // Cooldown restante
@@ -42,10 +41,6 @@ public class PlayerControl : MonoBehaviour
     private bool startingAreaSet = false;
 
     // Awake is called when an enabled script instance is being loaded.
-    private void Awake()
-    {
-        health = maxHealth;
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -323,6 +318,20 @@ public class PlayerControl : MonoBehaviour
         m_Animator.SetTrigger("Death");
         m_Animator.SetBool("Running", false);
         m_RigidBody.velocity = Vector2.zero;
+    }
+
+
+    public void loadData(gameData data){
+        this.health = data.hp;
+        this.transform.position = data.position;
+
+        HealthBar.Instance.UpdateHB();
+    }
+
+    public void saveData(ref gameData data){
+        Debug.Log(health);
+        data.hp = this.health;
+        data.position = this.transform.position;
     }
 
 }

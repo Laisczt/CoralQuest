@@ -23,6 +23,11 @@ public class GameControl : MonoBehaviour
         HealthBar.Instance.FindPlayer();
         MainCamera.Instance.FindTarget();
 
+        dataSaverManager.instance.dataHandler = new fileDataHandler(Application.persistentDataPath, dataSaverManager.instance.fileName);
+        dataSaverManager.instance.dataSaverObjects = dataSaverManager.instance.FindAllDataSaverObjects();
+        dataSaverManager.instance.loadGame();
+
+
     }
 
 }

@@ -198,11 +198,12 @@ MonoBehaviour:
   baseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
   maxSpeedX: 10
   jumpPower: 20
+  lockMovement: 0
   maxJumps: 1
   alive: 1
   score: 0
   maxHealth: 5
-  health: 7
+  health: 5
   attackCooldown: 15
 --- !u!61 &8773071266150089489
 BoxCollider2D:
