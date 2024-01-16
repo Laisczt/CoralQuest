@@ -171,7 +171,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1045407155, guid: 8b3ad744f27154045bca1954f2793989, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -198,6 +198,8 @@ MonoBehaviour:
   baseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
   maxSpeedX: 10
   jumpPower: 20
+  lockMovement: 0
+  forceJoystick: 0
   maxJumps: 1
   alive: 1
   score: 0
@@ -259,7 +261,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8773071266150089485}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b5717c3011266034bbc368a10eedb7a0, type: 2}
   m_CullingMode: 0

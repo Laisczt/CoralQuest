@@ -11,6 +11,7 @@ TagManager:
   - Healing Base
   - Enemy Projectile
   - Camera Areas
+  - Mobile UI
   layers:
   - Default
   - TransparentFX

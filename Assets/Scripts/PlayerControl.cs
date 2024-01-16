@@ -11,13 +11,13 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody2D m_RigidBody;        // Corpo R�gido para f�sica
     private SpriteRenderer m_SpriteRenderer;// Sprite
     private Animator m_Animator;            // Handler de anima��es
-    [HideInInspector]
 
     private float inputX;                   // Input esquerda/direita (com suaviza��o)
     private short inputXdiscrete;           // Input esquerda/direita (puro)
     public float maxSpeedX = 1f;            // Velocidade horizontal m�xima
     public float jumpPower = 1f;            // For�a do pulo
     public bool lockMovement = false;
+    public bool forceJoystick = false;
 
     private ushort jumping = 0;             // Buffer de pulo
     public ushort maxJumps = 2;             // Quantia m�xima de pulos que podem ser feitos antes de tocar no ch�o
@@ -40,6 +40,11 @@ public class PlayerControl : MonoBehaviour
     private bool attacking = false;
 
     private bool startingAreaSet = false;
+    private bool usingMobileControls = false;
+
+    private Joystick joystick;
+    private UIControlButton jumpButton;
+    private UIControlButton attackButton;
 
     // Awake is called when an enabled script instance is being loaded.
     private void Awake()
@@ -55,32 +60,53 @@ public class PlayerControl : MonoBehaviour
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
 
-
+        if (GameControl.usingMobileControls)
+        {
+            GetMobileControls(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (forceJoystick && !usingMobileControls)
+        {
+            GameControl.UseMobileControls();
+            GetMobileControls(true);
+        }
+
         if (lockMovement)
         {
-            inputXdiscrete = (short)Mathf.Sign(inputX);
             inputX = inputXdiscrete;
         }
         else
         {
             inputX = Input.GetAxis("Horizontal");
-            inputXdiscrete = (short)Input.GetAxisRaw("Horizontal");
+            if (inputX == 0 && usingMobileControls)
+            {
+                inputX = joystick.Horizontal;
+            }
         }
-
+       
+        if(inputX != 0)
+        {
+            inputXdiscrete = (short)Mathf.Sign(inputX);
+        }
+        else
+        {
+            inputXdiscrete = 0;
+        }
+        
         
         if (!alive) return;
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") || (usingMobileControls && jumpButton.GetButtonDown()))
         {
             jumping = 5;
         }
 
-        if (Input.GetButton("Fire1") && rAttackCooldown == 0) // Attack input
+        if (( Input.GetButton("Fire1")   ||   (usingMobileControls && attackButton.GetButtonDown())  )
+            && rAttackCooldown == 0 ) // Attack input
         {
             attacking = true;
         }
@@ -265,9 +291,9 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    private void Damage(int value)
+    public void Damage(int value)
     {
-        if (!alive) return;
+        if (!alive || value <= 0) return;
 
         health -= value;
         if (health <= 0)
@@ -282,9 +308,9 @@ public class PlayerControl : MonoBehaviour
         HealthBar.Instance.UpdateHB();
     }
 
-    private void Heal(int value)
+    public void Heal(int value)
     {
-        if (!alive) return;
+        if (!alive || value <= 0) return;
 
         health += value;
         if (health > maxHealth)
@@ -323,6 +349,18 @@ public class PlayerControl : MonoBehaviour
         m_Animator.SetTrigger("Death");
         m_Animator.SetBool("Running", false);
         m_RigidBody.velocity = Vector2.zero;
+    }
+
+    private void GetMobileControls(bool instantiate)
+    {
+        if (instantiate)
+        {
+            GameControl.UseMobileControls();
+        }
+        joystick = FindObjectOfType<Joystick>();
+        jumpButton = GameObject.Find("Jump Button").GetComponent<UIControlButton>();
+        attackButton = GameObject.Find("Attack Button").GetComponent<UIControlButton>();
+        usingMobileControls = true;
     }
 
 }
