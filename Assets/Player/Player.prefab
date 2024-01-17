@@ -199,7 +199,7 @@ MonoBehaviour:
   maxSpeedX: 10
   jumpPower: 20
   lockMovement: 0
-  forceJoystick: 0
+  forceJoystick: 1
   maxJumps: 1
   alive: 1
   score: 0

@@ -298,7 +298,7 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
-
+    RaycastHit2D[] hits = new RaycastHit2D[5];
     private void CheckGround()
     {
         if (groundBuff > 0) groundBuff--;
@@ -308,19 +308,16 @@ public class PlayerControl : MonoBehaviour
         Vector3 characterLeftEdge = transform.position - new Vector3(collider.bounds.extents.x, 0, 0);
         var step = collider.bounds.extents.x;
 
-        var hits = new List<RaycastHit2D>();
-
+        var layerMask = ~LayerMask.NameToLayer("Solid");
         for (int i = 0; i < 3; i++)
         {
-            hits.Add(Physics2D.Raycast(characterLeftEdge + new Vector3(step * i,0,0), Vector2.down, _playerHeight + 0.05f));
-            //Debug.DrawRay(characterLeftEdge + new Vector3(step * i, 0, 0), Vector2.down * (_playerHeight + 0.05f), Color.red);
+            var hitcount = Physics2D.RaycastNonAlloc(characterLeftEdge + new Vector3(step * i,0,0), Vector2.down, hits, _playerHeight + 0.05f, layerMask);
+            Debug.DrawRay(characterLeftEdge + new Vector3(step * i, 0, 0), Vector2.down * (_playerHeight + 0.05f), Color.red);
+            if (hitcount > 0)
+            {
+                groundBuff = 5;
+            }
         }
-
-        foreach(var element in hits)
-        {
-            if (element.transform != null && element.transform.CompareTag("Solid")) groundBuff = 5;
-        }
-        
         grounded = groundBuff > 0;
 
     }
