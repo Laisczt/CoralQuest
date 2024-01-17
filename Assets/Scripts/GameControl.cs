@@ -7,6 +7,7 @@ public class GameControl : MonoBehaviour
 {
     public GameObject Player;
     private GameObject PlayerSpawn;
+    [SerializeField] GameObject enemySpawnerParent;
 
     public static bool usingMobileControls = false;
 
@@ -22,17 +23,17 @@ public class GameControl : MonoBehaviour
         var _player = Instantiate(Player, PlayerSpawn.transform.position, Quaternion.identity);
         _player.name = "Player";
 
-        /*
-        var healthBar = Instantiate(HealthBar, UI.transform);
-        healthBar.name = "Health Bar";
-        */
-
         FindObjectOfType<MainCamera>().FindTarget();
 
         HealthBar.Instance.FindPlayer();
         MainCamera.Instance.FindTarget();
 
+        var enemySpawners = enemySpawnerParent.GetComponentsInChildren<EnemySpawn>();
 
+        foreach(var element in enemySpawners)
+        {
+            element.Initialize(_player.transform);
+        }
     }
 
     public static void UseMobileControls()

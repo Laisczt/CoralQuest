@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public GameObject monster;
+    [SerializeField] BasicEnemy monster;
+    Transform player;
+    bool hasPlayer;
+
+    
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<SpriteRenderer>().enabled = false;
-        SpawnOnce();
     }
 
     // Update is called once per frame
@@ -21,6 +24,14 @@ public class EnemySpawn : MonoBehaviour
     [ContextMenu("Spawn Enemy")]
     public void SpawnOnce()
     {
-        Instantiate(monster, transform.position, Quaternion.identity);
+        var spawnedMonster = Instantiate(monster, transform.position, Quaternion.identity);
+        spawnedMonster.Target = player;
+    }
+
+    public void Initialize(Transform player)
+    {
+        this.player = player;
+        hasPlayer = true;
+        SpawnOnce();
     }
 }

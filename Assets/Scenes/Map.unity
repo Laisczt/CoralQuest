@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 84729556}
   - component: {fileID: 84729555}
   - component: {fileID: 84729554}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Solid
   m_TagString: Solid
   m_Icon: {fileID: 0}
@@ -60949,11 +60949,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8891641133490655300, guid: d563864b691438b4985bd78266e6e458, type: 3}
   m_PrefabInstance: {fileID: 1181718709}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &380314191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+  m_PrefabInstance: {fileID: 1181718709}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d059d648911fd63449bcc8153c83fd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &387416668 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8891641133490655300, guid: d563864b691438b4985bd78266e6e458, type: 3}
   m_PrefabInstance: {fileID: 424774960}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &387416670 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+  m_PrefabInstance: {fileID: 424774960}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d059d648911fd63449bcc8153c83fd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &404640464
 GameObject:
   m_ObjectHideFlags: 0
@@ -61038,6 +61060,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: monster
+      value: 
+      objectReference: {fileID: 439092307097535799, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
     - target: {fileID: 8434211304993418230, guid: d563864b691438b4985bd78266e6e458, type: 3}
       propertyPath: m_Name
       value: Patrol Spawner
@@ -62109,6 +62135,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: monster
+      value: 
+      objectReference: {fileID: 439092307097535799, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
     - target: {fileID: 8434211304993418230, guid: d563864b691438b4985bd78266e6e458, type: 3}
       propertyPath: m_Name
       value: Patrol Spawner (1)
@@ -62606,6 +62636,26 @@ PrefabInstance:
       propertyPath: PlayerSpawn
       value: 
       objectReference: {fileID: 1264326423}
+    - target: {fileID: 8148505177760157350, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
+      propertyPath: enemySpawnerParent
+      value: 
+      objectReference: {fileID: 1284378605}
+    - target: {fileID: 8148505177760157350, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
+      propertyPath: enemySpawners.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8148505177760157350, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
+      propertyPath: enemySpawners.Array.data[0]
+      value: 
+      objectReference: {fileID: 380314191}
+    - target: {fileID: 8148505177760157350, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
+      propertyPath: enemySpawners.Array.data[1]
+      value: 
+      objectReference: {fileID: 387416670}
+    - target: {fileID: 8148505177760157350, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
+      propertyPath: enemySpawners.Array.data[2]
+      value: 
+      objectReference: {fileID: 1735062294}
     - target: {fileID: 8148505177760157351, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
       propertyPath: m_Name
       value: Game Controller
@@ -62623,6 +62673,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 2337249083760201559, guid: 90986d24efd6d75489c3fe130f6fa59f, type: 3}
+      propertyPath: monster
+      value: 
+      objectReference: {fileID: 6204149673482011525, guid: 27cedcb1002ccbc41865d4bfc44ae30d, type: 3}
     - target: {fileID: 8434211304993418230, guid: 90986d24efd6d75489c3fe130f6fa59f, type: 3}
       propertyPath: m_Name
       value: Stalker Spawner (2)
@@ -63698,6 +63752,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSize: 8
+--- !u!114 &1735062294 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2337249083760201559, guid: 90986d24efd6d75489c3fe130f6fa59f, type: 3}
+  m_PrefabInstance: {fileID: 1484158704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d059d648911fd63449bcc8153c83fd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1795636354
 GameObject:
   m_ObjectHideFlags: 0
@@ -64194,11 +64259,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225579256544700606, guid: 8fd0533462e9d744f9bc51ba677d3c48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 44.2
+      value: 94.7
       objectReference: {fileID: 0}
     - target: {fileID: 1225579256544700606, guid: 8fd0533462e9d744f9bc51ba677d3c48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -13.3
+      value: -3.2
       objectReference: {fileID: 0}
     - target: {fileID: 1225579256544700606, guid: 8fd0533462e9d744f9bc51ba677d3c48, type: 3}
       propertyPath: m_LocalPosition.z

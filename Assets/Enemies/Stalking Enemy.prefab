@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503ea93129ad220469cd2511fcaab624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 8773071266150089486, guid: 154ffd5c73e297147a44d21c1736f1be, type: 3}
   radius: 10
   speed: 3
 --- !u!50 &-4068269859359604951

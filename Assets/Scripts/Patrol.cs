@@ -10,6 +10,8 @@ public class Patrol : MonoBehaviour
 
     private short direction = 1;
     private Rigidbody2D m_RigidBody;
+
+    [SerializeField] BasicEnemy basicEnemy;
     // Start is called before the first frame update
     void Start()
     {

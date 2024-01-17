@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BasicEnemy))]
 public class Stalk : MonoBehaviour
 {
     private Vector2 homePos;
-    public GameObject target;
     public float radius;
     public float speed;
+    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
 
     private Rigidbody2D m_Rigidbody2D;
+
+    private void OnValidate()
+    { 
+        basicEnemy = GetComponent<BasicEnemy>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        target = GameObject.Find("Player");
         homePos = transform.position;
     }
 
@@ -26,11 +31,11 @@ public class Stalk : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    { 
         Vector2 travelDirection = Vector2.zero;
-        if(this.gameObject.Sees(target, radius))
+        if (this.transform.Sees(basicEnemy.Target, radius))
         {
-            travelDirection = target.transform.position - transform.position;
+            travelDirection = basicEnemy.Target.transform.position - transform.position;
         }
         else if(Vector2.Distance(transform.position, homePos) > 0.3f)
         {
@@ -39,5 +44,7 @@ public class Stalk : MonoBehaviour
         travelDirection.Normalize();
 
         m_Rigidbody2D.velocity = travelDirection * speed;
+
+        
     }
 }

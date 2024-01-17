@@ -6,6 +6,13 @@ public class BasicEnemy : MonoBehaviour
 {
     public int enemyHealth = 100;
     public int damage = 1;
+    [SerializeField] Transform target;
+
+    public Transform Target
+    {
+        get => target;
+        set => target = value;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,4 +38,13 @@ public class BasicEnemy : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerControl>().Damage(damage);
+        }
+    }
+
 }

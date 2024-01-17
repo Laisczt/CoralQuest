@@ -34,8 +34,9 @@ public class PlayerControl : MonoBehaviour
     public int score = 0;                   // Placar
     private bool healing = false;           // Player est� tentando curar
     public ushort maxHealth;                // Vida m�xima do Player
-    [HideInInspector]
     public int health;                      // Vida atual do Player
+    public int DamageCooldown = 60;
+    private int rDamageCooldown = 0;
 
     public int attackCooldown = 10;         // Cooldown entre attacks
     private int rAttackCooldown = 0;        // Cooldown restante
@@ -48,10 +49,13 @@ public class PlayerControl : MonoBehaviour
     private UIControlButton jumpButton;
     private UIControlButton attackButton;
 
+
+    int solidLayerMask;
     // Awake is called when an enabled script instance is being loaded.
     private void Awake()
     {
         health = maxHealth;
+        solidLayerMask = ~LayerMask.NameToLayer("Solid");
     }
 
     // Start is called before the first frame update
@@ -225,6 +229,7 @@ public class PlayerControl : MonoBehaviour
         attacking = false;
         healing = false;
         canWallJump = false;
+        if (rDamageCooldown > 0) rDamageCooldown--;
         if (inputLeftBuffer > 0) inputLeftBuffer--;
         if (inputRightBuffer > 0) inputRightBuffer--;
         if (jumping > 0) jumping--;
@@ -271,12 +276,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            var damage = collision.gameObject.GetComponent<BasicEnemy>().damage;
-            Damage(damage);
-        }
-        else if (collision.gameObject.CompareTag("Enemy Projectile"))
+        if (collision.gameObject.CompareTag("Enemy Projectile"))
         {
             var damage = collision.gameObject.GetComponent<BasicProjectile>().value;
             Damage(damage);
@@ -299,20 +299,20 @@ public class PlayerControl : MonoBehaviour
         }
     }
     RaycastHit2D[] hits = new RaycastHit2D[5];
+    
     private void CheckGround()
     {
         if (groundBuff > 0) groundBuff--;
 
         var collider = GetComponent<Collider2D>();
         var _playerHeight = collider.bounds.extents.y - collider.offset.y;
-        Vector3 characterLeftEdge = transform.position - new Vector3(collider.bounds.extents.x, 0, 0);
+        Vector3 characterLeftEdge = transform.position - new Vector3(collider.bounds.extents.x - collider.offset.x, 0, 0);
         var step = collider.bounds.extents.x;
 
-        var layerMask = ~LayerMask.NameToLayer("Solid");
         for (int i = 0; i < 3; i++)
         {
-            var hitcount = Physics2D.RaycastNonAlloc(characterLeftEdge + new Vector3(step * i,0,0), Vector2.down, hits, _playerHeight + 0.05f, layerMask);
-            Debug.DrawRay(characterLeftEdge + new Vector3(step * i, 0, 0), Vector2.down * (_playerHeight + 0.05f), Color.red);
+            var hitcount = Physics2D.RaycastNonAlloc(characterLeftEdge + new Vector3(step * i,0,0), Vector2.down, hits, _playerHeight + 0.05f, solidLayerMask);
+            //Debug.DrawRay(characterLeftEdge + new Vector3(step * i, 0, 0), Vector2.down * (_playerHeight + 0.05f), Color.red);
             if (hitcount > 0)
             {
                 groundBuff = 5;
@@ -325,6 +325,9 @@ public class PlayerControl : MonoBehaviour
     public void Damage(int value)
     {
         if (!alive || value <= 0) return;
+        if (rDamageCooldown > 0) return;
+
+        rDamageCooldown = DamageCooldown;
 
         health -= value;
         if (health <= 0)

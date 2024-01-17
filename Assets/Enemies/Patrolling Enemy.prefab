@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5879878611557381557}
   - component: {fileID: 5820520650219563137}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5515824985110432712}
   - component: {fileID: 8670093251628419330}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6326413567906621527}
   - component: {fileID: 3633214830189454443}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 8842855927329712397}
   - component: {fileID: 3195975802588209849}
   - component: {fileID: 439092307097535799}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Patrolling Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
