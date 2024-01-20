@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour
 {
     public GameObject Player;
-    private GameObject PlayerSpawn;
+    [SerializeField] GameObject PlayerSpawn;
 
     // Start is called before the first frame update
     void Start()

@@ -14,10 +14,10 @@ public class fileDataHandler
         this.dataFileName = dataFileName;
     }
 
-   public gameData load()
+   public bool TryLoad(out gameData loadedData)
    {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
-        gameData loadedData = null;
+        loadedData = null;
 
         if (File.Exists(fullPath)){
             try{
@@ -30,15 +30,16 @@ public class fileDataHandler
                 }
 
                 loadedData = JsonUtility.FromJson<gameData>(dataToLoad);
-                
+                return true;
             }
             catch(Exception e){
                 Debug.LogError("Error loading save file: " + fullPath + "\n" + e);
+                return false;
             }
 
             
         }
-        return loadedData;
+        return false;
    }
 
     public void save(gameData data)

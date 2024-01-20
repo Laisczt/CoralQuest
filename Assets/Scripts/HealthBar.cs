@@ -59,8 +59,6 @@ public class HealthBar : MonoBehaviour
             healthBar[i].name = "Heart " + (i + 1).ToString();
             pos += new Vector3(90, 0, 0);
         }
-
-        UpdateHB();
     }
 
  

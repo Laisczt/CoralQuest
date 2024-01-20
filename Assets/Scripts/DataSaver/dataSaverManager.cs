@@ -31,8 +31,9 @@ public class dataSaverManager : MonoBehaviour
 
     public void  loadGame()
     {
-        game_data = dataHandler.load();
-        if (game_data == null){
+        Debug.Log("loadGame");
+        var hasLoaded = dataHandler.TryLoad(out var game_data);
+        if (hasLoaded){
             Debug.Log("Game not found. Creatung Gae    m");
             newGame();
         }
