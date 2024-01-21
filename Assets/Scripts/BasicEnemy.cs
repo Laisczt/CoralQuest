@@ -4,20 +4,32 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
 {
-    public int enemyHealth = 100;
-    public int damage = 1;
+    [HideInInspector] public bool Alive = true;
+    [HideInInspector] public bool Revived;
+    [HideInInspector] public bool isPooled;
+    public int Health = 100;
+    [HideInInspector] public int maxHealth;
+   
+    public int Damage = 1;
     [SerializeField] Transform target;
+    [SerializeField] EnemySpawn parentSpawner;
 
     public Transform Target
     {
         get => target;
         set => target = value;
     }
+    public EnemySpawn ParentSpawner
+    {
+        get => parentSpawner;
+        set => parentSpawner = value;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        maxHealth = Health;
+        Alive = true;
     }
 
     // Update is called once per frame
@@ -30,11 +42,11 @@ public class BasicEnemy : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player Attack"))
         {
-            enemyHealth -= collision.GetComponent<Attack>().damage;
-            Debug.Log("Ouchie - " + enemyHealth);
-            if(enemyHealth <= 0)
+            Health -= collision.GetComponent<Attack>().damage;
+            Debug.Log("Ouchie - " + Health);
+            if(Health <= 0)
             {
-                Destroy(gameObject);
+                Kill();
             }
         }
     }
@@ -43,7 +55,21 @@ public class BasicEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerControl>().Damage(damage);
+            collision.gameObject.GetComponent<PlayerControl>().Damage(Damage);
+        }
+    }
+
+    public void Kill()
+    {
+        if (isPooled)
+        {
+            Alive = false;
+            parentSpawner.poolAvailableCount++;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

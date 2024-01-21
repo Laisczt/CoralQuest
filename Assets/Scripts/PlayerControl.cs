@@ -8,46 +8,43 @@ using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour
 {
     public GameObject baseAttack;           // Ataque comum
-    private Rigidbody2D m_RigidBody;        // Corpo R�gido para f�sica
+    private Rigidbody2D m_RigidBody;        // Corpo Rigido para fisica
     private SpriteRenderer m_SpriteRenderer;// Sprite
-    private Animator m_Animator;            // Handler de anima��es
+    private Animator m_Animator;            // Animador
 
-    private float inputX;                   // Input esquerda/direita (com suaviza��o)
-    private short inputXdiscrete;           // Input esquerda/direita (puro)
-    private short inputLeftBuffer = 0;
-    private short inputRightBuffer = 0;
-    public float maxSpeedX = 1f;            // Velocidade horizontal m�xima
-    public float jumpPower = 1f;            // For�a do pulo
-    public bool lockMovement = false;
-    public bool forceJoystick = false;
+    private float inputX;                   // Input esquerda/direita (com suavizacao)
+    private short inputXdiscrete;           // Input esquerda/direita (sem suavizacao)
+    private short inputLeftBuffer;          // Buffer para o input de movimento a esquerda (para facilitar wall jump)
+    private short inputRightBuffer;         // Buffer para o input de movimento a direita (para facilitar wall jump)
+    public float maxSpeedX;                 // Velocidade horizontal maxima
+    public float jumpPower;                 // Forca do pulo
+    public bool lockMovement = false;       // Trava de movimento horizontal do jogador (para forcar movimento durante transições de tela)
 
-    private ushort jumping = 0;             // Buffer de pulo
-    public ushort maxJumps = 2;             // Quantia m�xima de pulos que podem ser feitos antes de tocar no ch�o
-    private ushort jumps;                   // Quantia de pulos restantes
-    private bool canWallJump = false;       // Verdadeiro se o player pode fazer wall jump
-    private short wallJumpDirection;        // Dire��o do wall jump (-1 para esquerda e 1 para direita)
-    private bool wallJumping = false;         // Dura��o do kick do wall jump restante
+    private ushort jumping;                 // Buffer do input de pulo (para facilitar pulos consecutivos)
+    public ushort maxJumps = 2;             // Quantia maxima de pulos que podem ser feitos antes de tocar no ch�o
+    private ushort rjumps;                  // Quantia de pulos restantes
+    private bool canWallJump;               // Verdadeiro se o player pode fazer wall jump
+    private short wallJumpDirection;        // Direcao do wall jump (-1 para esquerda e 1 para direita)
+    private bool wallJumping;               // Verdadeiro durante a duração do impulso do wall jump
 
     private bool grounded = true;           // Verdadeiro se o player estiver tocando o ch�o
-    private ushort groundBuff = 0;
+    private ushort groundBuff = 0;          // Buffer para a variavel grounded (permite coyote time)
     public bool alive = true;               // Player vivo
-    public int score = 0;                   // Placar
-    private bool healing = false;           // Player est� tentando curar
-    public ushort maxHealth;                // Vida m�xima do Player
+    public ushort maxHealth;                // Vida maxima do Player
     public int health;                      // Vida atual do Player
-    public int DamageCooldown = 60;
-    private int rDamageCooldown = 0;
+    public int DamageCooldown = 60;         // Cooldown de dano do jogador (i-frames)
+    private int rDamageCooldown;            // Cooldown restante
 
     public int attackCooldown = 10;         // Cooldown entre attacks
     private int rAttackCooldown = 0;        // Cooldown restante
-    private bool attacking = false;
+    private bool attacking = false;         // Jogador apertou pra atacar
 
-    private bool startingAreaSet = false;
-    private bool usingMobileControls = false;
+    private bool startingAreaSet = false; 
 
-    private Joystick joystick;
-    private UIControlButton jumpButton;
-    private UIControlButton attackButton;
+    [HideInInspector] public bool UsingMobileControls;      // Verdadeiro quando controles mobiles estiverem em uso
+    [HideInInspector] public Joystick joystick;
+    [HideInInspector] public UIControlButton jumpButton;
+    [HideInInspector] public UIControlButton attackButton;
 
 
     int solidLayerMask;
@@ -66,21 +63,11 @@ public class PlayerControl : MonoBehaviour
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
 
-        if (GameControl.usingMobileControls)
-        {
-            GetMobileControls(false);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (forceJoystick && !usingMobileControls)
-        {
-            GameControl.UseMobileControls();
-            GetMobileControls(true);
-        }
-
         if (lockMovement)
         {
             inputX = inputXdiscrete;
@@ -88,7 +75,7 @@ public class PlayerControl : MonoBehaviour
         else
         {
             inputX = Input.GetAxis("Horizontal");
-            if (inputX == 0 && usingMobileControls)
+            if (inputX == 0 && UsingMobileControls)
             {
                 inputX = joystick.Horizontal;
             }
@@ -120,19 +107,19 @@ public class PlayerControl : MonoBehaviour
         
         if (!alive) return;
 
-        if (Input.GetButtonDown("Jump") || (usingMobileControls && jumpButton.GetButtonDown()))
+        if (Input.GetButtonDown("Jump") || (UsingMobileControls && jumpButton.GetButtonDown()))
         {
             jumping = 5;
         }
 
-        if (( Input.GetButton("Fire1")   ||   (usingMobileControls && attackButton.GetButtonDown())  )
+        if (( Input.GetButton("Fire1")   ||   (UsingMobileControls && attackButton.GetButtonDown())  )
             && rAttackCooldown == 0 ) // Attack input
         {
             attacking = true;
         }
         if (Input.GetButtonDown("Fire2"))
         {
-            healing = true;
+            //healing = true;
         }
     }
 
@@ -145,7 +132,7 @@ public class PlayerControl : MonoBehaviour
         CheckGround(); // Verifica se o player est� no ch�o
         if (grounded) // Reseta os pulos se o player estiver no ch�o e atualiza o animador
         {
-            jumps = maxJumps;
+            rjumps = maxJumps;
 
             m_Animator.SetBool("Grounded", true);
         }
@@ -185,19 +172,17 @@ public class PlayerControl : MonoBehaviour
             {
                 StartCoroutine(WallJumpKick(wallJumpDirection));
 
-                Debug.Log((wallJumpDirection == 1) ? inputLeftBuffer : inputRightBuffer);
-
-                if (jumps == maxJumps) jumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam n�o gastar pulos)
+                if (rjumps == maxJumps) rjumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam n�o gastar pulos)
                 jumping = 0;
 
                 m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower); 
             }
-            else if (jumps > 0)
+            else if (rjumps > 0)
             {
                 if (grounded)
                 {
                     m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower);
-                    jumps--;
+                    rjumps--;
                     groundBuff = 0;
 
                     jumping = 0;
@@ -206,8 +191,8 @@ public class PlayerControl : MonoBehaviour
                 else if (maxJumps > 1)
                 {
                     m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower * 1.1f);
-                    if (jumps == maxJumps) jumps--;
-                    if (jumps > 0) jumps--;
+                    if (rjumps == maxJumps) rjumps--;
+                    if (rjumps > 0) rjumps--;
 
                     jumping = 0;
                     m_Animator.SetTrigger("Jump");
@@ -227,7 +212,7 @@ public class PlayerControl : MonoBehaviour
 
         // Redefinir variaveis
         attacking = false;
-        healing = false;
+        //healing = false;
         canWallJump = false;
         if (rDamageCooldown > 0) rDamageCooldown--;
         if (inputLeftBuffer > 0) inputLeftBuffer--;
@@ -385,16 +370,26 @@ public class PlayerControl : MonoBehaviour
         m_RigidBody.velocity = Vector2.zero;
     }
 
-    private void GetMobileControls(bool instantiate)
+    public void SetMobileControls(GameObject[] controls)
     {
-        if (instantiate)
+        foreach (var element in controls)
         {
-            GameControl.UseMobileControls();
+            switch (element.name)
+            {
+                case "Joystick":
+                    joystick = element.transform.GetChild(0).GetComponent<Joystick>();
+                    break;
+                case "Jump":
+                    jumpButton = element.transform.GetChild(0).GetComponent<UIControlButton>();
+                    break;
+                case "Attack":
+                    attackButton = element.transform.GetChild(0).GetComponent<UIControlButton>();
+                    break;
+                default:
+                    Debug.LogError("Mobile UI element not recognized, did you rename something?");
+                    break;
+            }
         }
-        joystick = FindObjectOfType<Joystick>();
-        jumpButton = GameObject.Find("Jump Button").GetComponent<UIControlButton>();
-        attackButton = GameObject.Find("Attack Button").GetComponent<UIControlButton>();
-        usingMobileControls = true;
     }
 
 }

@@ -61064,6 +61064,10 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 439092307097535799, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: SpawnContinuously
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8434211304993418230, guid: d563864b691438b4985bd78266e6e458, type: 3}
       propertyPath: m_Name
       value: Patrol Spawner
@@ -62250,6 +62254,10 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 439092307097535799, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: SpawnContinuously
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8434211304993418230, guid: d563864b691438b4985bd78266e6e458, type: 3}
       propertyPath: m_Name
       value: Patrol Spawner (1)
@@ -62689,15 +62697,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8148505177760157345, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 854.39386
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8148505177760157345, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 188.50479
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8148505177760157345, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0037913
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8148505177760157345, guid: 57d13559b915a9c48ae6ce3a812a9b3a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -62788,6 +62796,14 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 6204149673482011525, guid: 27cedcb1002ccbc41865d4bfc44ae30d, type: 3}
+    - target: {fileID: 2337249083760201559, guid: 90986d24efd6d75489c3fe130f6fa59f, type: 3}
+      propertyPath: MaxEnemyCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2337249083760201559, guid: 90986d24efd6d75489c3fe130f6fa59f, type: 3}
+      propertyPath: SpawnContinuously
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8434211304993418230, guid: 90986d24efd6d75489c3fe130f6fa59f, type: 3}
       propertyPath: m_Name
       value: Stalker Spawner (2)
@@ -64370,11 +64386,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1225579256544700606, guid: 8fd0533462e9d744f9bc51ba677d3c48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 100.4
+      value: 119
       objectReference: {fileID: 0}
     - target: {fileID: 1225579256544700606, guid: 8fd0533462e9d744f9bc51ba677d3c48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.98
+      value: -22.8
       objectReference: {fileID: 0}
     - target: {fileID: 1225579256544700606, guid: 8fd0533462e9d744f9bc51ba677d3c48, type: 3}
       propertyPath: m_LocalPosition.z

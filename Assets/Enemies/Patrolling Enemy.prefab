@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topSpeed: 20
+  basicEnemy: {fileID: 439092307097535799}
 --- !u!114 &439092307097535799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,5 +363,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfc814ca6eb6f24685be20cfa6886e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 15
-  damage: 1
+  Alive: 1
+  Revived: 0
+  isPooled: 0
+  Health: 15
+  maxHealth: 0
+  Damage: 1
+  target: {fileID: 0}
+  parentSpawner: {fileID: 0}

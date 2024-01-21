@@ -34,6 +34,11 @@ public class Turret : MonoBehaviour
     private void FixedUpdate()
     {
         if(curr_Cooldown > 0)curr_Cooldown--;
+        if (basicEnemy.Revived)
+        {
+            curr_Cooldown = cooldown;
+            basicEnemy.Revived = false;
+        }
 
         Vector2 direction;
 

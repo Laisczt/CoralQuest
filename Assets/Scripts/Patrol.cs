@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BasicEnemy))]
 public class Patrol : MonoBehaviour
 {
     public float topSpeed = 3f;
@@ -12,6 +13,13 @@ public class Patrol : MonoBehaviour
     private Rigidbody2D m_RigidBody;
 
     [SerializeField] BasicEnemy basicEnemy;
+
+
+    private void OnValidate()
+    {
+        basicEnemy = GetComponent<BasicEnemy>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +36,13 @@ public class Patrol : MonoBehaviour
     {
         if (speed < topSpeed) speed += 0.25f;
         else if (speed > topSpeed) speed = topSpeed;
+
+        if (basicEnemy.Revived)
+        {
+            speed = 0;
+            basicEnemy.Revived = false;
+        }
+
         m_RigidBody.velocity = new Vector2(speed * direction, 0);
     }
     private void OnTriggerEnter2D(Collider2D collision)

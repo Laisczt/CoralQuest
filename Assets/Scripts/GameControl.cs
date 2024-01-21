@@ -6,22 +6,27 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour
 {
     public GameObject Player;
+    private PlayerControl s_player;
     private GameObject PlayerSpawn;
     [SerializeField] GameObject enemySpawnerParent;
 
-    public static bool usingMobileControls = false;
+    private bool usingMobileControls;
+    public static GameControl Instance { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        if (Application.isMobilePlatform)
+        Instance = this;
+
+        if (Application.isMobilePlatform || usingMobileControls)
         {
-            UseMobileControls();
+            UseMobileControls(true);
         }
 
         PlayerSpawn = GameObject.Find("Player Spawn");
         var _player = Instantiate(Player, PlayerSpawn.transform.position, Quaternion.identity);
         _player.name = "Player";
+        s_player = _player.GetComponent<PlayerControl>();
 
         FindObjectOfType<MainCamera>().FindTarget();
 
@@ -36,18 +41,27 @@ public class GameControl : MonoBehaviour
         }
     }
 
-    public static void UseMobileControls()
+    private bool UILinked = false;
+
+    [ContextMenu("Toggle Mobile Controls")]
+    public void ToggleMobileControls()
     {
-        if (usingMobileControls)
-        {
-            Debug.LogError("Mobile controls already enabled");
-            return;
-        }
-        usingMobileControls = true;
+        UseMobileControls(!usingMobileControls);
+    }
+    private void UseMobileControls(bool doUse)
+    {
+        usingMobileControls = doUse;
+
         var controls = GameObject.FindGameObjectsWithTag("Mobile UI");
         foreach(GameObject element in controls)
         {
-            element.transform.GetChild(0).gameObject.SetActive(true);
+            element.transform.GetChild(0).gameObject.SetActive(doUse);
         }
+        if (!UILinked)
+        {
+            s_player.SetMobileControls(controls);
+            UILinked = true;
+        }
+        s_player.UsingMobileControls = doUse;
     }
 }

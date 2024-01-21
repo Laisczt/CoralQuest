@@ -31,7 +31,9 @@ public class Stalk : MonoBehaviour
     }
 
     private void FixedUpdate()
-    { 
+    {
+        if (basicEnemy.Revived) basicEnemy.Revived = false;
+
         Vector2 travelDirection = Vector2.zero;
         if (this.transform.Sees(basicEnemy.Target, radius))
         {
