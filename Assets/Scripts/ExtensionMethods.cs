@@ -11,16 +11,17 @@ public static class ExtensionMethods
         );
     }
 
-    public static bool Sees(this GameObject caller, GameObject target, float distance)
+    static RaycastHit2D[] hits = new RaycastHit2D[1];
+    public static bool Sees(this Transform caller, Transform target, float distance)
     {
-        if (Vector2.Distance(caller.transform.position, target.transform.position) > distance) return false;
+        if (Vector2.Distance(caller.position, target.position) > distance) return false;
+        
+        var hitcount = Physics2D.RaycastNonAlloc(caller.position, (target.position - caller.position), hits, distance);
+        //Debug.DrawRay(caller.position, target.position - caller.position);
 
-        RaycastHit2D hit;
-        hit = Physics2D.Raycast(caller.transform.position, (target.transform.position - caller.transform.position).normalized, distance);
-
-        if (hit.collider != null && hit.transform.gameObject == target)
+        if (hitcount > 0 && hits[0].transform == target)
         {
-            if (target.gameObject.name == "Player")
+            if (target.gameObject.CompareTag("Player"))
             {
                 return target.GetComponent<PlayerControl>().alive;
             }

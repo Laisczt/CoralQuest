@@ -35,6 +35,7 @@ public class ScreenExit : MonoBehaviour
         }
 
         MainCamera.Instance.ChangeArea(newArea); // Mudamos a área da câmera
+        MainCamera.Instance.smoothMovement = true;
 
         yield return new WaitForSeconds(0.2f);  // Delay de 0.2 segundos
 
@@ -43,6 +44,8 @@ public class ScreenExit : MonoBehaviour
         GameObject.Find("Player").GetComponent<PlayerControl>().lockMovement = false; // Destravamos o movimento do jogador
 
         newArea.transform.Find("Exits").gameObject.SetActive(true); // Ativamos as saídas da área nova
+
+        MainCamera.Instance.smoothMovement = false;
 
         transform.parent.gameObject.SetActive(false); // Desativamos as saídas da área em que estávamos
     }

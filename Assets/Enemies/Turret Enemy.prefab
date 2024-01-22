@@ -65,6 +65,7 @@ MonoBehaviour:
   radius: 15
   cooldown: 80
   shot: {fileID: 4195265481383794690, guid: 0d6da550014426049a80271c5df7b15d, type: 3}
+  target: {fileID: 8773071266150089486, guid: 154ffd5c73e297147a44d21c1736f1be, type: 3}
 --- !u!61 &-8288508326789859707
 BoxCollider2D:
   m_ObjectHideFlags: 0

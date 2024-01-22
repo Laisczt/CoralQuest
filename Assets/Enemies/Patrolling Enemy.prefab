@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5879878611557381557}
   - component: {fileID: 5820520650219563137}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5515824985110432712}
   - component: {fileID: 8670093251628419330}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6326413567906621527}
   - component: {fileID: 3633214830189454443}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 8842855927329712397}
   - component: {fileID: 3195975802588209849}
   - component: {fileID: 439092307097535799}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Patrolling Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ Transform:
   m_GameObject: {fileID: 6300425453713611630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6326413567906621527}
@@ -303,18 +303,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00000011920929, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.34375, y: 1.40625}
+    newSize: {x: 2.34375, y: 1.40625}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.7160232, y: 1}
+  m_Size: {x: 2.1875, y: 0.9375}
   m_EdgeRadius: 0
 --- !u!50 &8842855927329712397
 Rigidbody2D:
@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topSpeed: 20
+  basicEnemy: {fileID: 439092307097535799}
 --- !u!114 &439092307097535799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,5 +363,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfc814ca6eb6f24685be20cfa6886e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 15
-  damage: 1
+  Alive: 1
+  Revived: 0
+  isPooled: 0
+  Health: 15
+  maxHealth: 0
+  Damage: 1
+  target: {fileID: 0}
+  parentSpawner: {fileID: 0}

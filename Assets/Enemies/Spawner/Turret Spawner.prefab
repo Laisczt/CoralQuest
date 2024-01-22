@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d059d648911fd63449bcc8153c83fd74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 4071263595842916179, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
+  monster: {fileID: -3629272721958375708, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
 --- !u!212 &-8434974219800165675
 SpriteRenderer:
   m_ObjectHideFlags: 0
