@@ -11,15 +11,16 @@ TagManager:
   - Healing Base
   - Enemy Projectile
   - Camera Areas
+  - Mobile UI
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Solid
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Patrol
   - 
   - 
   - 

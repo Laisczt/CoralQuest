@@ -489,8 +489,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfc814ca6eb6f24685be20cfa6886e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 10
-  damage: 1
+  Alive: 1
+  Revived: 0
+  isPooled: 0
+  Health: 15
+  maxHealth: 0
+  Damage: 1
+  target: {fileID: 0}
+  parentSpawner: {fileID: 0}
 --- !u!114 &5365313773077969092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,9 +509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503ea93129ad220469cd2511fcaab624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   radius: 10
   speed: 3
+  basicEnemy: {fileID: 6204149673482011525}
 --- !u!50 &-4068269859359604951
 Rigidbody2D:
   serializedVersion: 4
