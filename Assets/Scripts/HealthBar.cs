@@ -60,4 +60,6 @@ public class HealthBar : MonoBehaviour
             pos += new Vector3(90, 0, 0);
         }
     }
+
+ 
 }

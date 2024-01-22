@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IDataSaver
 {
     public GameObject baseAttack;           // Ataque comum
     private Rigidbody2D m_RigidBody;        // Corpo Rigido para fisica
@@ -390,6 +390,20 @@ public class PlayerControl : MonoBehaviour
                     break;
             }
         }
+    }
+
+
+    public void loadData(gameData data){
+        this.health = data.hp;
+        this.transform.position = data.position;
+
+        HealthBar.Instance.UpdateHB();
+    }
+
+    public void saveData(ref gameData data){
+        Debug.Log(health);
+        data.hp = this.health;
+        data.position = this.transform.position;
     }
 
 }

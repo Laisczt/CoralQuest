@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1045407155, guid: 8b3ad744f27154045bca1954f2793989, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -104,11 +104,12 @@ MonoBehaviour:
   maxSpeedX: 10
   jumpPower: 20
   lockMovement: 0
+  forceJoystick: 1
   maxJumps: 1
   alive: 1
   score: 0
   maxHealth: 5
-  health: 5
+  health: 7
   DamageCooldown: 60
   attackCooldown: 15
 --- !u!61 &8773071266150089489

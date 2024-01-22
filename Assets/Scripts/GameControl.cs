@@ -7,7 +7,7 @@ public class GameControl : MonoBehaviour
 {
     public GameObject Player;
     private PlayerControl s_player;
-    private GameObject PlayerSpawn;
+    [SerializeField] GameObject PlayerSpawn;
     [SerializeField] GameObject enemySpawnerParent;
 
     private bool usingMobileControls;
@@ -33,13 +33,18 @@ public class GameControl : MonoBehaviour
         HealthBar.Instance.FindPlayer();
         MainCamera.Instance.FindTarget();
 
-        var enemySpawners = enemySpawnerParent.GetComponentsInChildren<EnemySpawn>();
 
-        foreach(var element in enemySpawners)
+
+        foreach (var element in enemySpawners)
         {
             element.Initialize(_player.transform);
         }
+
+        dataSaverManager.instance.dataHandler = new fileDataHandler(Application.persistentDataPath, dataSaverManager.instance.fileName);
+        dataSaverManager.instance.dataSaverObjects = dataSaverManager.instance.FindAllDataSaverObjects();
+        dataSaverManager.instance.loadGame();
     }
+
 
     private bool UILinked = false;
 
