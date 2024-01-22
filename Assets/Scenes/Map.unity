@@ -61065,8 +61065,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 439092307097535799, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
     - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: MaxEnemyCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: SpawnCooldown
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
       propertyPath: SpawnContinuously
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3331957806918167198, guid: d563864b691438b4985bd78266e6e458, type: 3}
+      propertyPath: poolAvailableCount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8434211304993418230, guid: d563864b691438b4985bd78266e6e458, type: 3}
       propertyPath: m_Name
