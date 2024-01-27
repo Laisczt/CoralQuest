@@ -101,6 +101,30 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -109,9 +133,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 140
-        width: 40
-        height: 70
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +153,10 @@ TextureImporter:
       name: player_jumpDown-Sheet_1
       rect:
         serializedVersion: 2
-        x: 40
-        y: 140
-        width: 40
-        height: 70
+        x: 35
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +174,10 @@ TextureImporter:
       name: player_jumpDown-Sheet_2
       rect:
         serializedVersion: 2
-        x: 80
-        y: 140
-        width: 40
-        height: 70
+        x: 70
+        y: 55
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,9 +196,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 70
-        width: 40
-        height: 70
+        y: 0
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,10 +216,10 @@ TextureImporter:
       name: player_jumpDown-Sheet_4
       rect:
         serializedVersion: 2
-        x: 40
-        y: 70
-        width: 40
-        height: 70
+        x: 35
+        y: 0
+        width: 35
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,48 +229,6 @@ TextureImporter:
       bones: []
       spriteID: 6b5723e1f6e9e50418a407388e666897
       internalID: 861075844
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_jumpDown-Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 70
-        width: 40
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f4a8bbdd044820c4cb097eba346f679c
-      internalID: 1927497692
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: player_jumpDown-Sheet_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 40
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bc9face740e585445bdfa71078da81c9
-      internalID: 1409221301
       vertices: []
       indices: 
       edges: []
@@ -267,8 +249,6 @@ TextureImporter:
       player_jumpDown-Sheet_2: -1698836595
       player_jumpDown-Sheet_3: -689787074
       player_jumpDown-Sheet_4: 861075844
-      player_jumpDown-Sheet_5: 1927497692
-      player_jumpDown-Sheet_6: 1409221301
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

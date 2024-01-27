@@ -44,7 +44,7 @@ public class HealthBar : MonoBehaviour
     }
 
 
-    public void FindPlayer()
+    public void FindTarget()
     {
         target = GameObject.Find("Player");
 

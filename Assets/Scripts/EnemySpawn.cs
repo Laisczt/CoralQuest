@@ -25,23 +25,7 @@ public class RandomScript_Editor : Editor
 
         }
         serializedObject.ApplyModifiedProperties();
-
-
-        /*DrawDefaultInspector(); // for other non-HideInInspector fields
-
-        var script = (EnemySpawn)target;
-
-        script.SpawnContinuously = EditorGUILayout.Toggle("Spawn Continuously", script.SpawnContinuously);
-
-        if (script.SpawnContinuously) // if bool is true, show other fields
-        {
-            script.MaxEnemyCount = EditorGUILayout.IntField("Max Enemy Count", script.MaxEnemyCount);
-            script.SpawnCooldown = EditorGUILayout.IntField("Spawn Cooldown", script.SpawnCooldown);
-        }
-        */
-    }
-
-    
+    } 
 }
 
 public class EnemySpawn : MonoBehaviour

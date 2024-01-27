@@ -5,10 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameStart : MonoBehaviour
 {
-   public string Screen;
+    [SerializeField] Transform thumbnailsParent;
 
-   public void LoadScreen()
-   {
-    SceneManager.LoadScene(Screen);
-   }
+    public string Screen;
+    
+    public void LoadScreen()
+    {
+        SceneManager.LoadScene(Screen);
+    }
+
+    public void ShowThumbnail()
+    {
+        thumbnailsParent.transform.Find(Screen).gameObject.SetActive(true);
+    }
+
+    public void HideThumbnail()
+    {
+        thumbnailsParent.transform.Find(Screen).gameObject.SetActive(false);
+    }
 }

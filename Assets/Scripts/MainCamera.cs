@@ -7,7 +7,7 @@ public class MainCamera : MonoBehaviour
 {   
     private GameObject target;      // O objeto que a câmera segue (alvo)
     public Collider2D area;         // A região em que a câmera está
-    public float SpeedFactor = 3f;// A Velocidade de aproximação da câmera
+    public float SpeedFactor = 3f;  // A Velocidade de aproximação da câmera
     public bool smoothMovement = false;
 
     private Camera m_Camera;        // Acesso ao script Camera

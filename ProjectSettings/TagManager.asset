@@ -12,6 +12,8 @@ TagManager:
   - Enemy Projectile
   - Camera Areas
   - Mobile UI
+  - Additional Camera
+  - Platform
   layers:
   - Default
   - TransparentFX

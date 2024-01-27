@@ -39,18 +39,20 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private int rAttackCooldown = 0;        // Cooldown restante
     private bool attacking = false;         // Jogador apertou pra atacar
 
-    private bool startingAreaSet = false; 
+    private bool startingAreaSet = false;
 
     [HideInInspector] public bool UsingMobileControls;      // Verdadeiro quando controles mobiles estiverem em uso
     [HideInInspector] public Joystick joystick;
     [HideInInspector] public UIControlButton jumpButton;
     [HideInInspector] public UIControlButton attackButton;
+    public static PlayerControl Instance { get; private set; }
 
 
     int solidLayerMask;
     // Awake is called when an enabled script instance is being loaded.
     private void Awake()
     {
+        
         health = maxHealth;
         solidLayerMask = ~LayerMask.NameToLayer("Solid");
     }
@@ -62,7 +64,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_RigidBody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
-
+        Instance = this;
     }
 
     // Update is called once per frame
@@ -175,7 +177,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
                 if (rjumps == maxJumps) rjumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam n�o gastar pulos)
                 jumping = 0;
 
-                m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower); 
+                m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower);
+                m_Animator.SetTrigger("Jump");
             }
             else if (rjumps > 0)
             {
@@ -283,8 +286,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             }
         }
     }
-    RaycastHit2D[] hits = new RaycastHit2D[5];
-    
     private void CheckGround()
     {
         if (groundBuff > 0) groundBuff--;
@@ -296,9 +297,9 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
         for (int i = 0; i < 3; i++)
         {
-            var hitcount = Physics2D.RaycastNonAlloc(characterLeftEdge + new Vector3(step * i,0,0), Vector2.down, hits, _playerHeight + 0.05f, solidLayerMask);
-            //Debug.DrawRay(characterLeftEdge + new Vector3(step * i, 0, 0), Vector2.down * (_playerHeight + 0.05f), Color.red);
-            if (hitcount > 0)
+            var hit = Physics2D.Raycast(characterLeftEdge + new Vector3(step * i,-_playerHeight, 0),  Vector2.down, 0.05f, solidLayerMask);
+            //Debug.DrawRay(characterLeftEdge + new Vector3(step * i, -_playerHeight, 0), Vector2.down * 0.05f, Color.red);
+            if (hit.collider != null)
             {
                 groundBuff = 5;
             }

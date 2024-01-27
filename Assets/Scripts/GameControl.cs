@@ -9,6 +9,7 @@ public class GameControl : MonoBehaviour
     private PlayerControl s_player;
     [SerializeField] GameObject PlayerSpawn;
     [SerializeField] GameObject enemySpawnerParent;
+    [SerializeField] Camera bgCamera;
 
     private bool usingMobileControls;
     public static GameControl Instance { get; private set; }
@@ -29,20 +30,29 @@ public class GameControl : MonoBehaviour
         s_player = _player.GetComponent<PlayerControl>();
 
         FindObjectOfType<MainCamera>().FindTarget();
+        bgCamera.enabled = true;
 
-        HealthBar.Instance.FindPlayer();
+        HealthBar.Instance.FindTarget();
         MainCamera.Instance.FindTarget();
 
 
-
+        var enemySpawners = enemySpawnerParent.GetComponentsInChildren<EnemySpawn>();
         foreach (var element in enemySpawners)
         {
             element.Initialize(_player.transform);
         }
 
-        dataSaverManager.instance.dataHandler = new fileDataHandler(Application.persistentDataPath, dataSaverManager.instance.fileName);
-        dataSaverManager.instance.dataSaverObjects = dataSaverManager.instance.FindAllDataSaverObjects();
-        dataSaverManager.instance.loadGame();
+        if(dataSaverManager.instance != null)
+        {
+            dataSaverManager.instance.dataHandler = new fileDataHandler(Application.persistentDataPath, dataSaverManager.instance.fileName);
+            dataSaverManager.instance.dataSaverObjects = dataSaverManager.instance.FindAllDataSaverObjects();
+            dataSaverManager.instance.loadGame();
+        }
+        else
+        {
+            Debug.LogError("Data Saver Manager not found");
+        }
+        
     }
 
 
