@@ -11,7 +11,8 @@ public class MainCamera : MonoBehaviour
     public bool smoothMovement = false;
 
     private Camera m_Camera;        // Acesso ao script Camera
-    private float aspectRatioOffset;// Compensação ao tamanho horizontal da camera ao depender do formato da tela
+    private float aspectRatioOffset; // Compensação ao tamanho horizontal da camera ao depender do formato da tela
+    public float aspectRatio;
     private const float zPos = -10; // A posição padrão da câmera no eixo Z
 
     public static MainCamera Instance  // Propriedade estática para facilitar o acesso da câmera por outros scripts (singleton)
@@ -28,7 +29,9 @@ public class MainCamera : MonoBehaviour
         m_Camera = GetComponent<Camera>();
 
         // Usamos o tamanho vertical da camera e as dimensões da tela para calcular o tamanho horizontal
-        aspectRatioOffset = (((float)Screen.width) / ((float)Screen.height)) * m_Camera.orthographicSize; 
+        aspectRatio = ((float)Screen.width) / ((float)Screen.height);
+        aspectRatioOffset = aspectRatio * m_Camera.orthographicSize;
+        BGCamera.Instance.ApplyAspectRatio(aspectRatio);
         
         // Iniciaremos a posição da câmera à mesma posição do jogador
         transform.position = new Vector3(target.transform.position.x, target.transform.position.y, zPos);
