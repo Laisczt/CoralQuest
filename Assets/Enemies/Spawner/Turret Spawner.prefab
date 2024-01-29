@@ -46,6 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster: {fileID: -3629272721958375708, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
+  poolAvailableCount: 0
+  SpawnContinuously: 0
+  MaxEnemyCount: 1
+  SpawnCooldown: 900
 --- !u!212 &-8434974219800165675
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -87,7 +91,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 963e9701e3c21584f9ece6efb9aa44d5, type: 3}
+  m_Sprite: {fileID: 129348957, guid: 467c8677015545d488cb158deac78ab0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

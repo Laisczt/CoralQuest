@@ -509,8 +509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503ea93129ad220469cd2511fcaab624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 10
-  speed: 3
+  TerritoryRadius: 15
+  speed: 4.5
   basicEnemy: {fileID: 6204149673482011525}
 --- !u!50 &-4068269859359604951
 Rigidbody2D:

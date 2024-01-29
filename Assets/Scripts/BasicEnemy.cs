@@ -11,8 +11,8 @@ public class BasicEnemy : MonoBehaviour
     [HideInInspector] public int maxHealth;
    
     public int Damage = 1;
-    [SerializeField] Transform target;
-    [SerializeField] EnemySpawn parentSpawner;
+    [SerializeField, HideInInspector] Transform target;
+    [SerializeField, HideInInspector] EnemySpawn parentSpawner;
 
     public Transform Target
     {

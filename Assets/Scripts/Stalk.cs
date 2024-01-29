@@ -6,7 +6,7 @@ using UnityEngine;
 public class Stalk : MonoBehaviour
 {
     private Vector2 homePos;
-    public float radius;
+    public float TerritoryRadius;
     public float speed;
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
 
@@ -35,7 +35,7 @@ public class Stalk : MonoBehaviour
         if (basicEnemy.Revived) basicEnemy.Revived = false;
 
         Vector2 travelDirection = Vector2.zero;
-        if (this.transform.Sees(basicEnemy.Target, radius))
+        if (Vector3.Distance(homePos, basicEnemy.Target.position) <= TerritoryRadius && this.transform.Sees(basicEnemy.Target, 8))
         {
             travelDirection = basicEnemy.Target.transform.position - transform.position;
         }

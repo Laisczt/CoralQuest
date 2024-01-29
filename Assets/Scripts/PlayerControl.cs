@@ -41,6 +41,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     private bool startingAreaSet = false;
 
+    public bool DEBUG_INVINCIBLE;
+
     [HideInInspector] public bool UsingMobileControls;      // Verdadeiro quando controles mobiles estiverem em uso
     [HideInInspector] public Joystick joystick;
     [HideInInspector] public UIControlButton jumpButton;
@@ -315,7 +317,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
         rDamageCooldown = DamageCooldown;
 
-        health -= value;
+        if (!DEBUG_INVINCIBLE) health -= value;
         if (health <= 0)
         {
             health = 0;

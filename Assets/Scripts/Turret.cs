@@ -15,6 +15,8 @@ public class Turret : MonoBehaviour
     private float y_Offset = 0.48f; // Vertical offset for the position where the projectile will spawn
     private float shotSpawnDistance = 0.4f; // Offset in the direction the projectile is shot
     private Vector2 headPos;
+    private Animator m_Animator;
+    private bool attacking;
 
     private void OnValidate()
     {
@@ -23,6 +25,7 @@ public class Turret : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_Animator = GetComponent<Animator>();
         headPos = transform.position + new Vector3(0, y_Offset, 0);
     }
 
@@ -33,25 +36,61 @@ public class Turret : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(curr_Cooldown > 0)curr_Cooldown--;
         if (basicEnemy.Revived)
         {
             curr_Cooldown = cooldown;
             basicEnemy.Revived = false;
         }
 
-        Vector2 direction;
+        var seesTarget = this.transform.Sees(basicEnemy.Target, radius);
+        m_Animator.SetBool("Target In View", seesTarget);
 
-        if (curr_Cooldown == 0 && this.transform.Sees(basicEnemy.Target, radius))
+        if (seesTarget)
         {
-            direction = (basicEnemy.Target.position + (Vector3)basicEnemy.Target.GetComponent<Collider2D>().offset) - transform.position;
-            direction.Normalize();
+            if (curr_Cooldown > 0) curr_Cooldown--;
+            m_Animator.SetBool("Mirror", basicEnemy.Target.position.x < transform.position.x);
 
-            var projec = Instantiate(shot, headPos + (direction * shotSpawnDistance), Quaternion.identity);
-            projec.GetComponent<Projectile_Straight>().direction = direction;
+            var state = getAnimatorState();
 
+            if (!attacking && curr_Cooldown == 0 && !state.IsName("Base.Spawn") && !state.IsName("Base.Spawn_Mirror"))
+            {
+                m_Animator.SetTrigger("Attack");
+
+                StartCoroutine(Attack());
+            }
+        }
+        else
+        {
             curr_Cooldown = cooldown;
         }
+    }
+
+    IEnumerator Attack()
+    {
+        attacking = true;
+        int i = 21;
+
+        while(i > 0)
+        {
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        Vector2 direction;
         
+        direction = (basicEnemy.Target.position + (Vector3)basicEnemy.Target.GetComponent<Collider2D>().offset) - transform.position;
+        direction.Normalize();
+
+        var projec = Instantiate(shot, headPos + (direction * shotSpawnDistance), Quaternion.identity);
+        projec.GetComponent<Projectile_Straight>().direction = direction;
+        projec.transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(direction, Vector2.right));
+
+        curr_Cooldown = cooldown;
+        attacking = false;
+    }
+
+    AnimatorStateInfo getAnimatorState()
+    {
+        return m_Animator.GetCurrentAnimatorStateInfo(m_Animator.GetLayerIndex("Base"));
     }
 }

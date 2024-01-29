@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d059d648911fd63449bcc8153c83fd74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 6300425453713611630, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
+  monster: {fileID: 439092307097535799, guid: cf60b4bacc33f7e4aa15a8dd73d9092f, type: 3}
+  poolAvailableCount: 0
+  SpawnContinuously: 0
+  MaxEnemyCount: 1
+  SpawnCooldown: 900
 --- !u!212 &-386079153239891170
 SpriteRenderer:
   m_ObjectHideFlags: 0
