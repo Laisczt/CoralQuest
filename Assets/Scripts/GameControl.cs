@@ -8,7 +8,7 @@ public class GameControl : MonoBehaviour
     public GameObject Player;
     private PlayerControl s_player;
     [SerializeField] GameObject PlayerSpawn;
-    [SerializeField] GameObject enemySpawnerParent;
+    [SerializeField] GameObject enemyParent;
     [SerializeField] Camera bgCamera;
 
     private bool usingMobileControls;
@@ -36,10 +36,10 @@ public class GameControl : MonoBehaviour
         MainCamera.Instance.FindTarget();
 
 
-        var enemySpawners = enemySpawnerParent.GetComponentsInChildren<EnemySpawn>();
-        foreach (var element in enemySpawners)
+        var enemies = enemyParent.GetComponentsInChildren<BasicEnemy>();
+        foreach (var element in enemies)
         {
-            element.Initialize(_player.transform);
+            element.Target = _player.transform;
         }
 
         if(dataSaverManager.instance != null)

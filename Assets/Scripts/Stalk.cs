@@ -17,9 +17,11 @@ public class Stalk : MonoBehaviour
         basicEnemy = GetComponent<BasicEnemy>();
     }
 
+    LayerMask playerMask;
     // Start is called before the first frame update
     void Start()
     {
+        playerMask = LayerMask.GetMask("Player", "Solid");
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         homePos = transform.position;
     }
@@ -32,10 +34,8 @@ public class Stalk : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (basicEnemy.Revived) basicEnemy.Revived = false;
-
         Vector2 travelDirection = Vector2.zero;
-        if (Vector3.Distance(homePos, basicEnemy.Target.position) <= TerritoryRadius && this.transform.Sees(basicEnemy.Target, 8))
+        if (Vector3.Distance(homePos, basicEnemy.Target.position) <= TerritoryRadius && this.transform.Sees(basicEnemy.Target, 8, playerMask))
         {
             travelDirection = basicEnemy.Target.transform.position - transform.position;
         }

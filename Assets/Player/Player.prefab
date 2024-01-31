@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8773071266150089489}
   - component: {fileID: 8773071266150089484}
   - component: {fileID: -6585452675328134231}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -110,6 +110,7 @@ MonoBehaviour:
   health: 5
   DamageCooldown: 60
   attackCooldown: 15
+  DEBUG_INVINCIBLE: 1
   UsingMobileControls: 0
   joystick: {fileID: 0}
   jumpButton: {fileID: 0}

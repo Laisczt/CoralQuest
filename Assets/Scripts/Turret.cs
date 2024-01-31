@@ -7,10 +7,11 @@ public class Turret : MonoBehaviour
 {
     public float radius; // Detection distance for the turret
     public int cooldown; // Cooldown between shots
-    public GameObject shot; // The projectile shot
+    public bool BlocksPath;
 
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    [SerializeField] GameObject shot; // The projectile shot
     private int curr_Cooldown = 0;  // keeps track of cooldown passing
     private float y_Offset = 0.48f; // Vertical offset for the position where the projectile will spawn
     private float shotSpawnDistance = 0.4f; // Offset in the direction the projectile is shot
@@ -18,6 +19,7 @@ public class Turret : MonoBehaviour
     private Animator m_Animator;
     private bool attacking;
 
+    LayerMask playerMask;
     private void OnValidate()
     {
         basicEnemy = GetComponent<BasicEnemy>();
@@ -25,6 +27,8 @@ public class Turret : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (BlocksPath) transform.GetChild(0).gameObject.SetActive(true);
+        playerMask = LayerMask.GetMask("Player", "Solid");
         m_Animator = GetComponent<Animator>();
         headPos = transform.position + new Vector3(0, y_Offset, 0);
     }
@@ -36,13 +40,7 @@ public class Turret : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (basicEnemy.Revived)
-        {
-            curr_Cooldown = cooldown;
-            basicEnemy.Revived = false;
-        }
-
-        var seesTarget = this.transform.Sees(basicEnemy.Target, radius);
+        var seesTarget = this.transform.Sees(basicEnemy.Target, radius, playerMask);
         m_Animator.SetBool("Target In View", seesTarget);
 
         if (seesTarget)

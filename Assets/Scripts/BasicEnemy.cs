@@ -4,32 +4,21 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
 {
-    [HideInInspector] public bool Alive = true;
-    [HideInInspector] public bool Revived;
-    [HideInInspector] public bool isPooled;
     public int Health = 100;
     [HideInInspector] public int maxHealth;
    
     public int Damage = 1;
     [SerializeField, HideInInspector] Transform target;
-    [SerializeField, HideInInspector] EnemySpawn parentSpawner;
 
     public Transform Target
     {
         get => target;
         set => target = value;
     }
-    public EnemySpawn ParentSpawner
-    {
-        get => parentSpawner;
-        set => parentSpawner = value;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = Health;
-        Alive = true;
     }
 
     // Update is called once per frame
@@ -61,16 +50,7 @@ public class BasicEnemy : MonoBehaviour
 
     public void Kill()
     {
-        if (isPooled)
-        {
-            Alive = false;
-            parentSpawner.poolAvailableCount++;
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 
 }

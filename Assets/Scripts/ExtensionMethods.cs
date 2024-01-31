@@ -11,15 +11,14 @@ public static class ExtensionMethods
         );
     }
 
-    static RaycastHit2D[] hits = new RaycastHit2D[1];
-    public static bool Sees(this Transform caller, Transform target, float distance)
+    public static bool Sees(this Transform caller, Transform target, float distance, LayerMask mask)
     {
         if (Vector2.Distance(caller.position, target.position) > distance) return false;
         
-        var hitcount = Physics2D.RaycastNonAlloc(caller.position, (target.position - caller.position), hits, distance);
+        var hit = Physics2D.Raycast(caller.position, (target.position - caller.position), distance, mask);
         //Debug.DrawRay(caller.position, target.position - caller.position);
 
-        if (hitcount > 0 && hits[0].transform == target)
+        if (hit.transform != null && hit.transform == target)
         {
             if (target.gameObject.CompareTag("Player"))
             {

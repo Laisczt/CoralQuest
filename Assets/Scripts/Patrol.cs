@@ -11,6 +11,7 @@ public class Patrol : MonoBehaviour
 
     private short direction = 1;
     private Rigidbody2D m_RigidBody;
+    private Animator m_Animator;
 
     [SerializeField] BasicEnemy basicEnemy;
 
@@ -23,6 +24,7 @@ public class Patrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_Animator = GetComponent<Animator>();
         m_RigidBody = GetComponent<Rigidbody2D>();
         speed = topSpeed;
     }
@@ -37,12 +39,6 @@ public class Patrol : MonoBehaviour
         if (speed < topSpeed) speed += 0.25f;
         else if (speed > topSpeed) speed = topSpeed;
 
-        if (basicEnemy.Revived)
-        {
-            speed = 0;
-            basicEnemy.Revived = false;
-        }
-
         m_RigidBody.velocity = new Vector2(speed * direction, 0);
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -51,6 +47,7 @@ public class Patrol : MonoBehaviour
         {
             direction *= -1;
             speed = 0f;
+            m_Animator.SetTrigger("Wall Hit");
         }
     }
 }

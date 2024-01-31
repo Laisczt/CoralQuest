@@ -50,13 +50,13 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     public static PlayerControl Instance { get; private set; }
 
 
-    int solidLayerMask;
+    LayerMask jumpResetLayerMask;
     // Awake is called when an enabled script instance is being loaded.
     private void Awake()
     {
-        
+
         health = maxHealth;
-        solidLayerMask = ~LayerMask.NameToLayer("Solid");
+        jumpResetLayerMask = LayerMask.GetMask( "Solid", "Platform");
     }
 
     // Start is called before the first frame update
@@ -299,9 +299,9 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
         for (int i = 0; i < 3; i++)
         {
-            var hit = Physics2D.Raycast(characterLeftEdge + new Vector3(step * i,-_playerHeight, 0),  Vector2.down, 0.05f, solidLayerMask);
+            var hit = Physics2D.Raycast(characterLeftEdge + new Vector3(step * i,-_playerHeight, 0),  Vector2.down, 0.05f, jumpResetLayerMask);
             //Debug.DrawRay(characterLeftEdge + new Vector3(step * i, -_playerHeight, 0), Vector2.down * 0.05f, Color.red);
-            if (hit.collider != null)
+            if (hit.transform != null)
             {
                 groundBuff = 5;
             }
