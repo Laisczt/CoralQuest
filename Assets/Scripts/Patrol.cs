@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BasicEnemy))]
-public class Patrol : MonoBehaviour
+public class Patrol : MonoBehaviour, IEnemy
 {
     public float topSpeed = 3f;
 
@@ -36,10 +36,13 @@ public class Patrol : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (speed < topSpeed) speed += 0.25f;
-        else if (speed > topSpeed) speed = topSpeed;
+        if (!basicEnemy.lockMovement)
+        {
+            if (speed < topSpeed) speed += 0.25f;
+            else if (speed > topSpeed) speed = topSpeed;
 
-        m_RigidBody.velocity = new Vector2(speed * direction, 0);
+            m_RigidBody.velocity = new Vector2(speed * direction, 0);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -49,5 +52,19 @@ public class Patrol : MonoBehaviour
             speed = 0f;
             m_Animator.SetTrigger("Wall Hit");
         }
+    }
+
+    public void Damage()
+    {
+
+    }
+    public void Knockback()
+    {
+        speed = 0;
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
 }

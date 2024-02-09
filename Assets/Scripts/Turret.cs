@@ -12,8 +12,8 @@ public class Turret : MonoBehaviour
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     [SerializeField] GameObject shot; // The projectile shot
-    private int curr_Cooldown = 0;  // keeps track of cooldown passing
-    private float y_Offset = 0.48f; // Vertical offset for the position where the projectile will spawn
+    private int rCooldown = 0;  // keeps track of cooldown passing
+    private Vector3 offset = new Vector3(0 , 0.48f, 0); // Offset for the position where the projectile will spawn
     private float shotSpawnDistance = 0.4f; // Offset in the direction the projectile is shot
     private Vector2 headPos;
     private Animator m_Animator;
@@ -30,7 +30,7 @@ public class Turret : MonoBehaviour
         if (BlocksPath) transform.GetChild(0).gameObject.SetActive(true);
         playerMask = LayerMask.GetMask("Player", "Solid");
         m_Animator = GetComponent<Animator>();
-        headPos = transform.position + new Vector3(0, y_Offset, 0);
+        headPos = transform.position + offset;
     }
 
     // Update is called once per frame
@@ -40,17 +40,17 @@ public class Turret : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        var seesTarget = this.transform.Sees(basicEnemy.Target, radius, playerMask);
+        var seesTarget = this.transform.Sees(offset, basicEnemy.Target, radius, playerMask);
         m_Animator.SetBool("Target In View", seesTarget);
 
         if (seesTarget)
         {
-            if (curr_Cooldown > 0) curr_Cooldown--;
+            if (rCooldown > 0) rCooldown--;
             m_Animator.SetBool("Mirror", basicEnemy.Target.position.x < transform.position.x);
 
             var state = getAnimatorState();
 
-            if (!attacking && curr_Cooldown == 0 && !state.IsName("Base.Spawn") && !state.IsName("Base.Spawn_Mirror"))
+            if (!attacking && rCooldown == 0 && !state.IsName("Base.Spawn") && !state.IsName("Base.Spawn_Mirror"))
             {
                 m_Animator.SetTrigger("Attack");
 
@@ -59,7 +59,7 @@ public class Turret : MonoBehaviour
         }
         else
         {
-            curr_Cooldown = cooldown;
+            rCooldown = cooldown;
         }
     }
 
@@ -79,16 +79,34 @@ public class Turret : MonoBehaviour
         direction = (basicEnemy.Target.position + (Vector3)basicEnemy.Target.GetComponent<Collider2D>().offset) - transform.position;
         direction.Normalize();
 
-        var projec = Instantiate(shot, headPos + (direction * shotSpawnDistance), Quaternion.identity);
+        var projec = Instantiate(shot, transform.position + offset + (Vector3)(direction * shotSpawnDistance), Quaternion.identity);
         projec.GetComponent<Projectile_Straight>().direction = direction;
-        projec.transform.rotation = Quaternion.Euler(0, 0, Vector2.Angle(direction, Vector2.right));
+        projec.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
 
-        curr_Cooldown = cooldown;
+        rCooldown = cooldown;
         attacking = false;
     }
 
     AnimatorStateInfo getAnimatorState()
     {
         return m_Animator.GetCurrentAnimatorStateInfo(m_Animator.GetLayerIndex("Base"));
+    }
+
+    public void Knockback()
+    {
+        //Empty
+    }
+
+    public void Damage()
+    {
+        if(rCooldown < 30)
+        {
+            rCooldown = 30;
+        }
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
 }
