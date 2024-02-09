@@ -310,10 +310,14 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     }
 
-    public void Damage(int value)
+    public void Knockback(Vector2 forceVector)
     {
-        if (!alive || value <= 0) return;
-        if (rDamageCooldown > 0) return;
+        m_RigidBody.velocity = forceVector;
+    }
+    public bool Damage(int value)                   // Dano, retorna false se o player não pode levar dano
+    {
+        if (!alive || value <= 0) return false;
+        if (rDamageCooldown > 0) return false;
 
         rDamageCooldown = DamageCooldown;
 
@@ -328,7 +332,10 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             m_Animator.SetTrigger("Damage");
         }
         HealthBar.Instance.UpdateHB();
+        return true;
     }
+
+    
 
     public void Heal(int value)
     {

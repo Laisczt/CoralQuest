@@ -43,7 +43,7 @@ public class ScreenExit : MonoBehaviour
             rb = PlayerControl.Instance.GetComponent<Rigidbody2D>();
             grav = rb.gravityScale;
             rb.gravityScale = 0;
-            if(rb.velocity.y > 0) rb.velocity = new Vector2(0, PlayerControl.Instance.jumpPower);
+            if(rb.velocity.y > 0) rb.velocity = new Vector2(0, PlayerControl.Instance.jumpPower * 0.5f);
         }
 
         MainCamera.Instance.ChangeArea(newArea); // Mudamos a área da câmera

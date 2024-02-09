@@ -16,7 +16,24 @@ public static class ExtensionMethods
         if (Vector2.Distance(caller.position, target.position) > distance) return false;
         
         var hit = Physics2D.Raycast(caller.position, (target.position - caller.position), distance, mask);
-        //Debug.DrawRay(caller.position, target.position - caller.position);
+        Debug.DrawRay(caller.position, target.position - caller.position);
+
+        if (hit.transform != null && hit.transform == target)
+        {
+            if (target.gameObject.CompareTag("Player"))
+            {
+                return target.GetComponent<PlayerControl>().alive;
+            }
+            return true;
+        }
+        return false;
+    }
+    public static bool Sees(this Transform caller, Vector3 offset, Transform target, float distance, LayerMask mask)
+    {
+        if (Vector2.Distance(caller.position, target.position) > distance) return false;
+
+        var hit = Physics2D.Raycast(caller.position + offset, (target.position - caller.position), distance, mask);
+        Debug.DrawRay(caller.position + offset, target.position - caller.position);
 
         if (hit.transform != null && hit.transform == target)
         {

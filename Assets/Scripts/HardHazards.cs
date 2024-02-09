@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class HardHazards : MonoBehaviour
 {
-    public int damage = 1;
+    public int Damage = 1;
+    public float KnockbackForce = 20f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //
     }
 
     // Update is called once per frame
@@ -18,11 +19,13 @@ public class HardHazards : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerControl>().Damage(damage);
+            var player = collision.collider.GetComponent<PlayerControl>();
+            player.Damage(Damage);
+            player.Knockback(-collision.GetContact(0).normal * KnockbackForce);
         }
     }
 }
