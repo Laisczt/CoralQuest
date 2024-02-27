@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1213769890094103244}
   - component: {fileID: 8643752646031760392}
   - component: {fileID: -8678478947837069834}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Slash
   m_TagString: Player Attack
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifespan: 10
-  damage: 5
+  Damage: 5
 --- !u!1 &9161265448652156229
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 7687254774352494869}
   - component: {fileID: 7935749715929430102}
   - component: {fileID: 2466371511710850793}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Woosh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

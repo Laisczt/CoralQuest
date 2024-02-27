@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BasicEnemy))]
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, IEnemy
 {
     public float radius; // Detection distance for the turret
     public int cooldown; // Cooldown between shots
@@ -31,6 +31,7 @@ public class Turret : MonoBehaviour
         playerMask = LayerMask.GetMask("Player", "Solid");
         m_Animator = GetComponent<Animator>();
         headPos = transform.position + offset;
+        //
     }
 
     // Update is called once per frame
@@ -99,9 +100,11 @@ public class Turret : MonoBehaviour
 
     public void Damage()
     {
-        if(rCooldown < 30)
+        m_Animator.SetTrigger("Damage");
+        
+        if(rCooldown < 15)
         {
-            rCooldown = 30;
+            rCooldown = 15;
         }
     }
 

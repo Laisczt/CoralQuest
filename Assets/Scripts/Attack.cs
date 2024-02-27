@@ -22,6 +22,7 @@ public class Attack : MonoBehaviour
     { 
         if (collision.CompareTag("Enemy") && !enemiesHit.Contains(collision.gameObject))
         {
+            Debug.Log(collision.gameObject);
             enemiesHit.Add(collision.gameObject);
             collision.GetComponent<BasicEnemy>().Damage(Damage, true);
         }

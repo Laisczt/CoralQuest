@@ -123,7 +123,7 @@ public class MainCamera : MonoBehaviour
     public void ChangeArea(GameObject newArea)  // Mudança de área da câmera
     {
         area = newArea.GetComponent<Collider2D>();
-
+        FreeCam = false;
         StartCoroutine(ChangeCameraSize(area.GetComponent<ScreenZone>().cameraSize)); // Utilizamos o tamanho de câmera especificado pela área
     }
 

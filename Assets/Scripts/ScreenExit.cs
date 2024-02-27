@@ -19,9 +19,12 @@ public class ScreenExit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name == "Player" && destination != null && !isLocked)
+        if(collision.gameObject.name == "Player" && !isLocked)
         {
-            StartCoroutine(ChangeArea(destination));
+            if (destination != null)
+                StartCoroutine(ChangeArea(destination));
+            else
+                MainCamera.Instance.FreeCam = true;
         }
     }
 
