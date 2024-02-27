@@ -19,7 +19,7 @@ public class Attack : MonoBehaviour
         if (--lifespan == 0) Destroy(gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)
-    {
+    { 
         if (collision.CompareTag("Enemy") && !enemiesHit.Contains(collision.gameObject))
         {
             enemiesHit.Add(collision.gameObject);

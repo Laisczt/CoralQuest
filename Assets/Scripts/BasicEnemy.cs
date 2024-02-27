@@ -12,8 +12,8 @@ public class BasicEnemy : MonoBehaviour
     public float KnockbackMultiplier = 1f;
     public int BodyDamage = 1;
     [SerializeField, HideInInspector] Transform target;
-    [SerializeField] Rigidbody2D m_Rigidbody;
-    public Animator m_Animator;
+    [SerializeField, HideInInspector] Rigidbody2D m_Rigidbody;
+    [HideInInspector] public Animator m_Animator;
     IEnemy enemy;
 
     public bool lockMovement = false;
@@ -28,11 +28,11 @@ public class BasicEnemy : MonoBehaviour
     private void OnValidate()
     {
         m_Rigidbody = GetComponent<Rigidbody2D>();
+        m_Animator = GetComponent<Animator>();
         enemy = GetComponent<IEnemy>();
     }
     void Start()
     {
-        m_Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -83,7 +83,7 @@ public class BasicEnemy : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (Alive && collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerControl>().Damage(BodyDamage);
         }

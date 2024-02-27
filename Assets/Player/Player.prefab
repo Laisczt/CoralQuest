@@ -104,11 +104,12 @@ MonoBehaviour:
   maxSpeedX: 10
   jumpPower: 20
   lockMovement: 0
+  preventMovement: 0
   maxJumps: 1
   alive: 1
   maxHealth: 5
   health: 5
-  DamageCooldown: 60
+  DamageCooldown: 20
   attackCooldown: 15
   DEBUG_INVINCIBLE: 1
   UsingMobileControls: 0

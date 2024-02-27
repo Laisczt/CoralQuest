@@ -47,12 +47,11 @@ public class ScreenExit : MonoBehaviour
         }
 
         MainCamera.Instance.ChangeArea(newArea); // Mudamos a área da câmera
-        MainCamera.Instance.smoothMovement = true;
 
 
         yield return new WaitForSeconds(0.1f);  // Delay de 0.1
         Time.timeScale = 0.7f;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         Time.timeScale = 1f;
 
         if (horizontal)
@@ -63,9 +62,6 @@ public class ScreenExit : MonoBehaviour
         {
             rb.gravityScale = grav;
         }
-        
-
-        MainCamera.Instance.smoothMovement = false;
 
         yield return new WaitForSeconds(0.2f);
         newArea.transform.Find("Exits").gameObject.SetActive(true); // Ativamos as saídas da área nova

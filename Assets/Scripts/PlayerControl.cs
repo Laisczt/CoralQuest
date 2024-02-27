@@ -18,7 +18,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private short inputRightBuffer;         // Buffer para o input de movimento a direita (para facilitar wall jump)
     public float maxSpeedX;                 // Velocidade horizontal maxima
     public float jumpPower;                 // Forca do pulo
-    public bool lockMovement = false;       // Trava de movimento horizontal do jogador (para forcar movimento durante transições de tela)
+    public bool lockMovement = false;       // Trava de movimento horizontal do jogador, preservando o ultimo input usado (para forcar movimento durante transições de tela)
+    public bool preventMovement = false;    // Impede mudanças na velocidade horizontal do jogador através desse script
 
     private ushort jumping;                 // Buffer do input de pulo (para facilitar pulos consecutivos)
     public ushort maxJumps = 2;             // Quantia maxima de pulos que podem ser feitos antes de tocar no ch�o
@@ -158,7 +159,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         // MOVIMENTO HORIZONTAL
         m_Animator.SetBool("Running", inputXdiscrete != 0);
 
-        if (!wallJumping) m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
+        if (/*!wallJumping &&*/ !preventMovement) m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
 
 
         // Orienta��o do sprite
@@ -228,7 +229,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     IEnumerator WallJumpKick(int direction)
     {
-        wallJumping = true;
+        preventMovement = true;
         int i = 0;
         m_RigidBody.velocity = new Vector2(maxSpeedX * wallJumpDirection, m_RigidBody.velocity.y);
         
@@ -239,7 +240,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             yield return new WaitForFixedUpdate();
         }
 
-        wallJumping = false;
+        preventMovement = false;
 
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -312,7 +313,26 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     public void Knockback(Vector2 forceVector)
     {
+        var knockup = false;
+
+        if (Vector2.Distance(forceVector.normalized, Vector2.up) < 0.3f) knockup = true;
+        StartCoroutine(coroutine_Knockback(forceVector, knockup));
+    }
+    IEnumerator coroutine_Knockback(Vector2 forceVector, bool isKnockup)
+    {
         m_RigidBody.velocity = forceVector;
+
+        if(!isKnockup) preventMovement = true;
+
+        var i = 12;
+
+        while(i > 0)
+        {
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        preventMovement = false;
     }
     public bool Damage(int value)                   // Dano, retorna false se o player não pode levar dano
     {

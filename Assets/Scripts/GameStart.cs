@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameStart : MonoBehaviour
 {
-    [SerializeField] Transform thumbnailsParent;
-
     public string Screen;
     
     public void LoadScreen()
@@ -14,13 +12,4 @@ public class GameStart : MonoBehaviour
         SceneManager.LoadScene(Screen);
     }
 
-    public void ShowThumbnail()
-    {
-        thumbnailsParent.transform.Find(Screen).gameObject.SetActive(true);
-    }
-
-    public void HideThumbnail()
-    {
-        thumbnailsParent.transform.Find(Screen).gameObject.SetActive(false);
-    }
 }
