@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,14 +13,18 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private SpriteRenderer m_SpriteRenderer;// Sprite
     private Animator m_Animator;            // Animador
 
+    private PlayerPetrification m_Petrify;
+
     private float inputX;                   // Input esquerda/direita (com suavizacao)
     private short inputXdiscrete;           // Input esquerda/direita (sem suavizacao)
     private short inputLeftBuffer;          // Buffer para o input de movimento a esquerda (para facilitar wall jump)
     private short inputRightBuffer;         // Buffer para o input de movimento a direita (para facilitar wall jump)
     public float maxSpeedX;                 // Velocidade horizontal maxima
     public float jumpPower;                 // Forca do pulo
-    public bool lockMovement = false;       // Trava de movimento horizontal do jogador, preservando o ultimo input usado (para forcar movimento durante transições de tela)
-    public bool preventMovement = false;    // Impede mudanças na velocidade horizontal do jogador através desse script
+    private int spriteOrientation = 1;      // -1 para sprite invertido (player olhando para a esquerda), 1 para direita
+    public bool lockMovement;               // Trava de movimento horizontal do jogador, preservando o ultimo input usado (para forcar movimento durante transições de tela)
+    public bool preventMovement;            // Impede mudanças na velocidade horizontal do jogador através desse script
+    private bool petrified;
 
     private ushort jumping;                 // Buffer do input de pulo (para facilitar pulos consecutivos)
     public ushort maxJumps = 2;             // Quantia maxima de pulos que podem ser feitos antes de tocar no ch�o
@@ -29,7 +34,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private bool wallJumping;               // Verdadeiro durante a duração do impulso do wall jump
 
     private bool grounded = true;           // Verdadeiro se o player estiver tocando o ch�o
-    private ushort groundBuff = 0;          // Buffer para a variavel grounded (permite coyote time)
+    private ushort groundBuff;              // Buffer para a variavel grounded (permite coyote time)
     public bool alive = true;               // Player vivo
     public ushort maxHealth;                // Vida maxima do Player
     public int health;                      // Vida atual do Player
@@ -37,12 +42,18 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private int rDamageCooldown;            // Cooldown restante
 
     public int attackCooldown = 10;         // Cooldown entre attacks
-    private int rAttackCooldown = 0;        // Cooldown restante
-    private bool attacking = false;         // Jogador apertou pra atacar
+    private int rAttackCooldown;            // Cooldown restante
+    private bool attacking;                 // Jogador apertou pra atacar
+    private float attackOffsetX = 2;        // Offset da posição do ataque principal em x
+    private float attackOffsetY = 0.15f;    // '' em y
+
+    private int healing;
 
     private bool startingAreaSet = false;
 
     public bool DEBUG_INVINCIBLE;
+
+    [SerializeField] AudioSource attackSound;
 
     [HideInInspector] public bool UsingMobileControls;      // Verdadeiro quando controles mobiles estiverem em uso
     [HideInInspector] public Joystick joystick;
@@ -50,6 +61,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     [HideInInspector] public UIControlButton attackButton;
     public static PlayerControl Instance { get; private set; }
 
+    private float lastJoystickInput;
 
     LayerMask jumpResetLayerMask;
     // Awake is called when an enabled script instance is being loaded.
@@ -67,6 +79,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_RigidBody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
+        m_Petrify = GetComponent<PlayerPetrification>();
         Instance = this;
     }
 
@@ -83,7 +96,14 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             if (inputX == 0 && UsingMobileControls)
             {
                 inputX = joystick.Horizontal;
+
+                if(petrified && inputX != lastJoystickInput && Mathf.Abs(inputX) == 1){
+                    m_Petrify.Shake();
+                }
+
+                lastJoystickInput = inputX;
             }
+
         }
        
         if(inputX != 0)
@@ -94,7 +114,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         {
             inputXdiscrete = 0;
         }
-
 
         short walljumpbuffer = 3;
         var rawInput = inputX;
@@ -115,22 +134,28 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         if (Input.GetButtonDown("Jump") || (UsingMobileControls && jumpButton.GetButtonDown()))
         {
             jumping = 5;
+            if(petrified) m_Petrify.Shake();
         }
 
         if (( Input.GetButton("Fire1")   ||   (UsingMobileControls && attackButton.GetButtonDown())  )
             && rAttackCooldown == 0 ) // Attack input
         {
             attacking = true;
+            if(petrified) m_Petrify.Shake();
         }
         if (Input.GetButtonDown("Fire2"))
         {
-            //healing = true;
+            healing = 5;
         }
     }
 
     void FixedUpdate()
     {
-        if (!alive) return;
+        if (!alive) {
+            m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
+            return;
+        }
+        if (petrified) return;
 
         m_Animator.SetFloat("Y speed", m_RigidBody.velocity.y); // Reporta a velocidade vertical ao animator 
 
@@ -159,12 +184,20 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         // MOVIMENTO HORIZONTAL
         m_Animator.SetBool("Running", inputXdiscrete != 0);
 
-        if (/*!wallJumping &&*/ !preventMovement) m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
+        if (!preventMovement) m_RigidBody.velocity = new Vector2(inputX * maxSpeedX, m_RigidBody.velocity.y);
 
 
-        // Orienta��o do sprite
-        if (inputX < 0) m_SpriteRenderer.flipX = true;
-        else if (inputX > 0) m_SpriteRenderer.flipX = false;
+        // ORIENTACAO DO SPRITE
+        if (inputX < 0)
+        {
+            spriteOrientation = -1;
+            m_SpriteRenderer.flipX = true;
+        }
+        else if (inputX > 0)
+        {
+            spriteOrientation = 1;
+            m_SpriteRenderer.flipX = false;
+        }
         
 
 
@@ -212,19 +245,39 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         if (attacking)
         {
             rAttackCooldown = attackCooldown;
-            Instantiate(baseAttack, transform.position, Quaternion.Euler(new Vector3(0, (m_SpriteRenderer.flipX) ? 180 : 0, 0)));
+            Instantiate(baseAttack, transform.position + new Vector3(attackOffsetX * spriteOrientation, attackOffsetY), Quaternion.Euler(new Vector3(0, -90 + spriteOrientation * 90, 0)));
+            m_Animator.SetTrigger("Attack");
+            attackSound.Play();
         }
-
 
         // Redefinir variaveis
         attacking = false;
-        //healing = false;
         canWallJump = false;
+        if (healing > 0) healing--;
         if (rDamageCooldown > 0) rDamageCooldown--;
         if (inputLeftBuffer > 0) inputLeftBuffer--;
         if (inputRightBuffer > 0) inputRightBuffer--;
         if (jumping > 0) jumping--;
         if (rAttackCooldown > 0) rAttackCooldown--;
+    }
+
+    [ContextMenu("Petrify")]
+    public void Petrify()
+    {
+        if(m_Petrify == null) Debug.LogWarning("Player petrification script not found");
+        if(petrified) return;
+        petrified = true;
+        m_RigidBody.velocity = Vector2.zero;
+        m_Animator.SetTrigger("Petrify");
+        m_Petrify.enabled = true;
+    }
+
+    
+    public void Depetrify()
+    {
+        petrified = false;
+        m_Animator.SetTrigger("Depetrify");
+        m_Petrify.enabled = false;
     }
 
     IEnumerator WallJumpKick(int direction)
@@ -260,24 +313,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy Projectile"))
-        {
-            var damage = collision.gameObject.GetComponent<BasicProjectile>().value;
-            Damage(damage);
-        }
-        /*else if (collision.gameObject.CompareTag("Heal"))
-        {
-            var heal = collision.gameObject.GetComponent<BasicProjectile>().value;
-            Heal(heal);
-        }*/
-
         if (!startingAreaSet)
         {
             // A �rea da c�mera quando o jogo come�a ser� a mesma �rea em que o jogador est�
@@ -287,6 +324,14 @@ public class PlayerControl : MonoBehaviour, IDataSaver
                 MainCamera.Instance.ChangeArea(collision.gameObject);       // Muda a �rea da c�mera
                 collision.transform.Find("Exits").gameObject.SetActive(true); // Ativa as sa�das da �rea
             }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(healing > 0 && collision.gameObject.CompareTag("Healing Base"))
+        {   
+            if(health < maxHealth) Heal(collision.GetComponent<HealingBase>().Use());
         }
     }
     private void CheckGround()
@@ -311,18 +356,15 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     }
 
-    public void Knockback(Vector2 forceVector)
+    public void Knockback(float force, float xDirStrenth)
     {
-        var knockup = false;
-
-        if (Vector2.Distance(forceVector.normalized, Vector2.up) < 0.3f) knockup = true;
-        StartCoroutine(coroutine_Knockback(forceVector, knockup));
+        StartCoroutine(coroutine_Knockback(force, xDirStrenth));
     }
-    IEnumerator coroutine_Knockback(Vector2 forceVector, bool isKnockup)
+    IEnumerator coroutine_Knockback(float force, float xDirStrenth)
     {
-        m_RigidBody.velocity = forceVector;
+        m_RigidBody.velocity = new Vector2(xDirStrenth * 7, force - Mathf.Min( Mathf.Abs(xDirStrenth) * 7, 10));
 
-        if(!isKnockup) preventMovement = true;
+        if(xDirStrenth != 0) preventMovement = true;
 
         var i = 12;
 
@@ -338,6 +380,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     {
         if (!alive || value <= 0) return false;
         if (rDamageCooldown > 0) return false;
+
+        if (petrified) Depetrify();
 
         rDamageCooldown = DamageCooldown;
 
@@ -388,6 +432,9 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         alive = true;
         Heal(maxHealth);
         m_Animator.SetTrigger("DEBUG REVIVE");
+        lockMovement = false;
+        preventMovement = false;
+        petrified = false;
     }
 
     [ContextMenu("Kill")]
@@ -398,7 +445,23 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_Animator.SetTrigger("Death");
         m_Animator.SetBool("Running", false);
         m_RigidBody.velocity = Vector2.zero;
+
+        lockMovement = true;
+        inputX = 0;
+        inputXdiscrete = 0;
+
+        StartCoroutine(GameOverStall());
     }
+    private IEnumerator GameOverStall(){
+        var i = 120;
+
+        while(i > 0){
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+        GameControl.Instance.EnableGameOverScreen();
+    }
+
 
     public void SetMobileControls(GameObject[] controls)
     {

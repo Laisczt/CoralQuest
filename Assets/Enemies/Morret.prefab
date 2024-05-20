@@ -52,10 +52,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 20
   maxHealth: 0
+  Alive: 1
   KnockbackMultiplier: 0
-  Damage: 1
+  BodyDamage: 1
+  HealthDrop: {fileID: 3861013056592176642, guid: fa46570df5133a443b43e325b1a2276f, type: 3}
+  HealthDropAdditionalRange: 2
   target: {fileID: 0}
-  m_Rigidbody: {fileID: -7884068912655532900}
+  m_RigidBody: {fileID: -7884068912655532900}
+  m_Animator: {fileID: 6577357423244792944}
   lockMovement: 0
 --- !u!114 &5327839080405381505
 MonoBehaviour:
@@ -185,7 +189,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 985f90bfb3f3cc9429afbe1c804cc208, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0

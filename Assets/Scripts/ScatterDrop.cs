@@ -13,7 +13,7 @@ public class ScatterDrop : MonoBehaviour
 
         m_RigidBody.gravityScale = 0.7f;
         var angle = Random.Range(-45, 45);
-        m_RigidBody.velocity = Vector2.up.Rotate(Mathf.Deg2Rad * angle) * GetComponent<BasicProjectile>().speed;
+        m_RigidBody.velocity = Vector2.up.Rotated(Mathf.Deg2Rad * angle) * GetComponent<BasicProjectile>().speed;
         m_RigidBody.angularVelocity = angle * 10f;
 
     }

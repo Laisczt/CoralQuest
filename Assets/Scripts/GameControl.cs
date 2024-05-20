@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameControl : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject GameOverMenu;
     private PlayerControl s_player;
     [SerializeField] GameObject PlayerSpawn;
     [SerializeField] GameObject enemyParent;
@@ -13,6 +15,7 @@ public class GameControl : MonoBehaviour
 
     private bool usingMobileControls;
     public static GameControl Instance { get; private set; }
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +39,7 @@ public class GameControl : MonoBehaviour
         MainCamera.Instance.FindTarget();
 
 
-        var enemies = enemyParent.GetComponentsInChildren<BasicEnemy>();
+        var enemies = enemyParent.GetComponentsInChildren<BasicEnemy>(true);
         foreach (var element in enemies)
         {
             element.Target = _player.transform;
@@ -55,6 +58,13 @@ public class GameControl : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
+    }
 
     private bool UILinked = false;
 
@@ -78,5 +88,14 @@ public class GameControl : MonoBehaviour
             UILinked = true;
         }
         s_player.UsingMobileControls = doUse;
+    }
+
+    public void EnableGameOverScreen()
+    {
+        GameOverMenu.SetActive(true);
+    }
+
+    public void Restart(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

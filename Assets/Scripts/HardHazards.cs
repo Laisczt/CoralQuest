@@ -25,7 +25,9 @@ public class HardHazards : MonoBehaviour
         {
             var player = collision.collider.GetComponent<PlayerControl>();
             player.Damage(Damage);
-            player.Knockback(-collision.GetContact(0).normal * KnockbackForce);
+
+            var direction = -collision.GetContact(0).normal.x;
+            player.Knockback(KnockbackForce, direction);
         }
     }
 }

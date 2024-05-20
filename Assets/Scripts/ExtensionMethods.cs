@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class ExtensionMethods 
 {
-    public static Vector2 Rotate(this Vector2 vec, float delta)
+    public static Vector2 Rotated(this Vector2 vec, float delta)
     {
         return new Vector2(
             vec.x * Mathf.Cos(delta) - vec.y * Mathf.Sin(delta),

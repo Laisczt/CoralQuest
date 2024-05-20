@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 439092307097535799}
   - component: {fileID: 3502860954403651723}
   - component: {fileID: 7503443818178791590}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bone Voyage
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -112,10 +112,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 15
   maxHealth: 0
+  Alive: 1
   KnockbackMultiplier: 0
   BodyDamage: 1
+  HealthDrop: {fileID: 3861013056592176642, guid: fa46570df5133a443b43e325b1a2276f, type: 3}
+  HealthDropAdditionalRange: 1
   target: {fileID: 0}
-  m_Rigidbody: {fileID: 8842855927329712397}
+  m_RigidBody: {fileID: 8842855927329712397}
+  m_Animator: {fileID: 3502860954403651723}
   lockMovement: 0
 --- !u!95 &3502860954403651723
 Animator:
@@ -129,7 +133,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 332ee89e1d483b84ab30164558e1ea28, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0

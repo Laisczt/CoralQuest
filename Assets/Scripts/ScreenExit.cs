@@ -24,7 +24,10 @@ public class ScreenExit : MonoBehaviour
             if (destination != null)
                 StartCoroutine(ChangeArea(destination));
             else
+            {
                 MainCamera.Instance.FreeCam = true;
+                Debug.LogWarning("DEBUG - ENTERING FREE CAM MODE");
+            }
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IEnemy
 {
-    void Damage();
+    void Damage(int amount);
     void Knockback();
     void Kill();
 }

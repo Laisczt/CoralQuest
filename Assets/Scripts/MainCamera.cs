@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    private GameObject target;      // O objeto que a câmera segue (alvo)
-    public Collider2D area;         // A região em que a câmera está
-    public float SpeedFactor = 3f;  // A Velocidade de aproximação da câmera
+    private GameObject target;      // O objeto que a cï¿½mera segue (alvo)
+    public Collider2D area;         // A regiï¿½o em que a cï¿½mera estï¿½
+    public float SpeedFactor = 3f;  // A Velocidade de aproximaï¿½ï¿½o da cï¿½mera
     public bool smoothMovement;
     public bool FreeCam;
     public bool Freeze;
 
     private Camera m_Camera;        // Acesso ao script Camera
-    private float aspectRatioOffsetX;// Compensação ao tamanho horizontal da camera ao depender do formato da tela
-    private float aspectRatioOffsetY;// Compensação 
-    public float aspectRatio;       // Proporções da camera
-    private const float zPos = -10; // A posição padrão da câmera no eixo Z
+    private float aspectRatioOffsetX;// Compensaï¿½ï¿½o ao tamanho horizontal da camera ao depender do formato da tela
+    private float aspectRatioOffsetY;// Compensaï¿½ï¿½o 
+    public float aspectRatio;       // Proporï¿½ï¿½es da camera
+    private const float zPos = -10; // A posiï¿½ï¿½o padrï¿½o da cï¿½mera no eixo Z
 
-    public static MainCamera Instance  // Propriedade estática para facilitar o acesso da câmera por outros scripts (singleton)
+    public static MainCamera Instance  // Propriedade estï¿½tica para facilitar o acesso da cï¿½mera por outros scripts (singleton)
     {
         get
         {
@@ -31,13 +31,13 @@ public class MainCamera : MonoBehaviour
     {
         m_Camera = GetComponent<Camera>();
 
-        // Usamos o tamanho vertical da camera e as dimensões da tela para calcular o tamanho horizontal
+        // Usamos o tamanho vertical da camera e as dimensï¿½es da tela para calcular o tamanho horizontal
         aspectRatio = ((float)Screen.width) / ((float)Screen.height);
         aspectRatioOffsetX = aspectRatio * m_Camera.orthographicSize;
         aspectRatioOffsetY = m_Camera.orthographicSize;
         BGCamera.Instance.ApplyAspectRatio(aspectRatio);
 
-        // Iniciaremos a posição da câmera à mesma posição do jogador
+        // Iniciaremos a posiï¿½ï¿½o da cï¿½mera ï¿½ mesma posiï¿½ï¿½o do jogador
         transform.position = new Vector3(target.transform.position.x, target.transform.position.y, zPos);
     }
 
@@ -47,20 +47,24 @@ public class MainCamera : MonoBehaviour
         if (Freeze) return;
         Vector2 newPos;
 
-        newPos = target.transform.position; // Posição desejada (posição do jogador/alvo)
+        newPos = target.transform.position; // Posiï¿½ï¿½o desejada (posiï¿½ï¿½o do jogador/alvo)
 
+       
         if (!FreeCam)
         {
+            if(area.bounds.size.x < aspectRatioOffsetX * 2) newPos = new Vector2(area.transform.position.x + area.offset.x, newPos.y);
+            if(area.bounds.size.y < aspectRatioOffsetY * 2) newPos = new Vector2(newPos.x, area.transform.position.y + area.offset.y);
+
             if (area != null)
             {
                 /*
-                  Essa parte é o que impede a camera de sair das áreas de cada sala
-                  Cada uma dessas condições garante que a camera não passe das bordas esquerda, direita, superior e inferior
+                  Essa parte ï¿½ o que impede a camera de sair das ï¿½reas de cada sala
+                  Cada uma dessas condiï¿½ï¿½es garante que a camera nï¿½o passe das bordas esquerda, direita, superior e inferior
 
-                  Para isso verificamos se a borda da câmera (newPos.x|y +/- [Tamanho da Camera]) não está além da borda oposta da tela (area.bounds.center.x|y +/- area.bounds.extents.x|y)
+                  Para isso verificamos se a borda da cï¿½mera (newPos.x|y +/- [Tamanho da Camera]) nï¿½o estï¿½ alï¿½m da borda oposta da tela (area.bounds.center.x|y +/- area.bounds.extents.x|y)
 
-                  Para as bordas verticais, podemos verificar o tamanho da câmera usando a propriedade ortographicSize
-                  Porém, para as horizontais, devemos levar em consideração o formato da tela do usuário. Fizemos esse cálculo em start()
+                  Para as bordas verticais, podemos verificar o tamanho da cï¿½mera usando a propriedade ortographicSize
+                  Porï¿½m, para as horizontais, devemos levar em consideraï¿½ï¿½o o formato da tela do usuï¿½rio. Fizemos esse cï¿½lculo em start()
                  */
 
                 if (newPos.x - aspectRatioOffsetX < area.bounds.center.x - area.bounds.extents.x)                // ESQUERDA
@@ -82,19 +86,19 @@ public class MainCamera : MonoBehaviour
                 }
             }
 
-            Vector2 distance = newPos - (Vector2)transform.position; // Distancia entre a posição final e a posição atual
+            Vector2 distance = newPos - (Vector2)transform.position; // Distancia entre a posiï¿½ï¿½o final e a posiï¿½ï¿½o atual
 
             if (!smoothMovement)
             {
-                transform.position = newPos; // Caso a câmera ja esteja perto da personagem, pulamos diretamente à ela
+                transform.position = newPos; // Caso a cï¿½mera ja esteja perto da personagem, pulamos diretamente ï¿½ ela
             }
             else
             {
                 transform.position += (Vector3)distance * ((float)-1.957 * (Mathf.Pow(0.6f, Time.deltaTime) - 1)) * SpeedFactor;
-                /* Caso contrário, aproxima a câmera da personagem de forma exponencial
-                 Movimento desejado é  transform.position += distance * 0.6
-                 Porém ao levar em consideração deltaTime, a fórmula que corretamente aproxima esse movimento é  distance * -1.957 * (0.6^deltaTime - 1)
-                 Fórmula obtida através da integral definida de 0.6^x entre 0 e deltaTime
+                /* Caso contrï¿½rio, aproxima a cï¿½mera da personagem de forma exponencial
+                 Movimento desejado ï¿½  transform.position += distance * 0.6
+                 Porï¿½m ao levar em consideraï¿½ï¿½o deltaTime, a fï¿½rmula que corretamente aproxima esse movimento ï¿½  distance * -1.957 * (0.6^deltaTime - 1)
+                 Fï¿½rmula obtida atravï¿½s da integral definida de 0.6^x entre 0 e deltaTime
                 */
             }
         }
@@ -107,27 +111,27 @@ public class MainCamera : MonoBehaviour
 
 
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, zPos); // Mantemos a posição Z da Câmera no valor padrão
+        transform.position = new Vector3(transform.position.x, transform.position.y, zPos); // Mantemos a posiï¿½ï¿½o Z da Cï¿½mera no valor padrï¿½o
     }
 
-    public void FindTarget()    // Atribuição de alvo da câmera (será o player, por padrão)
+    public void FindTarget()    // Atribuiï¿½ï¿½o de alvo da cï¿½mera (serï¿½ o player, por padrï¿½o)
     {
         target = GameObject.Find("Player");
     }
 
-    public void FindTarget(GameObject target) // Atribuição de alvo da câmera (quando especificado algo diferente do jogador)
+    public void FindTarget(GameObject target) // Atribuiï¿½ï¿½o de alvo da cï¿½mera (quando especificado algo diferente do jogador)
     {
         this.target = target;
     }
 
-    public void ChangeArea(GameObject newArea)  // Mudança de área da câmera
+    public void ChangeArea(GameObject newArea)  // Mudanï¿½a de ï¿½rea da cï¿½mera
     {
         area = newArea.GetComponent<Collider2D>();
         FreeCam = false;
-        StartCoroutine(ChangeCameraSize(area.GetComponent<ScreenZone>().cameraSize)); // Utilizamos o tamanho de câmera especificado pela área
+        StartCoroutine(ChangeCameraSize(area.GetComponent<ScreenZone>().cameraSize)); // Utilizamos o tamanho de cï¿½mera especificado pela ï¿½rea
     }
 
-    IEnumerator ChangeCameraSize(float targetSize)      // Mudamos o tamanho da câmera Gradualmente
+    IEnumerator ChangeCameraSize(float targetSize)      // Mudamos o tamanho da cï¿½mera Gradualmente
     {
         smoothMovement = true;
         float t = 0;
@@ -143,7 +147,7 @@ public class MainCamera : MonoBehaviour
             yield return null;
         }
         m_Camera.orthographicSize = targetSize;
-        // Usamos o tamanho vertical da camera e as dimensões da tela para calcular o tamanho horizontal
+        // Usamos o tamanho vertical da camera e as dimensï¿½es da tela para calcular o tamanho horizontal
 
 
 
