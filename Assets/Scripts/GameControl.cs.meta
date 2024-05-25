@@ -4,9 +4,11 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - Player: {fileID: 8773071266150089485, guid: 154ffd5c73e297147a44d21c1736f1be, type: 3}
-  - PauseMenu: {instanceID: 0}
-  - PauseButton: {instanceID: 0}
+  - Player: {instanceID: 0}
+  - GameOverMenu: {instanceID: 0}
+  - bubbleManager: {instanceID: 0}
+  - enemyParent: {instanceID: 0}
+  - bgCamera: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

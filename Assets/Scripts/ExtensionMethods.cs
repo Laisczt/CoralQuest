@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class ExtensionMethods 
 {
-    public static Vector2 Rotate(this Vector2 vec, float delta)
+    public static Vector2 Rotated(this Vector2 vec, float delta)
     {
         return new Vector2(
             vec.x * Mathf.Cos(delta) - vec.y * Mathf.Sin(delta),
@@ -11,19 +11,35 @@ public static class ExtensionMethods
         );
     }
 
-    static RaycastHit2D[] hits = new RaycastHit2D[1];
-    public static bool Sees(this Transform caller, Transform target, float distance)
+    public static bool Sees(this Transform caller, Transform target, float distance, LayerMask mask)
     {
         if (Vector2.Distance(caller.position, target.position) > distance) return false;
         
-        var hitcount = Physics2D.RaycastNonAlloc(caller.position, (target.position - caller.position), hits, distance);
-        //Debug.DrawRay(caller.position, target.position - caller.position);
+        var hit = Physics2D.Raycast(caller.position, (target.position - caller.position), distance, mask);
+        Debug.DrawRay(caller.position, target.position - caller.position);
 
-        if (hitcount > 0 && hits[0].transform == target)
+        if (hit.transform != null && hit.transform == target)
         {
             if (target.gameObject.CompareTag("Player"))
             {
-                return target.GetComponent<PlayerControl>().alive;
+                return target.GetComponent<PlayerControl>().Alive;
+            }
+            return true;
+        }
+        return false;
+    }
+    public static bool Sees(this Transform caller, Vector3 offset, Transform target, float distance, LayerMask mask)
+    {
+        if (Vector2.Distance(caller.position, target.position) > distance) return false;
+
+        var hit = Physics2D.Raycast(caller.position + offset, (target.position - caller.position), distance, mask);
+        Debug.DrawRay(caller.position + offset, target.position - caller.position);
+
+        if (hit.transform != null && hit.transform == target)
+        {
+            if (target.gameObject.CompareTag("Player"))
+            {
+                return target.GetComponent<PlayerControl>().Alive;
             }
             return true;
         }

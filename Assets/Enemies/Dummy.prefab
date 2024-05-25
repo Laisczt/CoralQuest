@@ -67,8 +67,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfc814ca6eb6f24685be20cfa6886e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHealth: 100
-  damage: 0
+  Health: 100
+  maxHealth: 0
+  Alive: 1
+  KnockbackMultiplier: 1
+  BodyDamage: 1
+  HealthDrop: {fileID: 3861013056592176642, guid: fa46570df5133a443b43e325b1a2276f, type: 3}
+  HealthDropAdditionalRange: 4
+  target: {fileID: 0}
+  m_RigidBody: {fileID: 7674433218817937036}
+  m_Animator: {fileID: 0}
+  lockMovement: 0
 --- !u!50 &7674433218817937036
 Rigidbody2D:
   serializedVersion: 4
