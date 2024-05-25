@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+[RequireComponent(typeof(PlayerControl))]
 public class PlayerPetrification : MonoBehaviour
 {
+    [SerializeField, HideInInspector] PlayerControl m_PlayerControl;     // Controlador do player
+    [SerializeField, HideInInspector] Animator m_Animator;
     public int shakeOffAmount;
     private int rShakeOffAmount;
     public float progressDecayRate = 1;
     private float progressDecayCounter;
 
     private int shaking;
-    private Animator m_Animator;
+    
 
-    private void Start()
+    private void OnValidate()
     {
+        m_PlayerControl = GetComponent<PlayerControl>();
         m_Animator = GetComponent<Animator>();
     }
     private void OnEnable()
@@ -44,7 +49,7 @@ public class PlayerPetrification : MonoBehaviour
         if (rShakeOffAmount <= 0)
         {
             m_Animator.ResetTrigger("Shake");
-            PlayerControl.Instance.Depetrify();
+            m_PlayerControl.Depetrify();
             this.enabled = false;
         }
 

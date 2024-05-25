@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    private PlayerControl target;
+    private PlayerHealth target;
     public Animator heart;
     private int maxHp;
     private int hp;
@@ -16,14 +16,14 @@ public class HealthBar : MonoBehaviour
     public void Start()
     {
         Instance = this;
-        target = PlayerControl.Instance;
+        target = PlayerControl.Instance.GetComponent<PlayerHealth>();
         initialize();
     }
     private float offset = 195.65f;
     private void initialize()
     {
-        maxHp = target.GetComponent<PlayerControl>().maxHealth;
-        hp = target.GetComponent<PlayerControl>().health;
+        maxHp = target.MaxHealth;
+        hp = target.Health;
         healthBar = new Animator[maxHp];
 
         Vector3 pos = transform.position + new Vector3(offset * (maxHp-1) + 128.75f, 0 );
@@ -37,7 +37,7 @@ public class HealthBar : MonoBehaviour
     }
     public void UpdateHB()
     {
-        var a = target.health;
+        var a = target.Health;
         if (a < hp)
         {
             for (int i = hp; i > a; i--)

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ScreenExit : MonoBehaviour
 {
-    public GameObject destination; // Destino da saída
+    public GameObject destination; // Destino da saï¿½da
     public bool isScrollingTransition = true; // TODO
-    public bool isLocked = false; // Se a saída pode ser usada ou não
+    public bool isLocked = false; // Se a saï¿½da pode ser usada ou nï¿½o
 
 
-    private Collider2D m_Collider; // Collider da saída
+    private Collider2D m_Collider; // Collider da saï¿½da
     // Start is called before the first frame update
     void Start()
     {
@@ -39,20 +39,20 @@ public class ScreenExit : MonoBehaviour
         Time.timeScale = 0.4f;
 
         var horizontal = m_Collider.bounds.extents.x < m_Collider.bounds.extents.y;
-        // Caso essa saída seja na horizontal e não uma queda ou subida (definido pelas proporções do collider) travamos o movimento do jogador
+        // Caso essa saï¿½da seja na horizontal e nï¿½o uma queda ou subida (definido pelas proporï¿½ï¿½es do collider) travamos o movimento do jogador
         if (horizontal)
         {
-            PlayerControl.Instance.lockMovement = true;
+            PlayerControl.Instance.LockMovement = true;
         }
         else
         {
             rb = PlayerControl.Instance.GetComponent<Rigidbody2D>();
             grav = rb.gravityScale;
             rb.gravityScale = 0;
-            if(rb.velocity.y > 0) rb.velocity = new Vector2(0, PlayerControl.Instance.jumpPower * 0.5f);
+            if(rb.velocity.y > 0) rb.velocity = new Vector2(0, PlayerControl.Instance.JumpPower * 0.5f);
         }
 
-        MainCamera.Instance.ChangeArea(newArea); // Mudamos a área da câmera
+        MainCamera.Instance.ChangeArea(newArea); // Mudamos a ï¿½rea da cï¿½mera
 
 
         yield return new WaitForSeconds(0.1f);  // Delay de 0.1
@@ -62,7 +62,7 @@ public class ScreenExit : MonoBehaviour
 
         if (horizontal)
         {
-            PlayerControl.Instance.lockMovement = false; // Destravamos o movimento do jogador
+            PlayerControl.Instance.LockMovement = false; // Destravamos o movimento do jogador
         }
         else
         {
@@ -70,8 +70,8 @@ public class ScreenExit : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.2f);
-        newArea.transform.Find("Exits").gameObject.SetActive(true); // Ativamos as saídas da área nova
+        newArea.transform.Find("Exits").gameObject.SetActive(true); // Ativamos as saï¿½das da ï¿½rea nova
 
-        transform.parent.gameObject.SetActive(false); // Desativamos as saídas da área em que estávamos
+        transform.parent.gameObject.SetActive(false); // Desativamos as saï¿½das da ï¿½rea em que estï¿½vamos
     }
 }

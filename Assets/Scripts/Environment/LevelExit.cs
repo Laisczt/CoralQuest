@@ -10,7 +10,7 @@ public class LevelExit : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         MainCamera.Instance.Freeze = true;
-        PlayerControl.Instance.lockMovement = true;
+        PlayerControl.Instance.LockMovement = true;
         StartCoroutine(StallTransition());
     }
 

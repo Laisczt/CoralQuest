@@ -22,7 +22,7 @@ public static class ExtensionMethods
         {
             if (target.gameObject.CompareTag("Player"))
             {
-                return target.GetComponent<PlayerControl>().alive;
+                return target.GetComponent<PlayerControl>().Alive;
             }
             return true;
         }
@@ -39,7 +39,7 @@ public static class ExtensionMethods
         {
             if (target.gameObject.CompareTag("Player"))
             {
-                return target.GetComponent<PlayerControl>().alive;
+                return target.GetComponent<PlayerControl>().Alive;
             }
             return true;
         }

@@ -16,6 +16,9 @@ GameObject:
   - component: {fileID: -6585452675328134231}
   - component: {fileID: 5155102359274418634}
   - component: {fileID: 3184931792523106957}
+  - component: {fileID: 4213273550036062435}
+  - component: {fileID: 7841358616017967819}
+  - component: {fileID: 4055060061910700664}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -102,23 +105,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e62709ee468cc14883c927a0b9df3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
-  maxSpeedX: 10
-  jumpPower: 20
-  lockMovement: 0
-  preventMovement: 0
-  maxJumps: 1
-  alive: 1
-  maxHealth: 5
-  health: 5
-  DamageCooldown: 30
-  attackCooldown: 15
-  DEBUG_INVINCIBLE: 0
-  attackSound: {fileID: 3184931792523106957}
-  UsingMobileControls: 0
-  joystick: {fileID: 0}
-  jumpButton: {fileID: 0}
-  attackButton: {fileID: 0}
+  m_RigidBody: {fileID: 8773071266150089484}
+  m_Animator: {fileID: -6585452675328134231}
+  m_PlayerMovement: {fileID: 4213273550036062435}
+  m_Petrify: {fileID: 5155102359274418634}
+  m_PlayerAttack: {fileID: 7841358616017967819}
+  m_PlayerHealth: {fileID: 4055060061910700664}
+  Petrified: 0
+  Alive: 1
+  SpriteOrientation: 1
 --- !u!61 &8773071266150089489
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -199,6 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb192cd815d03f42a2c4a3d9bc8b496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PlayerControl: {fileID: 8773071266150089488}
+  m_Animator: {fileID: -6585452675328134231}
   shakeOffAmount: 30
   progressDecayRate: 10
 --- !u!82 &3184931792523106957
@@ -297,3 +294,67 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4213273550036062435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773071266150089485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70158720890c9a7a09dc5c51a7037616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerControl: {fileID: 8773071266150089488}
+  m_RigidBody: {fileID: 8773071266150089484}
+  m_SpriteRenderer: {fileID: 8773071266150089487}
+  m_Animator: {fileID: -6585452675328134231}
+  m_Petrify: {fileID: 5155102359274418634}
+  MaxSpeedX: 10
+  JumpPower: 20
+  LockMovement: 0
+  PreventMovement: 0
+  MaxJumps: 1
+  UsingMobileControls: 0
+  Joystick: {fileID: 0}
+  JumpButton: {fileID: 0}
+--- !u!114 &7841358616017967819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773071266150089485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1379d82c241b8d8bf54cff8bb709a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerControl: {fileID: 8773071266150089488}
+  m_Petrify: {fileID: 5155102359274418634}
+  m_Animator: {fileID: -6585452675328134231}
+  AttackCooldown: 15
+  BaseAttack: {fileID: 7469340361638983733, guid: 4b8495c8dafab9c44873a93ae34a7569, type: 3}
+  attackSound: {fileID: 3184931792523106957}
+  UsingMobileControls: 0
+  AttackButton: {fileID: 0}
+--- !u!114 &4055060061910700664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773071266150089485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594405d3f084ef2aeb6dae174b0231ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerControl: {fileID: 8773071266150089488}
+  m_Animator: {fileID: 0}
+  m_PlayerMovement: {fileID: 4213273550036062435}
+  MaxHealth: 5
+  Health: 5
+  DamageCooldown: 30
+  DEBUG_INVINCIBLE: 0
