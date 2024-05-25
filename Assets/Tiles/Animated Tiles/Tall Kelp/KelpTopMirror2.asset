@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: KelpTopMirror2
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 2053340819, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: -850537204, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: 837034514, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: -2111380313, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: 1586549422, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: 1595339277, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: -458085627, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: 1253357367, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: -769018461, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: -2108255717, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: 196049070, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  - {fileID: 2112867564, guid: 1301347ea808c4859974ac81ec1bd6c2, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 1
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 4
+  m_TileColliderType: 0

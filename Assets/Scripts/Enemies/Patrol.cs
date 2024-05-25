@@ -36,7 +36,7 @@ public class Patrol : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (!basicEnemy.LockMovement)
+        if (!basicEnemy.LockMovement || !basicEnemy.Alive)
         {
             if (speed < topSpeed) speed += 0.25f;
             else if (speed > topSpeed) speed = topSpeed;
@@ -57,15 +57,16 @@ public class Patrol : MonoBehaviour, IEnemy
 
     public void Damage(int _value)
     {
-
+        m_Animator.SetTrigger("Damage");
     }
     public void Knockback()
     {
-        speed = 0;
+        speed = 0f;
     }
 
     public void Kill()
     {
-        Destroy(gameObject);
+        basicEnemy.DeathStall(32);
+        m_Animator.SetTrigger("Death");
     }
 }

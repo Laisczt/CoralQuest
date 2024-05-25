@@ -63,9 +63,6 @@ public class BasicEnemy : MonoBehaviour
                     Instantiate(HealthDrop, transform.position + new Vector3(0, 0.2f), Quaternion.identity);
                 }
             }
-            
-
-            return;
         }
 
         // KNOCKBACK

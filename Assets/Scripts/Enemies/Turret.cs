@@ -42,6 +42,7 @@ public class Turret : MonoBehaviour, IEnemy
     }
     private void FixedUpdate()
     {
+        if(!basicEnemy.Alive) return;
         var seesTarget = transform.Sees(offset, target.transform, radius, playerMask);
         m_Animator.SetBool("Target In View", seesTarget);
 
@@ -103,14 +104,15 @@ public class Turret : MonoBehaviour, IEnemy
     {
         m_Animator.SetTrigger("Damage");
         
-        if(rCooldown < 15)
+        if(rCooldown < 20)
         {
-            rCooldown = 15;
+            rCooldown = 20;
         }
     }
 
     public void Kill()
     {
-        Destroy(gameObject);
+        m_Animator.SetTrigger("Death");
+        basicEnemy.DeathStall(72);
     }
 }

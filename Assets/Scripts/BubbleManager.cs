@@ -14,20 +14,20 @@ public class BubbleManager : MonoBehaviour
         O tipo de bolha a ser gerado é definido pelo nome da tile
 
     */
-    public List<GameObject> bubbles = new List<GameObject>();   // Prefabs das bolhas, deve estar em ordem: Cluster, Small, Medium, Large
-    public Tilemap spawners;    // A Tilemap com os spawners
+    [SerializeField] List<GameObject> bubbles = new List<GameObject>();   // Prefabs das bolhas, deve estar em ordem: Cluster, Small, Medium, Large
+    [SerializeField] Tilemap spawners;    // A Tilemap com os spawners
     public float BubbleChance = 0.025f;  // Chance que cada tile spawne uma bolha
-    [SerializeField] Transform target;   // O Player (setado pelo game controller)
+    [SerializeField, HideInInspector] Transform target;   // O Player (setado pelo game controller)
     Vector3 lastPlayerPos;  // Última posição do jogador
     private Vector3Int size;    // A área ao redor do player onde bolhas podem ser geradas
     private int count;  // contador de fixedUpdates
-    private TileBase[] tiles = new TileBase[9]; // Vetor que guarda as tiles
+    private TileBase[] tiles = new TileBase[735]; // Vetor que guarda as tiles
 
     
     // Start is called before the first frame update
     void Start()
     {
-        size = new Vector3Int(35, 21, 1);
+        size = new Vector3Int(35, 21, 0);
         target = PlayerControl.Instance.transform;
         if(target == null){
             Debug.LogError("Player not found - Bubble Manager");
@@ -41,12 +41,13 @@ public class BubbleManager : MonoBehaviour
         {
             if(count % 5 == 0)  // O Vetor de tiles é atualizado a cada 60 frames (mmc(5, 12))
             {
-                lastPlayerPos = target.position;
-                tiles = spawners.GetTilesBlock(new BoundsInt(Vector3Int.FloorToInt(lastPlayerPos - size/2), size));
+                lastPlayerPos = (Vector2) target.position;
+                spawners.GetTilesBlockNonAlloc(new BoundsInt(Vector3Int.FloorToInt(lastPlayerPos) - size/2, size + Vector3Int.forward), tiles); //Versão não alocante dessas função é usada para ajudar performance
             }
 
             for(int i = 0; i < tiles.Length; i++){
                 if(tiles[i] == null) continue;
+                
                 if(Random.Range(0f,1f) <= BubbleChance)
                 {
                     SpawnBubble(i, tiles[i].name[0]);
