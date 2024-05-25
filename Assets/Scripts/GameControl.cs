@@ -8,6 +8,7 @@ public class GameControl : MonoBehaviour
 {
     public GameObject Player;
     public GameObject GameOverMenu;
+    public BubbleManager bubbleManager;
     private PlayerControl s_player;
     [SerializeField] GameObject PlayerSpawn;
     [SerializeField] GameObject enemyParent;
@@ -27,10 +28,12 @@ public class GameControl : MonoBehaviour
             UseMobileControls(true);
         }
 
+        // Instancia o jogador
         PlayerSpawn = GameObject.Find("Player Spawn");
         var _player = Instantiate(Player, PlayerSpawn.transform.position, Quaternion.identity);
         _player.name = "Player";
         s_player = _player.GetComponent<PlayerControl>();
+
 
         FindObjectOfType<MainCamera>().FindTarget();
         bgCamera.enabled = true;
@@ -38,7 +41,9 @@ public class GameControl : MonoBehaviour
         HealthBar.Instance.FindTarget();
         MainCamera.Instance.FindTarget();
 
+        bubbleManager.Player = _player.transform;
 
+        // Define o target de todos os inimigos em cena
         var enemies = enemyParent.GetComponentsInChildren<BasicEnemy>(true);
         foreach (var element in enemies)
         {

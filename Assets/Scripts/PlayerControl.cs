@@ -13,7 +13,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private SpriteRenderer m_SpriteRenderer;// Sprite
     private Animator m_Animator;            // Animador
 
-    private PlayerPetrification m_Petrify;
+    private PlayerPetrification m_Petrify;  // Script de petrificação
 
     private float inputX;                   // Input esquerda/direita (com suavizacao)
     private short inputXdiscrete;           // Input esquerda/direita (sem suavizacao)
@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private int spriteOrientation = 1;      // -1 para sprite invertido (player olhando para a esquerda), 1 para direita
     public bool lockMovement;               // Trava de movimento horizontal do jogador, preservando o ultimo input usado (para forcar movimento durante transições de tela)
     public bool preventMovement;            // Impede mudanças na velocidade horizontal do jogador através desse script
-    private bool petrified;
+    private bool petrified;                 // Player está petrificado
 
     private ushort jumping;                 // Buffer do input de pulo (para facilitar pulos consecutivos)
     public ushort maxJumps = 2;             // Quantia maxima de pulos que podem ser feitos antes de tocar no ch�o
@@ -47,21 +47,19 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private float attackOffsetX = 2;        // Offset da posição do ataque principal em x
     private float attackOffsetY = 0.15f;    // '' em y
 
-    private int healing;
+    private bool startingAreaSet = false;   // Define a área inicial da câmera
 
-    private bool startingAreaSet = false;
+    public bool DEBUG_INVINCIBLE;           // Torna o player invencível (PARA DEBUG, SOMENTE ACESSIVEL NO EDITOR)
 
-    public bool DEBUG_INVINCIBLE;
-
-    [SerializeField] AudioSource attackSound;
+    [SerializeField] AudioSource attackSound;   // Som de ataque
 
     [HideInInspector] public bool UsingMobileControls;      // Verdadeiro quando controles mobiles estiverem em uso
-    [HideInInspector] public Joystick joystick;
-    [HideInInspector] public UIControlButton jumpButton;
-    [HideInInspector] public UIControlButton attackButton;
-    public static PlayerControl Instance { get; private set; }
+    [HideInInspector] public Joystick joystick;             // Joystick de controles mobile
+    [HideInInspector] public UIControlButton jumpButton;    // Botão de pulo mobile
+    [HideInInspector] public UIControlButton attackButton;  // Botão de ataque mobile
+    public static PlayerControl Instance { get; private set; }  // Singleton instance
 
-    private float lastJoystickInput;
+    private float lastJoystickInput;        // Última direção de input do joystick
 
     LayerMask jumpResetLayerMask;
     // Awake is called when an enabled script instance is being loaded.
@@ -86,6 +84,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     // Update is called once per frame
     void Update()
     {
+        // Input de movimento
         if (lockMovement)
         {
             inputX = inputXdiscrete;
@@ -105,7 +104,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             }
 
         }
-       
         if(inputX != 0)
         {
             inputXdiscrete = (short)Mathf.Sign(inputX);
@@ -115,6 +113,9 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             inputXdiscrete = 0;
         }
 
+
+
+        // Buffering de direção de Walljump
         short walljumpbuffer = 3;
         var rawInput = inputX;
         if (Mathf.Abs(rawInput) != 1) rawInput = 0;
@@ -131,22 +132,22 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         
         if (!alive) return;
 
+
+        // Pulo
         if (Input.GetButtonDown("Jump") || (UsingMobileControls && jumpButton.GetButtonDown()))
         {
             jumping = 5;
             if(petrified) m_Petrify.Shake();
         }
 
+        // Ataque
         if (( Input.GetButton("Fire1")   ||   (UsingMobileControls && attackButton.GetButtonDown())  )
-            && rAttackCooldown == 0 ) // Attack input
+            && rAttackCooldown == 0 )
         {
             attacking = true;
             if(petrified) m_Petrify.Shake();
         }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            healing = 5;
-        }
+
     }
 
     void FixedUpdate()
@@ -171,7 +172,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             m_Animator.SetBool("Grounded", false);
         }
 
-        if (!grounded && m_RigidBody.velocity.y < 0f)
+
+        if (!grounded && m_RigidBody.velocity.y < 0f) // Altera a resistência do ar ao cair
         {
             m_RigidBody.drag = 5f;
         }
@@ -219,6 +221,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             else if (rjumps > 0)
             {
                 if (grounded)
+                // Pulo no chão
                 {
                     m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower);
                     rjumps--;
@@ -228,6 +231,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
                     m_Animator.SetTrigger("Jump");
                 }
                 else if (maxJumps > 1)
+                // Pulo no ar
                 {
                     m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, jumpPower * 1.1f);
                     if (rjumps == maxJumps) rjumps--;
@@ -253,7 +257,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         // Redefinir variaveis
         attacking = false;
         canWallJump = false;
-        if (healing > 0) healing--;
         if (rDamageCooldown > 0) rDamageCooldown--;
         if (inputLeftBuffer > 0) inputLeftBuffer--;
         if (inputRightBuffer > 0) inputRightBuffer--;
@@ -262,7 +265,9 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     }
 
     [ContextMenu("Petrify")]
+    
     public void Petrify()
+    // Petrifica o jogador
     {
         if(m_Petrify == null) Debug.LogWarning("Player petrification script not found");
         if(petrified) return;
@@ -271,9 +276,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_Animator.SetTrigger("Petrify");
         m_Petrify.enabled = true;
     }
-
-    
     public void Depetrify()
+    // Despetrifica
     {
         petrified = false;
         m_Animator.SetTrigger("Depetrify");
@@ -281,6 +285,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     }
 
     IEnumerator WallJumpKick(int direction)
+    // Mantem velocidade horizontal do jogador por uma duração logo após um wall jump
     {
         preventMovement = true;
         int i = 0;
@@ -300,6 +305,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     {
         if (collision.gameObject.CompareTag("Solid"))
         {
+            // Define direção para wall jump
             if (Vector2.Distance(collision.contacts[0].normal, Vector2.left) < 0.1f) // If player is on the left side of a wall 
             {
                 wallJumpDirection = -1;
@@ -329,12 +335,14 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(healing > 0 && collision.gameObject.CompareTag("Healing Base"))
+        if(collision.gameObject.CompareTag("Healing Base"))
+        // Tenta curar o jogador enquanto ele estiver ná área de uma árvore
         {   
             if(health < maxHealth) Heal(collision.GetComponent<HealingBase>().Use());
         }
     }
     private void CheckGround()
+    // Verifica se o jogador está no chão
     {
         if (groundBuff > 0) groundBuff--;
 
@@ -357,6 +365,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     }
 
     public void Knockback(float force, float xDirStrenth)
+    // Método público para aplicar knockback ao jogador
     {
         StartCoroutine(coroutine_Knockback(force, xDirStrenth));
     }
@@ -376,7 +385,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
         preventMovement = false;
     }
-    public bool Damage(int value)                   // Dano, retorna false se o player não pode levar dano
+    public bool Damage(int value)                   // Dano, retorna false se o player não pôde levar dano (ainda funciona quando invencível)
     {
         if (!alive || value <= 0) return false;
         if (rDamageCooldown > 0) return false;
@@ -401,7 +410,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
     
 
-    public void Heal(int value)
+    public void Heal(int value)                     // Cura
     {
         if (!alive || value <= 0) return;
 
@@ -427,7 +436,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     }
 
     [ContextMenu("Recover")]
-    public void Recover()
+    public void Recover()                           // Revive o jogador sem reiniciar o nível (PARA DEBUG)
     {
         alive = true;
         Heal(maxHealth);
@@ -438,7 +447,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     }
 
     [ContextMenu("Kill")]
-    public void Kill()
+    public void Kill()                              // Mata o jogador instantaneamente
     {
         alive = false;
 
@@ -452,8 +461,17 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
         StartCoroutine(GameOverStall());
     }
-    private IEnumerator GameOverStall(){
-        var i = 120;
+    private IEnumerator GameOverStall(){            // Mantém o jogo correndo por um período antes de mostrar o botão de reviver
+        var i = 100;
+
+        Time.timeScale = 0.75f; // Drama
+
+        while(i > 70){
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        Time.timeScale = 1f;
 
         while(i > 0){
             i--;
@@ -463,7 +481,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     }
 
 
-    public void SetMobileControls(GameObject[] controls)
+    public void SetMobileControls(GameObject[] controls)    // Ativa os controles mobile
     {
         foreach (var element in controls)
         {

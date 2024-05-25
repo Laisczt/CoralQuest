@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class SpriteDisableOnAwake : MonoBehaviour
 {
-    // Start is called before the first frame update
-
+    // Desabilita o sprite do gameobject ao iniciar o jogo (útil para poder usar sprites no editor para objetos invisíveis em jogo)
     void Awake(){
-        GetComponent<SpriteRenderer>().enabled = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var renderer = GetComponent<SpriteRenderer>();
+        if(renderer == null)
+        {
+            var trenderer = GetComponent<TilemapRenderer>();
+            trenderer.enabled = false;
+        }else
+            renderer.enabled = false;
     }
 }
