@@ -7,7 +7,8 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
 {
     public Boss parentBoss;
     [HideInInspector] public float BubbleOriginY;
-    private BasicEnemy basicEnemy;
+    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    private Animator m_Animator;
 
     public int Lifespan = 360;
 
@@ -25,6 +26,7 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
         {
             basicEnemy = GetComponent<BasicEnemy>();
         }
+        m_Animator = GetComponent<Animator>();
 
         var hit = Physics2D.Raycast(transform.position + Vector3.up * 5, Vector2.down, 5);
     }
@@ -90,11 +92,11 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
     public void Damage(int amount)
     {
         parentBoss.Damage(amount);
-        basicEnemy.m_Animator.SetTrigger("Damage");
+        m_Animator.SetTrigger("Damage");
     }
     public void Kill()
     {
-        basicEnemy.m_Animator.SetTrigger("Death");
+        m_Animator.SetTrigger("Death");
         StartCoroutine(deathStall());
         basicEnemy.Alive = false;
 

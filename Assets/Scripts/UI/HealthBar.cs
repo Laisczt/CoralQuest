@@ -5,49 +5,23 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    private GameObject target;
+    private PlayerControl target;
     public Animator heart;
     private int maxHp;
     private int hp;
     Animator[] healthBar;
 
-    public static HealthBar Instance
+    public static HealthBar Instance{ get; private set; }
+
+    public void Start()
     {
-        get
-        {
-            return FindObjectOfType<HealthBar>();
-        }
+        Instance = this;
+        target = PlayerControl.Instance;
+        initialize();
     }
-    public void UpdateHB()
-    {
-        Debug.Log("Called");
-        var a = target.GetComponent<PlayerControl>().health;
-
-        Debug.Log(a + "Player - HB " + hp);
-        if (a < hp)
-        {
-            for (int i = hp; i > a; i--)
-            {
-                healthBar[i - 1].SetBool("Filled", false);
-                Debug.Log("Emptied");
-            }
-        }
-        else if (a > hp)
-        {
-            for (int i = hp; i < a; i++)
-            {
-                healthBar[i].SetBool("Filled", true);
-            }
-        }
-
-        hp = a;
-    }
-
     private float offset = 195.65f;
-    public void FindTarget()
+    private void initialize()
     {
-        target = GameObject.Find("Player");
-
         maxHp = target.GetComponent<PlayerControl>().maxHealth;
         hp = target.GetComponent<PlayerControl>().health;
         healthBar = new Animator[maxHp];
@@ -61,6 +35,27 @@ public class HealthBar : MonoBehaviour
             pos -= new Vector3(offset, 0, 0);
         }
     }
+    public void UpdateHB()
+    {
+        var a = target.health;
+        if (a < hp)
+        {
+            for (int i = hp; i > a; i--)
+            {
+                healthBar[i - 1].SetBool("Filled", false);
+            }
+        }
+        else if (a > hp)
+        {
+            for (int i = hp; i < a; i++)
+            {
+                healthBar[i].SetBool("Filled", true);
+            }
+        }
+
+        hp = a;
+    }
+    
 
  
 }

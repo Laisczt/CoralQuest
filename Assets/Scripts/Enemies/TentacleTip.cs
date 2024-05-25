@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class TentacleTip : MonoBehaviour, IEnemy
 {
-    [SerializeField] BasicEnemy basicEnemy;
+    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    private Animator m_Animator;
     public List<ScreenExit> blockedExits;
 
     private void OnValidate()
@@ -15,7 +16,7 @@ public class TentacleTip : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -26,7 +27,7 @@ public class TentacleTip : MonoBehaviour, IEnemy
 
     public void Damage(int _value)
     {
-        basicEnemy.m_Animator.SetTrigger("Damage");
+        m_Animator.SetTrigger("Damage");
     }
     public void Knockback()
     {
@@ -38,7 +39,7 @@ public class TentacleTip : MonoBehaviour, IEnemy
         {
             exit.isLocked = false;
         }
-        basicEnemy.m_Animator.SetTrigger("Death");
+        m_Animator.SetTrigger("Death");
 
         foreach(Transform i in transform)
         {
@@ -46,21 +47,6 @@ public class TentacleTip : MonoBehaviour, IEnemy
             i.GetComponent<Animator>().SetTrigger("Death");
         }
 
-        StartCoroutine(deathStall());
+        basicEnemy.DeathStall(55);
     }
-
-    private IEnumerator deathStall()
-    {
-        var i = 55;
-
-        while (i > 0)
-        {
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-
-        Destroy(gameObject);
-    }
-
-
 }

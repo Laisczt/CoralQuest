@@ -10,9 +10,10 @@ public class Patrol : MonoBehaviour, IEnemy
     private float speed;
 
     private short direction = 1;
-    private Animator m_Animator;
 
-    [SerializeField] BasicEnemy basicEnemy;
+    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    private Rigidbody2D m_RigidBody;
+    private Animator m_Animator;
 
 
     private void OnValidate()
@@ -23,6 +24,7 @@ public class Patrol : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
+        m_RigidBody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
         speed = topSpeed;
     }
@@ -34,12 +36,12 @@ public class Patrol : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (!basicEnemy.lockMovement)
+        if (!basicEnemy.LockMovement)
         {
             if (speed < topSpeed) speed += 0.25f;
             else if (speed > topSpeed) speed = topSpeed;
 
-            basicEnemy.m_RigidBody.velocity = new Vector2(speed * direction, 0);
+            m_RigidBody.velocity = new Vector2(speed * direction, 0);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,8 +50,8 @@ public class Patrol : MonoBehaviour, IEnemy
         {
             direction *= -1;
             speed = 0f;
-            basicEnemy.m_Animator.SetTrigger("Wall Hit");
-            basicEnemy.m_Animator.SetBool("Mirror", direction < 0);
+            m_Animator.SetTrigger("Wall Hit");
+            m_Animator.SetBool("Mirror", direction < 0);
         }
     }
 

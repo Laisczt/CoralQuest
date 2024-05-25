@@ -17,7 +17,7 @@ public class BubbleManager : MonoBehaviour
     public List<GameObject> bubbles = new List<GameObject>();   // Prefabs das bolhas, deve estar em ordem: Cluster, Small, Medium, Large
     public Tilemap spawners;    // A Tilemap com os spawners
     public float BubbleChance = 0.025f;  // Chance que cada tile spawne uma bolha
-    [HideInInspector]public Transform Player;   // O Player (setado pelo game controller)
+    [SerializeField] Transform target;   // O Player (setado pelo game controller)
     Vector3 lastPlayerPos;  // Última posição do jogador
     private Vector3Int size;    // A área ao redor do player onde bolhas podem ser geradas
     private int count;  // contador de fixedUpdates
@@ -28,6 +28,10 @@ public class BubbleManager : MonoBehaviour
     void Start()
     {
         size = new Vector3Int(35, 21, 1);
+        target = PlayerControl.Instance.transform;
+        if(target == null){
+            Debug.LogError("Player not found - Bubble Manager");
+        }
     }
 
     
@@ -37,7 +41,7 @@ public class BubbleManager : MonoBehaviour
         {
             if(count % 5 == 0)  // O Vetor de tiles é atualizado a cada 60 frames (mmc(5, 12))
             {
-                lastPlayerPos = Player.position;
+                lastPlayerPos = target.position;
                 tiles = spawners.GetTilesBlock(new BoundsInt(Vector3Int.FloorToInt(lastPlayerPos - size/2), size));
             }
 

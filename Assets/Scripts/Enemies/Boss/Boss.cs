@@ -230,7 +230,7 @@ public class Boss : MonoBehaviour
 
         newTentacle.parentBoss = this;
         newTentacle.BubbleOriginY = transform.position.y - 3.63f;
-        newTentacle.GetComponent<BasicEnemy>().Target = target.transform;
+        //newTentacle.GetComponent<BasicEnemy>().Target = target.transform;
     }
 
     public float sliceSize = 4f;

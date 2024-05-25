@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    private GameObject target;      // O objeto que a c�mera segue (alvo)
+    private Transform target;      // O objeto que a c�mera segue (alvo)
     public Collider2D area;         // A regi�o em que a c�mera est�
     public float SpeedFactor = 3f;  // A Velocidade de aproxima��o da c�mera
     public bool smoothMovement;
@@ -30,6 +30,10 @@ public class MainCamera : MonoBehaviour
     void Start()
     {
         m_Camera = GetComponent<Camera>();
+        target = PlayerControl.Instance.transform;
+        if(target == null){
+            Debug.LogError("Player not found - Bubble Manager");
+        }
 
         // Usamos o tamanho vertical da camera e as dimens�es da tela para calcular o tamanho horizontal
         aspectRatio = ((float)Screen.width) / ((float)Screen.height);
@@ -38,7 +42,7 @@ public class MainCamera : MonoBehaviour
         BGCamera.Instance.ApplyAspectRatio(aspectRatio);
 
         // Iniciaremos a posi��o da c�mera � mesma posi��o do jogador
-        transform.position = new Vector3(target.transform.position.x, target.transform.position.y, zPos);
+        transform.position = new Vector3(target.position.x, target.position.y, zPos);
     }
 
     // Update is called once per frame
@@ -47,7 +51,7 @@ public class MainCamera : MonoBehaviour
         if (Freeze) return;
         Vector2 newPos;
 
-        newPos = target.transform.position; // Posi��o desejada (posi��o do jogador/alvo)
+        newPos = target.position; // Posi��o desejada (posi��o do jogador/alvo)
 
        
         if (!FreeCam)
@@ -106,22 +110,7 @@ public class MainCamera : MonoBehaviour
         {
             transform.position = newPos;
         }
-
-
-
-
-
         transform.position = new Vector3(transform.position.x, transform.position.y, zPos); // Mantemos a posi��o Z da C�mera no valor padr�o
-    }
-
-    public void FindTarget()    // Atribui��o de alvo da c�mera (ser� o player, por padr�o)
-    {
-        target = GameObject.Find("Player");
-    }
-
-    public void FindTarget(GameObject target) // Atribui��o de alvo da c�mera (quando especificado algo diferente do jogador)
-    {
-        this.target = target;
     }
 
     public void ChangeArea(GameObject newArea)  // Mudan�a de �rea da c�mera

@@ -128,11 +128,7 @@ MonoBehaviour:
   KnockbackMultiplier: 0
   BodyDamage: 0
   HealthDrop: {fileID: 3861013056592176642, guid: fa46570df5133a443b43e325b1a2276f, type: 3}
-  HealthDropAdditionalRange: 5
-  target: {fileID: 0}
-  m_RigidBody: {fileID: -1046684478410141326}
-  m_Animator: {fileID: 5877941294457133915}
-  lockMovement: 0
+  HealthDropAdditionalRange: 4
 --- !u!50 &-1046684478410141326
 Rigidbody2D:
   serializedVersion: 4

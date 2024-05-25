@@ -7,16 +7,17 @@ public class Turret : MonoBehaviour, IEnemy
 {
     public float radius; // Detection distance for the turret
     public int cooldown; // Cooldown between shots
-    public bool BlocksPath;
 
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    private Animator m_Animator;
+    private PlayerControl target;
+    
     [SerializeField] GameObject shot; // The projectile shot
     private int rCooldown = 0;  // keeps track of cooldown passing
     private Vector3 offset = new Vector3(0 , 0.48f, 0); // Offset for the position where the projectile will spawn
     private float shotSpawnDistance = 0.4f; // Offset in the direction the projectile is shot
-    private Vector2 headPos;
-    private Animator m_Animator;
+    private Vector3 headPos;
     private bool attacking;
 
     LayerMask playerMask;
@@ -27,9 +28,9 @@ public class Turret : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
-        if (BlocksPath) transform.GetChild(0).gameObject.SetActive(true);
         playerMask = LayerMask.GetMask("Player", "Solid");
         m_Animator = GetComponent<Animator>();
+        target = PlayerControl.Instance;
         headPos = transform.position + offset;
         //
     }
@@ -41,13 +42,13 @@ public class Turret : MonoBehaviour, IEnemy
     }
     private void FixedUpdate()
     {
-        var seesTarget = this.transform.Sees(offset, basicEnemy.Target, radius, playerMask);
+        var seesTarget = transform.Sees(offset, target.transform, radius, playerMask);
         m_Animator.SetBool("Target In View", seesTarget);
 
         if (seesTarget)
         {
             if (rCooldown > 0) rCooldown--;
-            m_Animator.SetBool("Mirror", basicEnemy.Target.position.x < transform.position.x);
+            m_Animator.SetBool("Mirror", target.transform.position.x < transform.position.x);
 
             var state = getAnimatorState();
 
@@ -77,10 +78,10 @@ public class Turret : MonoBehaviour, IEnemy
 
         Vector2 direction;
         
-        direction = (basicEnemy.Target.position + (Vector3)basicEnemy.Target.GetComponent<Collider2D>().offset) - transform.position;
+        direction = target.transform.position + (Vector3)target.GetComponent<Collider2D>().offset - transform.position;
         direction.Normalize();
 
-        var projec = Instantiate(shot, transform.position + offset + (Vector3)(direction * shotSpawnDistance), Quaternion.identity);
+        var projec = Instantiate(shot, headPos + (Vector3)(direction * shotSpawnDistance), Quaternion.identity);
         projec.GetComponent<Projectile_Straight>().SetDirection(direction);
         projec.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
 

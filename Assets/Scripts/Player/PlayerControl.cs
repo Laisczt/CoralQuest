@@ -65,7 +65,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     // Awake is called when an enabled script instance is being loaded.
     private void Awake()
     {
-
+	    Instance = this;
         health = maxHealth;
         jumpResetLayerMask = LayerMask.GetMask( "Solid", "Platform");
     }
@@ -78,7 +78,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Animator = GetComponent<Animator>();
         m_Petrify = GetComponent<PlayerPetrification>();
-        Instance = this;
+        
     }
 
     // Update is called once per frame
@@ -420,7 +420,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             health = maxHealth;
         }
         HealthBar.Instance.UpdateHB();
-        Debug.Log(health);
     }
 
     [ContextMenu("Heal 1")]

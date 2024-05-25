@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 [RequireComponent(typeof(BasicEnemy))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -12,6 +13,9 @@ public class Stalk : MonoBehaviour, IEnemy
     private float speed = 0;
     private float baseSpeed = 1f;
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    private PlayerControl target;
+    private Animator m_Animator;
+    private Rigidbody2D m_RigidBody;
 
     [SerializeField] AudioSource chaseSound;
     private bool playingSound;
@@ -29,6 +33,9 @@ public class Stalk : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
+        target = PlayerControl.Instance;
+        m_Animator = GetComponent<Animator>();
+        m_RigidBody = GetComponent<Rigidbody2D>();
         playerMask = LayerMask.GetMask("Player", "Solid");
         homePos = transform.position;
     }
@@ -41,12 +48,12 @@ public class Stalk : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (basicEnemy.lockMovement || !basicEnemy.Alive) return;
+        if (basicEnemy.LockMovement || !basicEnemy.Alive) return;
 
         Vector2 travelDirection = Vector2.zero;
-        if (Vector3.Distance(homePos, basicEnemy.Target.position) <= TerritoryRadius && this.transform.Sees(basicEnemy.Target, 8, playerMask))
+        if (Vector3.Distance(homePos, target.transform.position) <= TerritoryRadius && transform.Sees(target.transform, 8, playerMask))
         {
-            travelDirection = basicEnemy.Target.transform.position - transform.position;
+            travelDirection = target.transform.position - transform.position;
             speed += 0.05f;
 
             moving = true;
@@ -68,7 +75,7 @@ public class Stalk : MonoBehaviour, IEnemy
         if (speed > TopSpeed) speed = TopSpeed;
         if (speed < baseSpeed) speed = baseSpeed;
 
-        basicEnemy.m_RigidBody.velocity = travelDirection * speed;
+        m_RigidBody.velocity = travelDirection * speed;
 
         // Audio
         if (moving == true && playingSound == false)
@@ -83,7 +90,7 @@ public class Stalk : MonoBehaviour, IEnemy
         }
 
         // Sprite
-        basicEnemy.m_Animator.SetBool("Moving", moving);
+        m_Animator.SetBool("Moving", moving);
     }
     public void Knockback()
     {
@@ -92,25 +99,16 @@ public class Stalk : MonoBehaviour, IEnemy
 
     public void Damage(int _value)
     {
-        basicEnemy.m_Animator.SetTrigger("Damage");
+        m_Animator.SetTrigger("Damage");
     }
 
     public void Kill()
     {
         chaseSound.Stop();
-        basicEnemy.m_RigidBody.velocity = Vector2.zero;
-        basicEnemy.m_Animator.SetTrigger("Death");
-        StartCoroutine(deathStall());
+        m_RigidBody.velocity = Vector2.zero;
+        m_Animator.SetTrigger("Death");
+        basicEnemy.DeathStall(55);
     }
 
-    IEnumerator deathStall()
-    {
-        var i = 55;
-        while(i > 0)
-        {
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-        Destroy(gameObject);
-    }
+    
 }

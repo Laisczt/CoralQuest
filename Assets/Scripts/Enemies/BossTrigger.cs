@@ -8,7 +8,7 @@ public class BossTrigger : MonoBehaviour, IEnemy
 {
     public GameObject boss;
     public Animator m_Animator;
-    private BasicEnemy basicEnemy;
+    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
 
     private void OnValidate(){
         basicEnemy = GetComponent<BasicEnemy>();
@@ -25,22 +25,16 @@ public class BossTrigger : MonoBehaviour, IEnemy
 
     public void Kill(){
         m_Animator.SetTrigger("Death");
-        StartCoroutine(deathStall());
+        basicEnemy.DeathStall(55);
+        StartCoroutine(spawnBoss());
     }
     
-    private IEnumerator deathStall(){
-        var i = 5;
+    private IEnumerator spawnBoss(){
+        var i = 10;
         while(i > 0){
             i--;
             yield return new WaitForFixedUpdate();
         }
         boss.SetActive(true);
-
-        i = 25;
-        while(i > 0){
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-        Destroy(gameObject);
     }
 }
