@@ -9,7 +9,9 @@ public class Patrol : MonoBehaviour, IEnemy
 
     private float speed;
 
-    private short direction = 1;
+    private int direction = 1;
+
+    [SerializeField] AudioSource bonkSound;
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     private Rigidbody2D m_RigidBody;
@@ -21,12 +23,14 @@ public class Patrol : MonoBehaviour, IEnemy
         basicEnemy = GetComponent<BasicEnemy>();
     }
 
+    LayerMask solidMask;
     // Start is called before the first frame update
     void Start()
     {
         m_RigidBody = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
         speed = topSpeed;
+        solidMask = LayerMask.GetMask("Solid");
     }
 
     // Update is called once per frame
@@ -48,7 +52,18 @@ public class Patrol : MonoBehaviour, IEnemy
     {
         if (collision.gameObject.CompareTag("Solid"))
         {
-            direction *= -1;
+            var wallL = Physics2D.Raycast(transform.position, Vector2.left, Mathf.Infinity, solidMask);
+            var wallR = Physics2D.Raycast(transform.position, Vector2.right, Mathf.Infinity, solidMask);
+            if(wallL.distance < wallR.distance)
+            {
+                if(direction == -1) bonkSound.Play();
+                direction = 1;
+            }
+            else 
+            {
+                if (direction == 1) bonkSound.Play();
+                direction = -1;
+            }
             speed = 0f;
             m_Animator.SetTrigger("Wall Hit");
             m_Animator.SetBool("Mirror", direction < 0);

@@ -73,10 +73,6 @@ MonoBehaviour:
   BodyDamage: 1
   HealthDrop: {fileID: 3861013056592176642, guid: fa46570df5133a443b43e325b1a2276f, type: 3}
   HealthDropAdditionalRange: 0
-  target: {fileID: 0}
-  m_RigidBody: {fileID: -4068269859359604951}
-  m_Animator: {fileID: 4956598733655530797}
-  lockMovement: 0
 --- !u!114 &5365313773077969092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TerritoryRadius: 15
-  TopSpeed: 4.5
+  TopSpeed: 6
   basicEnemy: {fileID: 6204149673482011525}
   chaseSound: {fileID: -5719882225165926451}
 --- !u!50 &-4068269859359604951

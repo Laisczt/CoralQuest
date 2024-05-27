@@ -48,13 +48,18 @@ public class Stalk : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (basicEnemy.LockMovement || !basicEnemy.Alive) return;
+        if (basicEnemy.LockMovement) return;
+        if (!basicEnemy.Alive)
+        {
+            m_RigidBody.velocity /= 1.3f;
+            return;
+        }
 
         Vector2 travelDirection = Vector2.zero;
         if (Vector3.Distance(homePos, target.transform.position) <= TerritoryRadius && transform.Sees(target.transform, 8, playerMask))
         {
             travelDirection = target.transform.position - transform.position;
-            speed += 0.05f;
+            speed += 0.1f;
 
             moving = true;
         }
@@ -105,7 +110,6 @@ public class Stalk : MonoBehaviour, IEnemy
     public void Kill()
     {
         chaseSound.Stop();
-        m_RigidBody.velocity = Vector2.zero;
         m_Animator.SetTrigger("Death");
         basicEnemy.DeathStall(55);
     }
