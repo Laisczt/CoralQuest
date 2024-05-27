@@ -35294,6 +35294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1284378606}
     m_Modifications:
+    - target: {fileID: -3629272721958375708, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
+      propertyPath: Health
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2469575267411175711, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -35336,10 +35340,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2469575267411175711, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2469575267411175711, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
-      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4071263595842916179, guid: 98a016cf5f864a64299578c94fc06a11, type: 3}
@@ -42539,6 +42539,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 385654886}
     m_Modifications:
+    - target: {fileID: 4055060061910700664, guid: 154ffd5c73e297147a44d21c1736f1be, type: 3}
+      propertyPath: DEBUG_INVINCIBLE
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8773071266150089485, guid: 154ffd5c73e297147a44d21c1736f1be, type: 3}
       propertyPath: m_Name
       value: Player

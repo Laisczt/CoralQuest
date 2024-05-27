@@ -119,6 +119,9 @@ public class Turret : MonoBehaviour, IEnemy
         {
             rCooldown = Cooldown * 2 / 3;
         }
+
+        StopAllCoroutines();
+        attacking = false;
     }
 
     public void Kill()
