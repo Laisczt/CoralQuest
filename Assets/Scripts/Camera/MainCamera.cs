@@ -32,7 +32,7 @@ public class MainCamera : MonoBehaviour
         m_Camera = GetComponent<Camera>();
         target = PlayerControl.Instance.transform;
         if(target == null){
-            Debug.LogError("Player not found - Bubble Manager");
+            Debug.LogError("Player not found - Main Camera");
         }
 
         // Usamos o tamanho vertical da camera e as dimens�es da tela para calcular o tamanho horizontal
@@ -43,6 +43,8 @@ public class MainCamera : MonoBehaviour
 
         // Iniciaremos a posi��o da c�mera � mesma posi��o do jogador
         transform.position = new Vector3(target.position.x, target.position.y, zPos);
+
+        if(area == null) FreeCam = true;
     }
 
     // Update is called once per frame

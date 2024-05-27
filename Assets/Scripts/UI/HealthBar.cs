@@ -19,14 +19,14 @@ public class HealthBar : MonoBehaviour
         target = PlayerControl.Instance.GetComponent<PlayerHealth>();
         initialize();
     }
-    private float offset = 195.65f;
+    private float offset = 100.125f;
     private void initialize()
     {
         maxHp = target.MaxHealth;
         hp = target.Health;
         healthBar = new Animator[maxHp];
 
-        Vector3 pos = transform.position + new Vector3(offset * (maxHp-1) + 128.75f, 0 );
+        Vector3 pos = transform.position + new Vector3(offset * (maxHp-1) + 60f, 0 );
         for (int i = maxHp - 1; i >= 0; i--)
         {
             healthBar[i] = Instantiate(heart, pos, Quaternion.identity, transform);

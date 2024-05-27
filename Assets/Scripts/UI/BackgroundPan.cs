@@ -21,14 +21,14 @@ public class BackgroundPan : MonoBehaviour
     void Update()
     {
         _transform.anchoredPosition += new Vector2(speed, 0) * Time.deltaTime;
-        if(_transform.anchoredPosition.x > 1200)
+        if(_transform.anchoredPosition.x > 835)
         {
-            _transform.anchoredPosition = new Vector2(1200, 0);
+            _transform.anchoredPosition = new Vector2(835, 0);
             speed *= -1;
         }
-        if (_transform.anchoredPosition.x < -1200)
+        if (_transform.anchoredPosition.x < -835)
         {
-            _transform.anchoredPosition = new Vector2(-1200, 0);
+            _transform.anchoredPosition = new Vector2(-835, 0);
             speed *= -1;
         }
 
