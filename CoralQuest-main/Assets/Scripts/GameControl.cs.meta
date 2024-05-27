@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3f77005abbfabf44eac1e15334bdefa6
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Player: {instanceID: 0}
+  - GameOverMenu: {instanceID: 0}
+  - bubbleManager: {instanceID: 0}
+  - enemyParent: {instanceID: 0}
+  - bgCamera: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
