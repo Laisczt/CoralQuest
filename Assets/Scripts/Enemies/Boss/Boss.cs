@@ -72,8 +72,6 @@ public class Boss : MonoBehaviour
     {
         if (!active || attacking) return;
 
-        if (phase2) m_Animator.SetBool("Phase2", true);
-
         if(rAttackCooldown <= 0)
         {
             attacking = true;
@@ -351,7 +349,7 @@ public class Boss : MonoBehaviour
     {
         m_Animator.SetTrigger("Dig");
         m_Animator.SetBool("LeftSide", isPosOnLeft(target.transform.position.x));
-        var arm = ((isPosOnLeft(target.transform.position.x)) ? ArmR : ArmL);
+        var arm = isPosOnLeft(target.transform.position.x) ? ArmR : ArmL;
         var i = 55;
 
         while(i > 0)
@@ -407,6 +405,7 @@ public class Boss : MonoBehaviour
         if(Health <= MaxHealth/2 && !phase2)
         { 
             phase2 = true;
+            m_Animator.SetBool("Phase2", true);
             sliceSize -= 0.5f;
             // todo
         }
