@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7038688693501409616}
   - component: {fileID: -1046684478410141326}
   - component: {fileID: 4290877859024726040}
+  - component: {fileID: -1613311935504956439}
   m_Layer: 0
   m_Name: Tentacle Tip
   m_TagString: Enemy
@@ -176,6 +177,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &-1613311935504956439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7080359816519394629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d95076e68a86ee409779dcea0d6e5c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicEnemy: {fileID: 7038688693501409616}
+  blockedExits: []
 --- !u!1 &7410818835888734501
 GameObject:
   m_ObjectHideFlags: 0

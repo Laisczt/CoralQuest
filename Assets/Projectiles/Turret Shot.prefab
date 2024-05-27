@@ -49,11 +49,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d78294ef3be1544aa59462bb60eba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 10
   value: 1
   lifespan: 210
   breaksOnSolidHit: 1
   breaksOnPlayerHit: 1
+  IsHealingDrop: 0
+  hasBreakSprite: 0
 --- !u!50 &7808435985166101163
 Rigidbody2D:
   serializedVersion: 4
@@ -87,7 +89,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca314c801a25ca4eaddeb882596beb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
 --- !u!58 &3317104839685553689
 CircleCollider2D:
   m_ObjectHideFlags: 0
