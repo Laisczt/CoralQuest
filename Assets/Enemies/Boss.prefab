@@ -178,14 +178,14 @@ MonoBehaviour:
   - {fileID: -521941433225546106, guid: b3c9af907737e044aa8409323ddc04ad, type: 3}
   - {fileID: -8929376891290513737, guid: b8c2cbabd9ec19c45997a715abaa9b32, type: 3}
   Rock: {fileID: 6475298913944073712, guid: cac31752c2fc8e9e9813a324c9f6fc62, type: 3}
-  AttackCooldownP1: 50
-  AttackCooldownP2: 40
+  AttackCooldownP1: 40
+  AttackCooldownP2: 30
   SummonTentacleAttemptCooldown: 30
   TentacleChance: 0.2
   ArenaWidth: 10
   phase2: 0
-  MaxHealth: 200
-  Health: 200
+  MaxHealth: 250
+  Health: 250
   PetrifiedPlantsParent: {fileID: 0}
   ArmL: {fileID: 0}
   ArmR: {fileID: 0}

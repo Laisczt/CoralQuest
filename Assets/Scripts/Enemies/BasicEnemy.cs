@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BasicEnemy : MonoBehaviour
 {
@@ -103,6 +104,14 @@ public class BasicEnemy : MonoBehaviour
                 target.Knockback(20, knockbackDir);
             }
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ( collision.CompareTag("Solid"))
+        {
+            StopCoroutine(temp_lockMovement());
+            LockMovement = false;
+        }        
     }
 
 

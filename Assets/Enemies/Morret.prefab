@@ -68,9 +68,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f743364ed16eb44bc1f343d70293de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 15
-  cooldown: 80
-  BlocksPath: 0
+  Radius: 15
+  Cooldown: 30
+  AttentionSpan: 180
   basicEnemy: {fileID: -3629272721958375708}
   shot: {fileID: 4195265481383794690, guid: 0d6da550014426049a80271c5df7b15d, type: 3}
 --- !u!61 &-8288508326789859707

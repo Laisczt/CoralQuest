@@ -5,8 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class Turret : MonoBehaviour, IEnemy
 {
-    public float radius; // Detection distance for the turret
-    public int cooldown; // Cooldown between shots
+    public float Radius; // Distância de detecção
+    public int Cooldown; // Cooldown entre tiros
+    public int AttentionSpan;   // Quantidade de tempo entre o player sair do campo de visão do inimigo e o inimigo voltar pro pote
+    private int rAttentionSpan;
 
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
@@ -43,11 +45,12 @@ public class Turret : MonoBehaviour, IEnemy
     private void FixedUpdate()
     {
         if(!basicEnemy.Alive) return;
-        var seesTarget = transform.Sees(offset, target.transform, radius, playerMask);
+        var seesTarget = transform.Sees(offset, target.transform, Radius, playerMask);
         m_Animator.SetBool("Target In View", seesTarget);
 
         if (seesTarget)
         {
+            rAttentionSpan = AttentionSpan;
             if (rCooldown > 0) rCooldown--;
             m_Animator.SetBool("Mirror", target.transform.position.x < transform.position.x);
 
@@ -62,7 +65,15 @@ public class Turret : MonoBehaviour, IEnemy
         }
         else
         {
-            rCooldown = cooldown;
+            if(rAttentionSpan > 0){
+                rAttentionSpan--;
+                if(rCooldown > Cooldown/3) rCooldown--;
+            }
+            else rCooldown = Cooldown;
+
+            if(rAttentionSpan == 1) {
+                m_Animator.SetTrigger("Despawn");
+            }
         }
     }
 
@@ -86,7 +97,7 @@ public class Turret : MonoBehaviour, IEnemy
         projec.GetComponent<Projectile_Straight>().SetDirection(direction);
         projec.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
 
-        rCooldown = cooldown;
+        rCooldown = Cooldown;
         attacking = false;
     }
 
@@ -104,9 +115,9 @@ public class Turret : MonoBehaviour, IEnemy
     {
         m_Animator.SetTrigger("Damage");
         
-        if(rCooldown < 20)
+        if(rCooldown < Cooldown * 2 / 3)
         {
-            rCooldown = 20;
+            rCooldown = Cooldown * 2 / 3;
         }
     }
 

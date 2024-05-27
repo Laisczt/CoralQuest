@@ -120,7 +120,6 @@ public class Boss : MonoBehaviour
             turnsSinceLastPetrify++;
         }
 
-        Debug.Log(rand);
         switch (rand){
             case 1:
                 // Slice
@@ -405,7 +404,6 @@ public class Boss : MonoBehaviour
     public void Damage(int amount)
     {
         Health -= amount;
-        Debug.Log(Health);
         if(Health <= MaxHealth/2 && !phase2)
         { 
             phase2 = true;
@@ -425,6 +423,12 @@ public class Boss : MonoBehaviour
             ArmL.OutAndDestroy();
             ArmR.OutAndDestroy();
 
+            foreach( var i in arenaGates)
+            {
+                var anim = i.GetComponent<Animator>();
+                if(anim != null) anim.SetTrigger("Death");
+            }
+
             m_Animator.SetTrigger("Defeat");
             StopAllCoroutines();
             StartCoroutine(deathStall());
@@ -436,6 +440,17 @@ public class Boss : MonoBehaviour
     private IEnumerator deathStall()
     {
         var i = 150;
+
+        while(i > 110)
+        {
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        foreach(var j in arenaGates)
+        {
+            Destroy(j);
+        }
 
         while(i > 0)
         {
