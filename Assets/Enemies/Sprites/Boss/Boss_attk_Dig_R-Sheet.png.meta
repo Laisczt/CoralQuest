@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dabb6b9bb756b4e439f72d6b3e0718c3
+guid: bdb22d99a9dddf4228a978d54e0b1d2c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -113,18 +113,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -133,9 +121,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
+        y: 120
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 012bb3b6e4775ae4b97b90a9584b8d03
-      internalID: 120030460
+      spriteID: 31efb52513df21c72ab374654722ac25
+      internalID: 1607678792
       vertices: []
       indices: 
       edges: []
@@ -154,9 +142,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 160
+        y: 120
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0b21e1bacf716840be845e10deeff6c
-      internalID: -515521747
+      spriteID: 855ecefd1e07cf437b1cf0b50a195d85
+      internalID: 1192730602
       vertices: []
       indices: 
       edges: []
@@ -175,9 +163,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 160
+        y: 120
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c734d3088eb139e48b5dc937dc0bdf82
-      internalID: -1685884879
+      spriteID: 7c97ba0eb46670735af14221094d886e
+      internalID: -1682349919
       vertices: []
       indices: 
       edges: []
@@ -196,9 +184,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
+        y: 60
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f2d692907e2cf44c9fcb67b70a155d7
-      internalID: 960505532
+      spriteID: 7cce65d581cef6157aa0683635e7a03c
+      internalID: -1888198189
       vertices: []
       indices: 
       edges: []
@@ -217,9 +205,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 80
+        y: 60
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,8 +215,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8bf0d444e4ce0a4aa7a8516b1f2debe
-      internalID: 1924865050
+      spriteID: 12280d92f24a1f7048743745f335b14c
+      internalID: 1659362105
       vertices: []
       indices: 
       edges: []
@@ -238,9 +226,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 80
+        y: 60
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,8 +236,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 093872197237fd64a9e56f434f542a11
-      internalID: -1177362263
+      spriteID: 71007796ac10d23ec8138ad2ded14333
+      internalID: -1332554752
       vertices: []
       indices: 
       edges: []
@@ -261,7 +249,7 @@ TextureImporter:
         x: 0
         y: 0
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -269,8 +257,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd0075be8eb07dd4b8a67a120d26652a
-      internalID: 1462730676
+      spriteID: 424d292edeaba396790c075016e68369
+      internalID: -1077545429
       vertices: []
       indices: 
       edges: []
@@ -282,7 +270,7 @@ TextureImporter:
         x: 96
         y: 0
         width: 96
-        height: 80
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,8 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9a57627ee892264bb198f7240196f7a
-      internalID: 1724629417
+      spriteID: 67bbf72e6089e2e5ca99fddd05fa1c88
+      internalID: -1127854092
       vertices: []
       indices: 
       edges: []
@@ -299,7 +287,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: dcb3354809cb02b4c813bd98b29bdbe3
+    spriteID: 318f7d7231e3a643ea9babc9641230c1
     internalID: 0
     vertices: []
     indices: 
@@ -307,14 +295,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Boss_attk_Dig_R-Sheet_0: 120030460
-      Boss_attk_Dig_R-Sheet_1: -515521747
-      Boss_attk_Dig_R-Sheet_2: -1685884879
-      Boss_attk_Dig_R-Sheet_3: 960505532
-      Boss_attk_Dig_R-Sheet_4: 1924865050
-      Boss_attk_Dig_R-Sheet_5: -1177362263
-      Boss_attk_Dig_R-Sheet_6: 1462730676
-      Boss_attk_Dig_R-Sheet_7: 1724629417
+      Boss_attk_Dig_R-Sheet_0: 1607678792
+      Boss_attk_Dig_R-Sheet_1: 1192730602
+      Boss_attk_Dig_R-Sheet_2: -1682349919
+      Boss_attk_Dig_R-Sheet_3: -1888198189
+      Boss_attk_Dig_R-Sheet_4: 1659362105
+      Boss_attk_Dig_R-Sheet_5: -1332554752
+      Boss_attk_Dig_R-Sheet_6: -1077545429
+      Boss_attk_Dig_R-Sheet_7: -1127854092
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
