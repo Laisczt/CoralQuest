@@ -29,6 +29,8 @@ Essas ferramentas incluem:
 - Shaders
 - Uso de várias câmeras simultâneamente
 
+Este repositório é disponibilizado sobre a licensa MIT, que permite a modificação, distribuição e venda por qualquer pessoa (note que o pacote URP Kawase Blur não é disponibilizado para uso comercial).
+
 ## Unity
 Foi usada a versão 2021.3.25f1 do editor Unity com o template 2D, e essa é a versão recomendada ao rodar o projeto
 
@@ -37,7 +39,7 @@ Foi usada a versão 2021.3.25f1 do editor Unity com o template 2D, e essa é a v
 
 Pacotes:
 - Universal Render Pipeline (Unity)
-- [Kawase Blur](https://github.com/tomc128/urp-kawase-blur)
+- [URP Kawase Blur](https://github.com/tomc128/urp-kawase-blur)
 - [Joystick Pack](https://assetstore.unity.com/packages/tools/input-management/joystick-pack-107631) (Asset Store)
 
 
