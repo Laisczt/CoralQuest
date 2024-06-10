@@ -16,6 +16,8 @@ O jogo possui:
 ## Qual é a proposta do jogo?
 A partir do conteúdo da Workshop Unity for Women, os alunos encarregados desse projeto criaram um jogo aprofundando os conceitos e ferramentas básicas do Unity, com o objetivo de mostrar o que pode ser feito sem um conhecimento muito profundo da plataforma, enquanto ao mesmo tempo introduzindo novas ferramentas progressivamente.
 
+![Morret_gif](https://github.com/Laisczt/CoralQuest/assets/92321749/0bab9730-3fa4-440e-a86e-87c72c3eb8a5)
+
 Essas ferramentas incluem:
 - Raycasts
 - Diferênciação do uso de Update (input) e FixedUpdate(física)
@@ -23,13 +25,15 @@ Essas ferramentas incluem:
 - Animação a partir de Spritesheets
 - Uso de cenas aditivas para UI (TODO)
 - Extension Classes
-
 - [Padrão de Design Singleton](https://gamedevbeginner.com/singletons-in-unity-the-right-way/)
 - Shaders
 - Uso de várias câmeras simultâneamente
 
 ## Unity
 Foi usada a versão 2021.3.25f1 do editor Unity com o template 2D, e essa é a versão recomendada ao rodar o projeto
+
+![Healing_Tree](https://github.com/Laisczt/CoralQuest/assets/92321749/941aba84-db79-4083-9f8a-c606f549fe9e)
+
 
 Pacotes:
 - Universal Render Pipeline (Unity)
