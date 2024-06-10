@@ -42,7 +42,12 @@ Pacotes:
 - [URP Kawase Blur](https://github.com/tomc128/urp-kawase-blur)
 - [Joystick Pack](https://assetstore.unity.com/packages/tools/input-management/joystick-pack-107631) (Asset Store)
 
+## Créditos
 
+* Programação - Laís Soares
+* Arte - Wonnz Lopes
+* Efeitos Sonoros - Laís Soares, Wonnz Lopes
+* Música - Herbert "Kiragon"
 
 
 
