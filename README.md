@@ -47,7 +47,7 @@ Pacotes:
 * Programação - Laís Soares
 * Arte - Wonnz Lopes
 * Efeitos Sonoros - Laís Soares, Wonnz Lopes
-* Música - Herbert "Kiragon"
+* Música - [Herbert Kiragon](https://www.instagram.com/kiragon_obardo/)
 
 
 
