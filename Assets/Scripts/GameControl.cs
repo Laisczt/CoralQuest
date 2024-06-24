@@ -7,17 +7,25 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour
 {
     public static GameControl Instance { get; private set; }
-    [SerializeField] GameObject Player;
+    private Scene _UIScene;
+    private GameObject GameOverMenu;
+    private UIControlButton ReviveButton;
     private PlayerControl playerC;
-    [SerializeField] GameObject GameOverMenu;
+
     private bool usingMobileControls;
+
+    [HideInInspector]public bool isGameOver;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
-        Instance = this;
-
-        playerC = Player.GetComponent<PlayerControl>();
-
+        playerC = PlayerControl.Instance;
+        StartCoroutine(LoadUI());
+        
         if (Application.isMobilePlatform || usingMobileControls)    // Ativa os controles de celular quando necessário
         {
             UseMobileControls(true);
@@ -35,6 +43,7 @@ public class GameControl : MonoBehaviour
             Debug.LogError("Data Saver Manager not found");
         }
         
+        Time.timeScale = 1f;
     }
 
     private void Update()
@@ -45,6 +54,13 @@ public class GameControl : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Main Menu");
+        }
+
+        if(!isGameOver) return;
+
+        if(ReviveButton.GetButtonDown())
+        {
+            Restart();
         }
     }
 
@@ -72,12 +88,44 @@ public class GameControl : MonoBehaviour
         }
         
     }
-    public void EnableGameOverScreen()
+    public void GameOver()
     {
         GameOverMenu.SetActive(true);
+        isGameOver = true;
     }
 
     public void Restart(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    IEnumerator LoadUI()
+    {
+
+        var isInv = playerC.PlayerHealth.DEBUG_INVINCIBLE;
+
+        playerC.PlayerHealth.DEBUG_INVINCIBLE = true;
+
+        _UIScene = SceneManager.LoadScene("UI", new LoadSceneParameters(LoadSceneMode.Additive));
+
+        while(!_UIScene.isLoaded)
+        {
+            yield return null;
+        }
+
+        GameOverMenu = _UIScene.GetRootGameObjects()[0].transform.GetChild(0).gameObject;
+
+        if(GameOverMenu == null)
+        {
+            Debug.LogError("Game Over Overlay not found, did you rename the UI Scene / root object?");
+        }
+
+        ReviveButton = GameOverMenu.transform.GetChild(0).GetComponent<UIControlButton>();
+        if(ReviveButton == null)
+        {
+            Debug.LogError("Revive Button not found, did you rename it?");
+        }
+
+
+        if (!isInv) playerC.PlayerHealth.DEBUG_INVINCIBLE = false;
     }
 }

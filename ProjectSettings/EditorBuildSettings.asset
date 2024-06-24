@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Debug.unity
     guid: a279bc4c1ea0a9542b1d10b905b4012d
   - enabled: 1
+    path: Assets/Scenes/UI.unity
+    guid: 730b1513902976718810f20e41c7e732
+  - enabled: 1
     path: Assets/Scenes/Shallows.unity
     guid: 9fce4c3064870b24a965bfcd69510a6f
   m_configObjects: {}

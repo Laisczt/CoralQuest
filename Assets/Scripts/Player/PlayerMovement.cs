@@ -267,6 +267,7 @@ public class PlayerMovement : MonoBehaviour
     public void Knockback(float force, float xDirStrenth)
     // Método público para aplicar knockback ao jogador
     {
+        if(!m_PlayerControl.Alive) return;
         StartCoroutine(coroutine_Knockback(force, xDirStrenth));
     }
     IEnumerator coroutine_Knockback(float force, float xDirStrenth)

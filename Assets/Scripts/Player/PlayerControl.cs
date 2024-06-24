@@ -29,6 +29,11 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     private bool startingAreaSet = false;   // Define a área inicial da câmera
 
     public static PlayerControl Instance { get; private set; }  // Singleton instance
+    public PlayerHealth PlayerHealth { 
+        get{
+            return m_PlayerHealth;
+        }  
+    }
 
     public bool LockMovement {
         get{
@@ -109,28 +114,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         }
     }
     
-    public void GameOverStall(){            // Mantém o jogo correndo por um período antes de mostrar o botão de reviver
-        StartCoroutine(cGameOverStall());
-    }
-    IEnumerator cGameOverStall()
-    {
-        var i = 100;
-
-        Time.timeScale = 0.75f; // Drama
-
-        while(i > 70){
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-
-        Time.timeScale = 1f;
-
-        while(i > 0){
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-        GameControl.Instance.EnableGameOverScreen();
-    }
 
 
     public void SetMobileControls(GameObject[] controls)    // Ativa os controles mobile

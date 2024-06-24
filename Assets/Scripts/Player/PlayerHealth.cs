@@ -114,6 +114,25 @@ public class PlayerHealth : MonoBehaviour
 
         m_PlayerMovement.LockMovement = true;
 
-        m_PlayerControl.GameOverStall();
+        StartCoroutine(gameOver());
+    }
+    IEnumerator gameOver()
+    {
+        var i = 100;
+
+        Time.timeScale = 0.75f; // Drama
+
+        while(i > 70){
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        Time.timeScale = 1f;
+
+        while(i > 0){
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+        GameControl.Instance.GameOver();
     }
 }
