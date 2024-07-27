@@ -3,10 +3,6 @@ width: 1500px;
 }
 
 
-
-html {
-    height: 100%;
-}
 body {
   background-image: linear-gradient(#39e3f0,#123ea0);
   height:100vh;
@@ -15,5 +11,4 @@ body {
     height: 100%;
     margin: 0;
     background-repeat: no-repeat;
-    background-attachment: fixed;
 }
