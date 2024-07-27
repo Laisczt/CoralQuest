@@ -2,7 +2,7 @@
 width: 1520px;
 }
 
-html{
+.header{
   height:200vh;
   width: 10%;
 background-image: linear-gradient(#39e3f0,#123ea0); 
