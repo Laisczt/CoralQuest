@@ -3,7 +3,10 @@ width: 1520px;
 }
 
 .header{
+  background-image: linear-gradient(#39e3f0,#123ea0);
+  background-size: 400% 400%; 
   height:200vh;
-  width: 10%;
-background-image: linear-gradient(#39e3f0,#123ea0); 
+  width: 100%;
+  
+  
 }
