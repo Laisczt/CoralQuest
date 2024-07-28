@@ -5,12 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class BossHealthTentacle : MonoBehaviour, IEnemy
 {
-    public Boss parentBoss;
-    [HideInInspector] public float BubbleOriginY;
+    /*
+        Tentaculo de vida da boss
+        dano causado aa esses tentaculos eh transferido para a boss
+    */
+    public Boss parentBoss;     // Boss
+    [HideInInspector] public float BubbleOriginY;   // Altura na qual sao criadas bolhas (que indicam onde vai surgir um tentaculo)
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     private Animator m_Animator;
 
-    public int Lifespan = 360;
+    public int Lifespan = 360;  // Quantos frames o tentaculo dura antes de desaparecer
 
     private void OnValidate()
     {
@@ -20,15 +24,13 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Spawn());
-
-        if(basicEnemy == null)
+        if(basicEnemy == null)  // Inimigos spawnados durante o percorrer do jogo precisam pegar o basic enemy aqui
         {
             basicEnemy = GetComponent<BasicEnemy>();
         }
         m_Animator = GetComponent<Animator>();
 
-        var hit = Physics2D.Raycast(transform.position + Vector3.up * 5, Vector2.down, 5);
+         StartCoroutine(Spawn());
     }
 
     // Update is called once per frame
@@ -37,34 +39,27 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
         Lifespan--;
         if (Lifespan == 0) StartCoroutine(Despawn());
     }
-
-    [SerializeField] List<GameObject> Bubbles = new List<GameObject>();
-    private IEnumerator Spawn()
+    private IEnumerator Spawn() // Posiciona o tentaculo ao spawnar
     {
         var i = 100;
         while(i > 0){
             i--;
-            if(i % 20 == 0)
+            if(i % 20 == 0) // Spawna bolhas vermelhas no local onde o tentáculo irá surgir
             {
-                GameObject newbub = Instantiate(Bubbles[Random.Range(0, Bubbles.Count)], new Vector3 (transform.position.x, BubbleOriginY, transform.position.z - 0.25f), Quaternion.identity);
-                if(Random.Range(0f,1f) <= 0.5f)
-                {
-                    newbub.GetComponent<SpriteRenderer>().flipX = true;
-                }
-                StartCoroutine(bubbleDeathStall(newbub));
+               BubbleManager.Instance.SpawnBubble(new Vector3 (transform.position.x, BubbleOriginY, transform.position.z - 0.25f), 'R');
             }
             yield return new WaitForFixedUpdate();
         }
 
         i = 90;
-        while(i > 0)
+        while(i > 0)    // Sobe o tentáculo lentamente
         {
             i--;
             transform.localPosition += new Vector3(0, 0.02f, 0);
             yield return new WaitForFixedUpdate();
         }
     }
-    private IEnumerator Despawn()
+    private IEnumerator Despawn()   // Desce lentamente o tentaculo antes de ser destruido
     {
         var i = 90;
         while (i > 0)
@@ -73,23 +68,10 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
             transform.localPosition -= new Vector3(0, 0.02f, 0);
             yield return new WaitForFixedUpdate();
         }
-        Kill();
+        Destroy(gameObject);
     }
 
-    private IEnumerator bubbleDeathStall(GameObject bub)
-    {
-        var i = 74;
-
-        while(i > 0)
-        {
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-
-        Destroy(bub);
-    }
-
-    public void Damage(int amount)
+    public void Damage(int amount)  // Danifica o tentaculo e a boss
     {
         parentBoss.Damage(amount);
         m_Animator.SetTrigger("Damage");
@@ -97,32 +79,12 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
     public void Kill()
     {
         m_Animator.SetTrigger("Death");
-        StartCoroutine(deathStall());
         basicEnemy.Alive = false;
 
-        StopCoroutine(Spawn());
-        StopCoroutine(Despawn());
+        Destroy(gameObject);
     }
     public void Knockback()
     {
 
-    }
-
-    private IEnumerator deathStall()
-    {
-        var i = 30;
-
-        while(i > 0)
-        {
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-
-        foreach(var j in GameObject.FindGameObjectsWithTag("Boss Bubble"))
-        {
-            Destroy(j);
-        }
-
-        Destroy(gameObject);
     }
 }

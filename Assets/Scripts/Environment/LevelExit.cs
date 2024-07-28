@@ -5,13 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class LevelExit : MonoBehaviour
 {
+    /*
+        Saida do nivel, um tunel que forca a player a continuar andando e entao carrega outra cena
+    */
     public string TargetScreen;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        MainCamera.Instance.Freeze = true;
-        PlayerControl.Instance.LockMovement = true;
-        StartCoroutine(StallTransition());
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            MainCamera.Instance.Freeze = true;
+            PlayerControl.Instance.LockMovement = true;
+            StartCoroutine(StallTransition());
+        }
     }
 
     IEnumerator StallTransition()

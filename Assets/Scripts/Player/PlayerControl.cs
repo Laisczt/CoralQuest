@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 
@@ -15,6 +16,10 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour, IDataSaver
 {
+    /*
+        Controlador do jogador
+        interacoes com o jogador a partir de outros scripts sempre passam por aqui
+    */
     [SerializeField, HideInInspector] Rigidbody2D m_RigidBody;        // Corpo Rigido para fisica
     [SerializeField, HideInInspector] Animator m_Animator;            // Animador
     [SerializeField, HideInInspector] PlayerMovement m_PlayerMovement;// Script de movimento do jogador
@@ -26,16 +31,16 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     [HideInInspector] public bool Alive = true;               // Player vivo
     [HideInInspector] public int SpriteOrientation = 1;       // -1 Quando o Sprite estiver espelhado
 
-    private bool startingAreaSet = false;   // Define a área inicial da câmera
+    [HideInInspector] public float DefaultGravityScale;       // Gravidade padrao
 
     public static PlayerControl Instance { get; private set; }  // Singleton instance
-    public PlayerHealth PlayerHealth { 
+    public PlayerHealth PlayerHealth {  // Acesso ao PlayerHealth script
         get{
             return m_PlayerHealth;
         }  
     }
 
-    public bool LockMovement {
+    public bool LockMovement {  // Trava de movimento
         get{
             return m_PlayerMovement.LockMovement;
         }
@@ -44,13 +49,13 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         }
     }
 
-    public float JumpPower {
+    public float JumpPower {    // Forca do pulo
         get{
             return m_PlayerMovement.JumpPower;
         }
     }
 
-    public bool UsingMobileControls {
+    public bool UsingMobileControls {   // Verdadeiro quando os controles de UI para celular estao ativos
         get {
             return UsingMobileControls;
         }
@@ -78,10 +83,14 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 	    Instance = this;
     }
 
+    void Start()
+    {
+        DefaultGravityScale = m_RigidBody.gravityScale;
+    }
+
     [ContextMenu("Petrify")]
     
-    public void Petrify()
-    // Petrifica o jogador
+    public void Petrify()   // Petrifica o jogador
     {
         if(m_Petrify == null) Debug.LogWarning("Player petrification script not found");
         if(Petrified) return;
@@ -90,32 +99,14 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_Animator.SetTrigger("Petrify");
         m_Petrify.enabled = true;
     }
-    public void Depetrify()
-    // Despetrifica
+    public void Depetrify(bool idle = true)   // Despetrifica
     {
         Petrified = false;
-        m_Animator.SetTrigger("Depetrify");
         m_Petrify.enabled = false;
-    }
 
-    
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!startingAreaSet)
-        {
-            // A �rea da c�mera quando o jogo come�a ser� a mesma �rea em que o jogador est�
-            if (collision.gameObject.CompareTag("Camera Areas"))
-            {
-                startingAreaSet = true;
-                MainCamera.Instance.ChangeArea(collision.gameObject);       // Muda a �rea da c�mera
-                collision.transform.Find("Exits").gameObject.SetActive(true); // Ativa as sa�das da �rea
-            }
-        }
+        if(idle) m_Animator.SetTrigger("Depetrify");
     }
     
-
-
     public void SetMobileControls(GameObject[] controls)    // Ativa os controles mobile
     {
         foreach (var element in controls)
@@ -141,28 +132,64 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         }
     }
 
-    public bool Damage(int value)
+    public bool Damage(int value)   // Danifica o jogador
     {
         return m_PlayerHealth.Damage(value);
     }
+
+
     [ContextMenu("Damage1")]
-    public void Damage1()
+    public void Damage1()       // Da 1 dano ao jogador (acessivel pelo editor)
     {
         Damage(1);
     }
 
-    public void Heal(int value)
+    public void Heal(int value)     // Cura o jogador
     {
         m_PlayerHealth.Heal(value);
     }
 
     [ContextMenu("Heal1")]
-    public void Heal1()
+    public void Heal1()     // Cura 1 vida ao jogador (acessivel pelo editor)
     {
         Heal(1);
     }
 
-    public void Knockback(float force, float xDirStrenth)
+    public void Kill(){     // Mata o jogador
+        Alive = false;
+        m_Petrify.enabled = false;
+        m_PlayerAttack.enabled = false;
+        m_PlayerHealth.enabled = false;
+        m_PlayerMovement.enabled = false;
+        m_RigidBody.velocity = new Vector2(0, m_RigidBody.velocity.y);
+
+        m_Animator.SetTrigger("Death");
+
+        StartCoroutine(gameOver());
+    }
+
+
+    IEnumerator gameOver()  // Ativa a tela de gameover apos um delay
+    {
+        var i = 100;
+
+        Time.timeScale = 0.5f; // Drama
+
+        while(i > 70){
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        Time.timeScale = 1f;
+
+        while(i > 0){
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+        GameControl.Instance.GameOver();
+    }
+
+    public void Knockback(float force, float xDirStrenth)   // Aplica knockback ao jogador
     {
         m_PlayerMovement.Knockback(force, xDirStrenth);
     }

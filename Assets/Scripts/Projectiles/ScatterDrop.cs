@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BasicProjectile))]
 public class ScatterDrop : MonoBehaviour
 {
+    /*
+        Drops com rotacao e direcao aleatoria
+    */
     Rigidbody2D m_RigidBody;
 
     // Start is called before the first frame update
@@ -16,12 +20,6 @@ public class ScatterDrop : MonoBehaviour
         m_RigidBody.velocity = Vector2.up.Rotated(Mathf.Deg2Rad * angle) * GetComponent<BasicProjectile>().speed;
         m_RigidBody.angularVelocity = angle * 10f;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -5,22 +5,27 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class Turret : MonoBehaviour, IEnemy
 {
+    /*
+        Turret eh um inimigo estacionario que atira projeteis no jogador
+
+    */
     public float Radius; // Distância de detecção
     public int Cooldown; // Cooldown entre tiros
+    private int rCooldown;  // cooldown atual
     public int AttentionSpan;   // Quantidade de tempo entre o player sair do campo de visão do inimigo e o inimigo voltar pro pote
-    private int rAttentionSpan;
+    private int rAttentionSpan; // '' atual
 
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     private Animator m_Animator;
     private PlayerControl target;
     
-    [SerializeField] GameObject shot; // The projectile shot
-    private int rCooldown = 0;  // keeps track of cooldown passing
-    private Vector3 offset = new Vector3(0 , 0.48f, 0); // Offset for the position where the projectile will spawn
-    private float shotSpawnDistance = 0.4f; // Offset in the direction the projectile is shot
-    private Vector3 headPos;
-    private bool attacking;
+    [SerializeField] GameObject shot; // O projetil atirado
+    
+    private Vector3 offset = new Vector3(0 , 0.48f, 0); // Offset para a posicao da cabeca
+    private float shotSpawnDistance = 0.4f; // distancia da cabeca na direcao do tiro onde o projetil vai aparecer
+    private Vector3 headPos;    // Posicao da cabeca 
+    private bool attacking;     // Se esta atacando
 
     LayerMask playerMask;
     private void OnValidate()
@@ -34,21 +39,16 @@ public class Turret : MonoBehaviour, IEnemy
         m_Animator = GetComponent<Animator>();
         target = PlayerControl.Instance;
         headPos = transform.position + offset;
-        //
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     private void FixedUpdate()
     {
         if(!basicEnemy.Alive) return;
+
         var seesTarget = transform.Sees(offset, target.transform, Radius, playerMask);
+
         m_Animator.SetBool("Target In View", seesTarget);
 
-        if (seesTarget)
+        if (seesTarget) // Se o inimigo pode "ver" o jogador, ataca
         {
             rAttentionSpan = AttentionSpan;
             if (rCooldown > 0) rCooldown--;
@@ -63,7 +63,7 @@ public class Turret : MonoBehaviour, IEnemy
                 StartCoroutine(Attack());
             }
         }
-        else
+        else    // Se nao, aguarda um periodo antes de se esconder novamente
         {
             if(rAttentionSpan > 0){
                 rAttentionSpan--;
@@ -77,7 +77,7 @@ public class Turret : MonoBehaviour, IEnemy
         }
     }
 
-    IEnumerator Attack()
+    IEnumerator Attack()    // Atira um projetil na direcao do jogador
     {
         attacking = true;
         int i = 21;
@@ -115,7 +115,7 @@ public class Turret : MonoBehaviour, IEnemy
     {
         m_Animator.SetTrigger("Damage");
         
-        if(rCooldown < Cooldown * 2 / 3)
+        if(rCooldown < Cooldown * 2 / 3)    // Ataques continuos ao inimigo impede que ele atire
         {
             rCooldown = Cooldown * 2 / 3;
         }

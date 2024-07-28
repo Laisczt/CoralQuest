@@ -16,6 +16,7 @@ TagManager:
   - Platform
   - Heal
   - Boss Bubble
+  - Bubble
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - Patrol
   - Platform
   - Boss
-  - 
+  - Player Attack
   - 
   - 
   - 

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class BGCamera : MonoBehaviour
 {
+    /*
+        Camera do painel de fundo
+        Seu movimento mimica a camera principal, de forma proporcional as dimensoes da imagem da tela de fundo
+    */
     private Camera mainCamera;
     [SerializeField] SpriteRenderer background;
-    //public Vector3 MapTopLeftCorner;
-    //public Vector3 MapBottomRightCorner;
-
     private Vector2 mapSize;
     private Vector2 offsets;
 
@@ -31,17 +32,21 @@ public class BGCamera : MonoBehaviour
         bgBounds.y -= cameraSize;
         newPos.z = transform.localPosition.z;
 
-        var levelCol = GameObject.Find("Level").GetComponent<Collider2D>();
+        var Level = GameObject.Find("Level");
+        if(Level == null)
+        {
+            Debug.LogError("Objeto Level não encontrado - Câmera de Background");
+        }
+        var levelCol = Level.GetComponent<Collider2D>();
         mapSize = levelCol.bounds.extents;
         offsets = levelCol.offset;
-        //mapSize = new Vector2(MapBottomRightCorner.x - MapTopLeftCorner.x, MapTopLeftCorner.y - MapBottomRightCorner.y);
-        //offsets = new Vector2((MapBottomRightCorner.x + MapTopLeftCorner.x) /2, (MapTopLeftCorner.y + MapBottomRightCorner.y) / 2);
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
         var tx = (mainCamera.transform.position.x - offsets.x) / (mapSize.x);
         if(tx <= 1 && tx >= -1)
         {
@@ -49,7 +54,6 @@ public class BGCamera : MonoBehaviour
         }
 
         var ty = (mainCamera.transform.position.y - offsets.y) / (mapSize.y);
-        //Debug.Log(tx);
         if (ty <= 1 && ty >= -1)
         {
             newPos.y = ty * bgBounds.y;

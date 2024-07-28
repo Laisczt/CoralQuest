@@ -342,8 +342,8 @@ MonoBehaviour:
   ParentBoss: {fileID: 0}
   direction: 1
   Damage: 1
-  a: 12
-  b: 80
+  speed: 12
+  duration: 95
 --- !u!61 &8645370241107535600
 BoxCollider2D:
   m_ObjectHideFlags: 0

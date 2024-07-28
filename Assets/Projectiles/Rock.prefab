@@ -142,6 +142,7 @@ MonoBehaviour:
   breaksOnPlayerHit: 0
   IsHealingDrop: 0
   hasBreakSprite: 1
+  breakDuration: 15
 --- !u!114 &6475298913944073711
 MonoBehaviour:
   m_ObjectHideFlags: 0

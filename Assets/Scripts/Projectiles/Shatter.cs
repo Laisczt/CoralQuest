@@ -3,13 +3,23 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(BasicProjectile))]
 public class Shatter : MonoBehaviour
 {
-    [SerializeField] Projectile_Straight Fragment;
+    /*
+        Projeteis que spawnam outros projeteis ao serem destruidos
+    */
+    [SerializeField] Projectile_Straight Fragment;  // O projetil secundario
+    public int ProjectileCount = 16;
 
     private void OnDestroy()
     {
-        for(int i = 0; i < 12; i++)
+        ShatterProjectile();
+    }
+
+    public void ShatterProjectile()     // Instancia projeteis secundarios em um cone de 120º abaixo de si
+    {
+        for(int i = 0; i < ProjectileCount; i++)
         {
             var direction = Vector2.down;
             var angle = Random.Range(-60,60);
@@ -19,6 +29,5 @@ public class Shatter : MonoBehaviour
             proj.SetDirection(direction);
             proj.GetComponent<Rigidbody2D>().angularVelocity = angle * 15f;
         }
-        
     }
 }

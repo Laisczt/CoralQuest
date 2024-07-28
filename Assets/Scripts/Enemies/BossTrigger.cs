@@ -6,8 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class BossTrigger : MonoBehaviour, IEnemy
 {
+    /*
+        Tentaculo que spawna a boss ao ser morto
+    */
     public GameObject boss;
-    public Animator m_Animator;
+    [SerializeField, HideInInspector] Animator m_Animator;
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
 
     private void OnValidate(){
@@ -29,12 +32,14 @@ public class BossTrigger : MonoBehaviour, IEnemy
         StartCoroutine(spawnBoss());
     }
     
-    private IEnumerator spawnBoss(){
+    private IEnumerator spawnBoss()
+    {
         var i = 10;
         while(i > 0){
             i--;
             yield return new WaitForFixedUpdate();
         }
+        LevelMusicPlayer.Instance.Play();   // Toca a musica
         boss.SetActive(true);
     }
 }

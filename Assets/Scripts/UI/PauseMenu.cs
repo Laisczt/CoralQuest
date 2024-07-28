@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    /*
+        Funcoes de pausa
+    */
     public GameObject PausePanel;
     public GameObject PauseButton;
 
@@ -11,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     {
         PauseButton.SetActive(false);
         PausePanel.SetActive(true);
+        LevelMusicPlayer.Instance.Muffle(true);
         Time.timeScale = 0;
     }
 
@@ -18,6 +22,7 @@ public class PauseMenu : MonoBehaviour
     {
         PauseButton.SetActive(true);
         PausePanel.SetActive(false);
+        LevelMusicPlayer.Instance.Muffle(false);
         Time.timeScale = 1;
     }
 }

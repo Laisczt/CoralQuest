@@ -5,43 +5,48 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    private Transform target;      // O objeto que a c�mera segue (alvo)
-    public Collider2D area;         // A regi�o em que a c�mera est�
-    public float SpeedFactor = 3f;  // A Velocidade de aproxima��o da c�mera
-    public bool smoothMovement;
-    public bool FreeCam;
-    public bool Freeze;
+    /*
+        Script da camera principal
+        essa camera segue o jogador, respeitando os limites da tela em que se encontra
+    */
+    private Transform target;      // O objeto que a camera segue (alvo)
+    private Collider2D area;         // A regiao em que a camera esta
+    public float SpeedFactor = 3f;  // A Velocidade de aproximacao da camera
+    public bool smoothMovement;     // Se a camera deve se mover suavemente
+    public bool FreeCam;            // Se a camera pode se mover livremente (não limitada a uma tela)
+    public bool Freeze;             // Congela a camera
 
     private Camera m_Camera;        // Acesso ao script Camera
-    private float aspectRatioOffsetX;// Compensa��o ao tamanho horizontal da camera ao depender do formato da tela
-    private float aspectRatioOffsetY;// Compensa��o 
-    public float aspectRatio;       // Propor��es da camera
-    private const float zPos = -10; // A posi��o padr�o da c�mera no eixo Z
+    private float aspectRatioOffsetX;// Compensacao ao tamanho horizontal da camera ao depender do formato da tela
+    private float aspectRatioOffsetY;// Compensacao vertical 
+    public float aspectRatio;       // Proporcoes da camera
+    private float zPos ;            // A posicao padrao da camera no eixo Z
 
-    public static MainCamera Instance  // Propriedade est�tica para facilitar o acesso da c�mera por outros scripts (singleton)
+    public static MainCamera Instance;  // Instancia singleton
+
+    void Awake()
     {
-        get
-        {
-            return FindObjectOfType<MainCamera>();
-        }
+        Instance = this;
     }
+
 
     // Start is called before the first frame update
     void Start()
     {
+        zPos = transform.position.z;
         m_Camera = GetComponent<Camera>();
         target = PlayerControl.Instance.transform;
         if(target == null){
             Debug.LogError("Player not found - Main Camera");
         }
 
-        // Usamos o tamanho vertical da camera e as dimens�es da tela para calcular o tamanho horizontal
+        // Usamos o tamanho vertical da camera e as dimensoes da tela para calcular o tamanho horizontal
         aspectRatio = ((float)Screen.width) / ((float)Screen.height);
         aspectRatioOffsetX = aspectRatio * m_Camera.orthographicSize;
         aspectRatioOffsetY = m_Camera.orthographicSize;
         BGCamera.Instance.ApplyAspectRatio(aspectRatio);
 
-        // Iniciaremos a posi��o da c�mera � mesma posi��o do jogador
+        
         transform.position = new Vector3(target.position.x, target.position.y, zPos);
 
         if(area == null) FreeCam = true;
@@ -101,10 +106,9 @@ public class MainCamera : MonoBehaviour
             else
             {
                 transform.position += (Vector3)distance * ((float)-1.957 * (Mathf.Pow(0.6f, Time.deltaTime) - 1)) * SpeedFactor;
-                /* Caso contr�rio, aproxima a c�mera da personagem de forma exponencial
-                 Movimento desejado �  transform.position += distance * 0.6
-                 Por�m ao levar em considera��o deltaTime, a f�rmula que corretamente aproxima esse movimento �  distance * -1.957 * (0.6^deltaTime - 1)
-                 F�rmula obtida atrav�s da integral definida de 0.6^x entre 0 e deltaTime
+                /* Caso contrario, aproxima a camera da personagem de forma exponencial
+                 Movimento desejado:  transform.position += distance * 0.6
+                 Formula obtida atraves da integral definida de 0.6^x entre 0 e deltaTime
                 */
             }
         }
@@ -115,11 +119,19 @@ public class MainCamera : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, zPos); // Mantemos a posi��o Z da C�mera no valor padr�o
     }
 
-    public void ChangeArea(GameObject newArea)  // Mudan�a de �rea da c�mera
+    public void ChangeArea(ScreenZone newArea, float newSize)  // Mudan�a de �rea da c�mera
     {
         area = newArea.GetComponent<Collider2D>();
         FreeCam = false;
-        StartCoroutine(ChangeCameraSize(area.GetComponent<ScreenZone>().cameraSize)); // Utilizamos o tamanho de c�mera especificado pela �rea
+        StopAllCoroutines();
+        StartCoroutine(ChangeCameraSize(newSize)); // Utilizamos o tamanho de c�mera especificado pela �rea
+    }
+
+    public void UseFreeCam()
+    {
+        Debug.LogWarning("DEBUG - USING FREE CAM");
+        area = null;
+        FreeCam = true;
     }
 
     IEnumerator ChangeCameraSize(float targetSize)      // Mudamos o tamanho da c�mera Gradualmente
@@ -128,13 +140,19 @@ public class MainCamera : MonoBehaviour
         float t = 0;
         var oldSize = m_Camera.orthographicSize;
 
-        aspectRatioOffsetX = (((float)Screen.width) / ((float)Screen.height)) * targetSize;
+        float changeRate;
+        if(oldSize >= targetSize) changeRate = 4;
+        else changeRate = 4 * (oldSize / targetSize);
+        
+
+        aspectRatioOffsetX = aspectRatio * targetSize;
         aspectRatioOffsetY = targetSize;
 
         while (t < 1)
         {
-            m_Camera.orthographicSize = Mathf.Lerp(oldSize, targetSize, t);
-            t += 5 * Time.deltaTime;
+            t += changeRate * Time.deltaTime;
+            var et = -(Mathf.Cos(Mathf.PI * t) - 1) / 2; // T com função de easing
+            m_Camera.orthographicSize = Mathf.Lerp(oldSize, targetSize, et);
             yield return null;
         }
         m_Camera.orthographicSize = targetSize;

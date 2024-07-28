@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1046684478410141326}
   - component: {fileID: 4290877859024726040}
   - component: {fileID: -1613311935504956439}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tentacle Tip
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicEnemy: {fileID: 7038688693501409616}
-  blockedExits: []
 --- !u!1 &7410818835888734501
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +201,7 @@ GameObject:
   - component: {fileID: 3765919159391206621}
   - component: {fileID: 2575366582120967592}
   - component: {fileID: 7848098327741426118}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Barrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}

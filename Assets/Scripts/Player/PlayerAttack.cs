@@ -6,6 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerControl))]
 public class PlayerAttack : MonoBehaviour
 {
+    /*
+        Script de ataque da player
+        Lida com input e instancia os ataques
+    */
 
     [SerializeField, HideInInspector] PlayerControl m_PlayerControl;  // Controlador
     [SerializeField, HideInInspector] PlayerPetrification m_Petrify;  // Script de petrificaçao
@@ -28,32 +32,26 @@ public class PlayerAttack : MonoBehaviour
         m_Petrify = GetComponent<PlayerPetrification>();
         m_Animator = GetComponent<Animator>();
     }
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        // Ataque
+        // Input de ataque
         if (( Input.GetButton("Fire1")   ||   (UsingMobileControls && AttackButton.GetButtonDown())  )
             && rAttackCooldown == 0 )
         {
-            if(m_PlayerControl.Petrified) m_Petrify.Shake();
+            if(m_PlayerControl.Petrified) m_Petrify.Shake();    // Atacar ajuda a escapar a petrificacao
             else attacking = true;
         }
     }
 
     void FixedUpdate()
     {
-         // ATAQUE
-        if (attacking)
+        if (attacking)  // Instancia o projetil do ataque
         {
             rAttackCooldown = AttackCooldown;
             Instantiate(BaseAttack, transform.position + new Vector3(attackOffsetX * m_PlayerControl.SpriteOrientation, attackOffsetY), Quaternion.Euler(new Vector3(0, -90 + m_PlayerControl.SpriteOrientation * 90, 0)));
             m_Animator.SetTrigger("Attack");
-            attackSound.Play();
+            attackSound.PlayOneShot(attackSound.clip);
         }
 
         // Redefinir Variaveis

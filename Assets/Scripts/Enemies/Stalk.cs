@@ -7,20 +7,24 @@ using UnityEngine.Assertions.Must;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Stalk : MonoBehaviour, IEnemy
 {
-    private Vector2 homePos;
-    public float TerritoryRadius;
-    public float TopSpeed = 4.5f;
-    private float speed = 0;
-    private float baseSpeed = 1f;
+    /*
+        IA de inimigo que segue o jogador diretamente
+        Esse inimigo possui uma posicao inicial, a qual retorna caso o jogador se afaste, um raio de deteccao do jogador,
+        e um territorio, alem do qual nao persegue o jogador, mesmo que esteja dentro do raio de deteccao
+    */
+    private Vector2 homePos;    // Posicao inicial
+    public float TerritoryRadius;   // Raio do territorio
+    public float TopSpeed = 4.5f;   // Velocidade maxima
+    private float speed = 0;        // Velocidade atual
+    private float baseSpeed = 1f;   // Velocidade base
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     private PlayerControl target;
     private Animator m_Animator;
     private Rigidbody2D m_RigidBody;
 
-    [SerializeField] AudioSource chaseSound;
-    private bool playingSound;
-
-    private bool moving;
+    [SerializeField] AudioSource chaseSound;    // Som que toca enquanto esta perseguindo o jogador
+    private bool chasing;   // Se esta perseguindo o jogador
+    private bool moving;    // Se esta se movendo
 
 
 
@@ -40,36 +44,31 @@ public class Stalk : MonoBehaviour, IEnemy
         homePos = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void FixedUpdate()
     {
         if (basicEnemy.LockMovement) return;
-        if (!basicEnemy.Alive)
+        if (!basicEnemy.Alive)  // Ao morrer, para de se mover rapidamente
         {
             m_RigidBody.velocity /= 1.3f;
             return;
         }
 
         Vector2 travelDirection = Vector2.zero;
-        if (Vector3.Distance(homePos, target.transform.position) <= TerritoryRadius && transform.Sees(target.transform, 8, playerMask))
+        if (Vector3.Distance(homePos, target.transform.position) <= TerritoryRadius && transform.Sees(target.transform, 8, playerMask)) // Persegue o jogador
         {
             travelDirection = target.transform.position - transform.position;
             speed += 0.1f;
 
             moving = true;
         }
-        else if (Vector2.Distance(transform.position, homePos) > 0.3f)
+        else if (Vector2.Distance(transform.position, homePos) > 0.3f)  // Retorna à posicao inicial
         {
             travelDirection = homePos - (Vector2)transform.position;
             speed -= 0.0125f;
             moving = true;
         }
-        else
+        else    // Parado
         {
             speed = baseSpeed;
             moving = false;
@@ -83,15 +82,15 @@ public class Stalk : MonoBehaviour, IEnemy
         m_RigidBody.velocity = travelDirection * speed;
 
         // Audio
-        if (moving == true && playingSound == false)
+        if (moving == true && chasing == false)
         {
             chaseSound.Play();
-            playingSound = true;
+            chasing = true;
         }
-        if (moving == false && playingSound == true)
+        if (moving == false && chasing == true)
         {
             chaseSound.Stop();
-            playingSound = false;
+            chasing = false;
         }
 
         // Sprite
@@ -99,7 +98,7 @@ public class Stalk : MonoBehaviour, IEnemy
     }
     public void Knockback()
     {
-        speed = baseSpeed + 1f;
+        if(speed > baseSpeed + 1f) speed = baseSpeed + 1f; // Limita a velocidade ao receber knockback
     }
 
     public void Damage(int _value)

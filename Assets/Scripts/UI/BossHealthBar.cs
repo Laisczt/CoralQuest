@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class BossHealthBar : MonoBehaviour
 {
-    private float filled;
-    private RectTransform filledBar;
-    private float fullSize;
-    private Animator c_Animator;
-    private int damageFrames;
+    /*
+        Barra de vida da boss
+    */
+    private float filled;   // Porcentagem preenchida da barra de vida
+    private RectTransform filledBar;    // transform com o sprite de 'barra preenchida'
+    private float fullSize;     // tamanho em x total da barra
+    private Animator c_Animator;    // Animador da 'barra preenchida'
+    private int damageFrames;   // duracao da animacao de dano 
 
-    public static BossHealthBar Instance { get; private set; }
+    public static BossHealthBar Instance { get; private set; }      // singleton instance
+
+
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
+
         filledBar = transform.GetChild(1).GetComponent<RectTransform>();
         c_Animator = filledBar.GetComponent<Animator>();
         fullSize = transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.x;
@@ -23,15 +29,17 @@ public class BossHealthBar : MonoBehaviour
 
     private void FixedUpdate()
     {
+        c_Animator.SetInteger("DamageFrames", damageFrames);    // Reportar se a barra deve ser danificada ao animator
+
         if (damageFrames > 0) damageFrames--;
-        c_Animator.SetInteger("DamageFrames", damageFrames);
     }
 
-    IEnumerator increaseHealthStart()
+    IEnumerator increaseHealthStart()   // Animacao de preencher a barra de vida ao iniciar
     {
         filled = 0;
-        var i = 150;
         float t = 0f;
+
+        var i = 150;    // duração
         while(i > 0)
         {
             i--;
@@ -44,20 +52,15 @@ public class BossHealthBar : MonoBehaviour
         ChangeHealth(filled);
     }
 
-    public void ChangeHealth(float newPercent)
+    public void ChangeHealth(float newPercent)  // Alterar porcentagem preenchida
     {
-        if (newPercent < filled) damage();
+        if (newPercent < filled) damageFrames = 5;
         filled = newPercent;
 
         filledBar.sizeDelta = new Vector2(newPercent * fullSize, filledBar.sizeDelta.y);
     }
 
-    private void damage()
-    {
-        damageFrames = 5;
-    }
-
-    private void exit()
+    public void Kill()
     {
         Destroy(gameObject);
     }

@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    private PlayerHealth target;
-    public Animator heart;
-    private int maxHp;
-    private int hp;
-    Animator[] healthBar;
+    /*
+        Barra de vida do jogador
+    */
+    private PlayerHealth target;    // O player
+    public Animator heart;          // O prefab do coracao
+    private int maxHp;      // Vida maxima
+    private int hp;         // Vida atual
+    Animator[] healthBar;   // Todos os coracoes
+    private float offset = 100.125f;    // Offset do tamanho do sprite do coracao na UI
 
     public static HealthBar Instance{ get; private set; }
 
@@ -19,8 +23,7 @@ public class HealthBar : MonoBehaviour
         target = PlayerControl.Instance.GetComponent<PlayerHealth>();
         initialize();
     }
-    private float offset = 100.125f;
-    private void initialize()
+    private void initialize()   // Initialize cria todos os coracoes e os adiciona a healthBar[]
     {
         maxHp = target.MaxHealth;
         hp = target.Health;
@@ -35,9 +38,9 @@ public class HealthBar : MonoBehaviour
             pos -= new Vector3(offset, 0, 0);
         }
     }
-    public void UpdateHB()
+    public void UpdateHB()      // Atualiza a barra de vida 
     {
-        var a = target.Health;
+        var a = target.Health;      // Pega a vida do jogador
         if (a < hp)
         {
             for (int i = hp; i > a; i--)

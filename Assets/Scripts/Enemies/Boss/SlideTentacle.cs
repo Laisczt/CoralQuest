@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class SlideTentacle : MonoBehaviour
 {
-    public Boss ParentBoss;
-    public int direction = 1;
-    public int Damage = 1;
-    public float speed = 12;
-    public int duration = 80;
-    private int _direction;
-    private Vector3 homePos;
+    /*
+        Ataque 'dig' da boss
+    */
+    public Boss ParentBoss; // Boss
+    public int direction = 1;   // Direcao que o tentaculo se move 
+    public int Damage = 1;      // Dano
+    public float speed = 12;    // Velocidade
+    public int duration = 80;   // Duracao do ataque
+    private int _direction;     // Direcao (interna)
+    private Vector3 homePos;    // Posicao inicial
     private Rigidbody2D m_Rigidbody;
     private void Start()
     {
@@ -19,38 +22,17 @@ public class SlideTentacle : MonoBehaviour
         homePos = transform.position;
     }
 
-    
-
-    public void Slide()
+    public void Slide()     // Inicia o ataque
     {
         StartCoroutine(InnOut());
     }
 
 
     private float x;
-
     private void FixedUpdate()
     {
-        transform.position = new Vector3(transform.position.x, homePos.y + Mathf.Sin(x) / 3, transform.position.z);
-        x += Time.fixedDeltaTime;
-    }
-    public void OutAndDestroy()
-    {
-        StopAllCoroutines();
-        m_Rigidbody.velocity = new Vector2(speed * 2 * -direction, m_Rigidbody.velocity.y);
-        StartCoroutine(deathStall());
-    }
-
-    private IEnumerator deathStall()
-    {
-        var i = 30;
-        while(i > 0)
-        {
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-
-        Destroy(gameObject);
+        transform.position = new Vector3(transform.position.x, homePos.y + Mathf.Sin(x) / 3, transform.position.z); // Varia a posicao vertical do tentaculo
+        x += Time.fixedDeltaTime * 3;
     }
     private IEnumerator InnOut()
     {
@@ -66,7 +48,7 @@ public class SlideTentacle : MonoBehaviour
         // Esperar um pouco antes de voltar
         _direction = 0;
         m_Rigidbody.velocity = new Vector2(speed * _direction, m_Rigidbody.velocity.y);
-        i = 72;
+        i = 30;
         while (i > 0)
         {
             i--;
@@ -86,17 +68,36 @@ public class SlideTentacle : MonoBehaviour
         _direction = direction;
         m_Rigidbody.velocity = Vector2.zero;
         transform.position = homePos;
-        ParentBoss.StopDigging();
+        ParentBoss.StopDigging();   // Finaliza o ataque no boss
 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))      // Danifica o jogador e aplica um knockback forte
         {
             var player = collision.GetComponent<PlayerControl>();
             player.Damage(Damage);
             player.Knockback(30, direction * 3.5f);
         }
+    }
+
+    public void OutAndDestroy() // Move o tentaculo rapidamente para longe da arena e chama deathstall
+    {
+        StopAllCoroutines();
+        m_Rigidbody.velocity = new Vector2(speed * 2 * -direction, m_Rigidbody.velocity.y);
+        StartCoroutine(deathStall());
+    }
+
+    private IEnumerator deathStall()    // Destroi o tentaculo apos um delay (para dar tempo de sair do fov do jogador)
+    {
+        var i = 30;
+        while(i > 0)
+        {
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        Destroy(gameObject);
     }
 }

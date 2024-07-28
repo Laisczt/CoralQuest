@@ -6,15 +6,20 @@ using UnityEngine.UI;
 
 public class GameControl : MonoBehaviour
 {
-    public static GameControl Instance { get; private set; }
-    private Scene _UIScene;
-    private GameObject GameOverMenu;
-    private UIControlButton ReviveButton;
-    private PlayerControl playerC;
+    /*
 
-    private bool usingMobileControls;
+        Controle de varias funcoes do jogo
 
-    [HideInInspector]public bool isGameOver;
+    */
+    public static GameControl Instance { get; private set; }    // Instancia singleton
+    private Scene _UIScene;     // Cena contendo o HUD
+    private GameObject GameOverMenu;    // Menu de gameover
+    private UIControlButton ReviveButton;   // Botao de reviver
+    private PlayerControl playerC;      // Player
+
+    private bool usingMobileControls;   // verdadeiro caso a HUD Mobile estiver ativa
+
+    [HideInInspector]public bool isGameOver;    // verdadeiro caso o player tenha morrido
 
     void Awake()
     {
@@ -24,7 +29,8 @@ public class GameControl : MonoBehaviour
     void Start()
     {
         playerC = PlayerControl.Instance;
-        StartCoroutine(LoadUI());
+
+        StartCoroutine(LoadUI());   // Carrega o HUD
         
         if (Application.isMobilePlatform || usingMobileControls)    // Ativa os controles de celular quando necessário
         {
@@ -98,7 +104,7 @@ public class GameControl : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    IEnumerator LoadUI()
+    IEnumerator LoadUI()    // Carrega a a HUD em jogo
     {
 
         var isInv = playerC.PlayerHealth.DEBUG_INVINCIBLE;

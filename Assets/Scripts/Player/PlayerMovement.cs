@@ -5,6 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerControl))]
 public class PlayerMovement : MonoBehaviour
 {
+    /*
+        Movimentacao do player
+        inc. corrida, pulo e knockback
+    */
     [SerializeField, HideInInspector] PlayerControl m_PlayerControl;  // Controlador do jogador
     [SerializeField, HideInInspector] Rigidbody2D m_RigidBody;        // Corpo Rigido para fisica
     [SerializeField, HideInInspector] SpriteRenderer m_SpriteRenderer;// Sprite
@@ -25,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private ushort rjumps;                  // Quantia de pulos restantes
     private bool canWallJump;               // Verdadeiro se o player pode fazer wall jump
     private short wallJumpDirection;        // Direcao do wall jump (-1 para esquerda e 1 para direita)
+    [SerializeField] AudioSource JumpSound;     // Som de pulo
 
     private bool grounded = true;           // Verdadeiro se o player estiver tocando o ch�o
     private ushort groundBuff;              // Buffer para a variavel grounded (permite coyote time)
@@ -87,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Buffering de direção de Walljump
-        short walljumpbuffer = 3;
+        short walljumpbuffer = 5;
         var rawInput = inputX;
         if (Mathf.Abs(rawInput) != 1) rawInput = 0;
 
@@ -161,16 +166,17 @@ public class PlayerMovement : MonoBehaviour
         // PULO
         if (jumping > 0)
         {
-            if (canWallJump && !grounded && ((wallJumpDirection == 1)? inputLeftBuffer > 0: inputRightBuffer > 0))
+            if (canWallJump && !grounded && ((wallJumpDirection == 1 && inputLeftBuffer > 0) || ( wallJumpDirection == -1 && inputRightBuffer > 0)))
             // Realiza wall jump se o player estiver deslizando numa parede e se movendo na dire��o dela
             {
                 StartCoroutine(WallJumpKick(wallJumpDirection));
 
-                if (rjumps == MaxJumps) rjumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam n�o gastar pulos)
+                if (rjumps == MaxJumps) rjumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam nao gastar pulos)
                 jumping = 0;
 
-                m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, JumpPower);
+                m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, JumpPower * 0.97f);
                 m_Animator.SetTrigger("Jump");
+                JumpSound.PlayOneShot(JumpSound.clip);
             }
             else if (rjumps > 0)
             {
@@ -183,16 +189,18 @@ public class PlayerMovement : MonoBehaviour
 
                     jumping = 0;
                     m_Animator.SetTrigger("Jump");
+                    JumpSound.PlayOneShot(JumpSound.clip);
                 }
                 else if (MaxJumps > 1)
                 // Pulo no ar
                 {
                     m_RigidBody.velocity = new Vector2(m_RigidBody.velocity.x, JumpPower * 1.1f);
-                    if (rjumps == MaxJumps) rjumps--;
+                    if (rjumps == MaxJumps) rjumps--;   // Desconta um pulo a mais se esse for o primeiro
                     if (rjumps > 0) rjumps--;
 
                     jumping = 0;
                     m_Animator.SetTrigger("Jump");
+                    JumpSound.PlayOneShot(JumpSound.clip);
 
                 }
 
@@ -215,7 +223,11 @@ public class PlayerMovement : MonoBehaviour
         
         while (i < 12)
         {
-            if (wallJumpDirection != direction) break;
+            if (wallJumpDirection != direction) // Interrompe o impulso se o player bater em outra parede
+            {
+                PreventMovement = false;
+                break;
+            }
             i++;
             yield return new WaitForFixedUpdate();
         }
@@ -251,12 +263,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Solid"))
         {
             // Define direção para wall jump
-            if (Vector2.Distance(collision.contacts[0].normal, Vector2.left) < 0.1f) // If player is on the left side of a wall 
+            if (Vector2.Distance(collision.contacts[0].normal, Vector2.left) < 0.1f) // Se o player estiver tocando uma parede à direita
             {
                 wallJumpDirection = -1;
                 canWallJump = true;
             }
-            else if (Vector2.Distance(collision.contacts[0].normal, Vector2.right) < 0.1f) // If player is on the right side of a wall
+            else if (Vector2.Distance(collision.contacts[0].normal, Vector2.right) < 0.1f) //  Se o player estiver tocando uma parede à esquerda
             {
                 wallJumpDirection = 1;
                 canWallJump = true;

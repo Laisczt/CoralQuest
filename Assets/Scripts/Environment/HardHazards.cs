@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HardHazards : MonoBehaviour
 {
+    /*
+        Perigos "Rigidos" do ambiente, como espinhos
+    */
     public int Damage = 1;
     public float KnockbackForce = 20f;
 

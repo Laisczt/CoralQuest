@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UIControlButton : MonoBehaviour
 {
+    /*
+        Para botoes de UI (em jogo)
+    */
     private ushort pressed = 0;
     public bool GetButtonDown()
     {

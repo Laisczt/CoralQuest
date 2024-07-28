@@ -5,9 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class TentacleTip : MonoBehaviour, IEnemy
 {
+    /*
+        Cabeca do tentaculo que bloqueia travessia pelo mapa, deve ser morto para progredir
+    */
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     private Animator m_Animator;
-    public List<ScreenExit> blockedExits;
 
     private void OnValidate()
     {
@@ -35,13 +37,9 @@ public class TentacleTip : MonoBehaviour, IEnemy
     }
     public void Kill()
     {
-        foreach(var exit in blockedExits)
-        {
-            exit.isLocked = false;
-        }
         m_Animator.SetTrigger("Death");
 
-        foreach(Transform i in transform)
+        foreach(Transform i in transform)   // "Mata" todos os segmentos de tentaculo associados
         {
             if(i.name == "Barrier") continue;
             i.GetComponent<Animator>().SetTrigger("Death");

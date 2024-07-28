@@ -5,13 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(BasicEnemy))]
 public class Patrol : MonoBehaviour, IEnemy
 {
-    public float topSpeed = 3f;
+    /*
+        IA de inimigo que bate e volta nas paredes
+    */
+    public float topSpeed;  // Velocidade maxima
+    private float speed;    // Velocidade atual
 
-    private float speed;
+    private int direction = 1;  // Direcao atual
 
-    private int direction = 1;
-
-    [SerializeField] AudioSource bonkSound;
+    [SerializeField] AudioSource bonkSound; // Audio que toca ao bater na parede
 
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
     private Rigidbody2D m_RigidBody;
@@ -32,14 +34,9 @@ public class Patrol : MonoBehaviour, IEnemy
         speed = topSpeed;
         solidMask = LayerMask.GetMask("Solid");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     private void FixedUpdate()
     {
+        // Movimento do inimigo
         if (!basicEnemy.LockMovement || !basicEnemy.Alive)
         {
             if (speed < topSpeed) speed += 0.25f;
@@ -50,18 +47,32 @@ public class Patrol : MonoBehaviour, IEnemy
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Solid"))
+        if (!collision.gameObject.CompareTag("Player")) // Voyages só colidem com players e objetos solidos (parede, tentáculos), se o objeto n for o player, deve ser sólido 
         {
-            var wallL = Physics2D.Raycast(transform.position, Vector2.left, Mathf.Infinity, solidMask);
+            // Raycasts para a esquerda e para a direita, usados para definir para que direcao o inimigo deve ir
+            // A troca de direcao eh feita dessa forma para evitar que o inimigo fique preso dentro das paredes
+            
+            var wallL = Physics2D.Raycast(transform.position, Vector2.left, Mathf.Infinity, solidMask); 
             var wallR = Physics2D.Raycast(transform.position, Vector2.right, Mathf.Infinity, solidMask);
-            if(wallL.distance < wallR.distance)
+            
+            float distL;
+            float distR;
+
+            if(wallL.transform != null) distL = wallL.distance;
+            else distL = Mathf.Infinity;
+
+            if(wallR.transform != null) distR = wallR.distance;
+            else distR = Mathf.Infinity;
+
+
+            if(distL < distR)
             {
-                if(direction == -1) bonkSound.Play();
+                if(direction == -1) bonkSound.PlayOneShot(bonkSound.clip);
                 direction = 1;
             }
             else 
             {
-                if (direction == 1) bonkSound.Play();
+                if (direction == 1) bonkSound.PlayOneShot(bonkSound.clip);
                 direction = -1;
             }
             speed = 0f;

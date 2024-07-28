@@ -6,7 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerControl))]
 public class PlayerHealth : MonoBehaviour
 {
-
+    /*
+        Vida do player
+        inc dano, morte, vida e reviver(DEBUG)
+    */
     [SerializeField, HideInInspector] PlayerControl m_PlayerControl;  // Controlador
     [SerializeField, HideInInspector] Animator m_Animator;            // Animador
     [SerializeField, HideInInspector] PlayerMovement m_PlayerMovement;// Movimento do jogador
@@ -52,12 +55,12 @@ public class PlayerHealth : MonoBehaviour
         }
     }
     
-    public bool Damage(int value)                   // Dano, retorna false se o player não pôde levar dano (ainda funciona quando invencível)
+    public bool Damage(int value)                   // Dano, retorna false se o player nao pode levar dano (ainda funciona quando invencivel)
     {
         if (!m_PlayerControl.Alive || value <= 0) return false;
         if (rDamageCooldown > 0) return false;
 
-        if (m_PlayerControl.Petrified) m_PlayerControl.Depetrify();
+        if (m_PlayerControl.Petrified) m_PlayerControl.Depetrify(false);
 
         rDamageCooldown = DamageCooldown;
 
@@ -65,7 +68,7 @@ public class PlayerHealth : MonoBehaviour
         if (Health <= 0)
         {
             Health = 0;
-            Kill();
+            m_PlayerControl.Kill();
         }
         else
         {
@@ -90,7 +93,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [ContextMenu("Recover")]
-    public void Recover()                           // Revive o jogador sem reiniciar o nível (PARA DEBUG)
+    public void Recover()                           // Revive o jogador sem reiniciar o nível (Acessivel pelo editor)
     {
         m_PlayerControl.Alive = true;
         Heal(MaxHealth);
@@ -101,38 +104,9 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [ContextMenu("Kill")]
-    public void DamageKill()
+    public void DamageKill()        // Da dano maximo no jogador (Acessivel pelo editor)
     {
         Damage(MaxHealth);
     }
-    public void Kill()                              // Mata o jogador instantaneamente
-    {
-        m_PlayerControl.Alive = false;
-
-        m_Animator.SetTrigger("Death");
-        m_Animator.SetBool("Running", false);
-
-        m_PlayerMovement.LockMovement = true;
-
-        StartCoroutine(gameOver());
-    }
-    IEnumerator gameOver()
-    {
-        var i = 100;
-
-        Time.timeScale = 0.75f; // Drama
-
-        while(i > 70){
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-
-        Time.timeScale = 1f;
-
-        while(i > 0){
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-        GameControl.Instance.GameOver();
-    }
+    
 }
