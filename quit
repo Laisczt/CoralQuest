@@ -1,0 +1,123 @@
+[33mcommit 1961a29a5e11ca1fb16fb735f69d719e0b152bdc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mLizdtre[m[33m)[m
+Author: Lizdtre <lizdtre@hotmail.com>
+Date:   Sat May 25 15:42:54 2024 -0300
+
+    Modularizacao das funcionalidades do player
+
+[33mcommit 64bd86a9ad79acd050ad1ec214eb34af9ef836ce[m
+Author: Lizdtre <lizdtre@hotmail.com>
+Date:   Sat May 25 13:13:15 2024 -0300
+
+    Sprites faltantes e algas decorativas
+
+[33mcommit 85bf75dbb5a9b610f3fe0781f1984c821a59db28[m
+Author: Lizdtre <lizdtre@hotmail.com>
+Date:   Sat May 25 02:54:59 2024 -0300
+
+    player spawner não é mais necessário
+
+[33mcommit 236cd006df8c23234530a4aa780a6b8c74874e82[m[33m ([m[1;32mmodularizacao[m[33m)[m
+Author: Lizdtre <lizdtre@hotmail.com>
+Date:   Sat May 25 00:46:40 2024 -0300
+
+    Embelezamentos visuais
+
+[33mcommit 910be7b95b828e4de99f0da2ed8f2d81f1712409[m[33m ([m[1;31morigin/Lizdtre[m[33m)[m
+Author: Lizdtre <lizdtre@hotmail.com>
+Date:   Mon May 20 12:46:15 2024 -0300
+
+    Boss e mudanças gerais
+
+[33mcommit 0bf8145dd6b196c46f4afa08403ff9ccaf87577c[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Tue Feb 27 13:11:54 2024 -0300
+
+    Cenas de Debug, Template e início da arena da chefe
+
+[33mcommit 12502e285b4fa13ec6e94eab2b3da6d92d8d78ca[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Tue Feb 27 09:36:01 2024 -0300
+
+    Mudanças no fluxo do nível principal
+
+[33mcommit f682b2cadf911f52f1c662dea074efad7cd90980[m[33m ([m[1;31morigin/boss[m[33m)[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Fri Feb 9 00:52:53 2024 -0300
+
+    Knockback de espinhos e Kawase blur
+
+[33mcommit 1701123a39db053179b0a9563c7e49a8206cd44e[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Fri Feb 9 00:52:10 2024 -0300
+
+    Inimigo Stalker finalizado
+
+[33mcommit af217468aa6a34a4f2f00157c5ffec80ad315785[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Wed Jan 31 15:44:25 2024 -0300
+
+    Mudanças em inimigos e sprites
+
+[33mcommit df6e23eda75319361b1c9b775f4b4127469b283d[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Wed Jan 31 15:43:54 2024 -0300
+
+    Mapa expandido
+
+[33mcommit b0d77f057aeafb5d7414b7a685123227af7fcf96[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Mon Jan 29 15:19:37 2024 -0300
+
+    Inimigo Turret
+
+[33mcommit b7312b83d33aa5086cd3703de60b16b22fc1f83a[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Mon Jan 29 12:06:27 2024 -0300
+
+    Degradê no background
+
+[33mcommit 648bc2cc68370153d8fa0fdc89dfe5f88c788c0e[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Sun Jan 28 19:51:14 2024 -0300
+
+    Background Added
+
+[33mcommit c5113e8dab0f36b57814e81b9a7ed2907b7fa122[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Sat Jan 27 20:55:45 2024 -0300
+
+    Plataformas sentido único
+
+[33mcommit 1178de14c88882c12ffc6b3d19ea46171c8eaccc[m
+Merge: 1338a21 8d10a26
+Author: Laís Cecília <92321749+Lizdtre@users.noreply.github.com>
+Date:   Mon Jan 22 13:16:01 2024 -0300
+
+    Merge pull request #4 from Lizdtre/menu
+    
+    Menu
+
+[33mcommit 8d10a26d1cd4187c151772fea4f5dcc39dc75a70[m[33m ([m[1;33mtag: [m[1;33ma[m[33m, [m[1;31morigin/menu[m[33m, [m[1;32mmenu[m[33m)[m
+Merge: 4b43ddf 1338a21
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Mon Jan 22 13:11:02 2024 -0300
+
+    Merged branches
+
+[33mcommit 1338a219d0a5aabe49b5efdc37916c0f7879ad0a[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Mon Jan 22 12:30:25 2024 -0300
+
+    ''
+
+[33mcommit c2528a4dceaafb265ff2d3c71a3d521b32e7a934[m
+Author: Laís Cecília <lizdtre@hotmail.com>
+Date:   Sun Jan 21 00:35:20 2024 -0300
+
+    Otimizações e Spawn pools
+
+[33mcommit 4b43ddf4d7a8b35cac1f9ae4918be3211b20c911[m[33m ([m[1;32mpr/4[m[33m)[m
+Author: Wonnz <wonnz.lopes.farias@gmail.com>
+Date:   Sat Jan 20 20:18:05 2024 -0300
+
+    Menu + Selecao de nivel
