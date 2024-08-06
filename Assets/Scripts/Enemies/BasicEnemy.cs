@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random=UnityEngine.Random;
 
+[Serializable]
 public class BasicEnemy : MonoBehaviour
 {
     /*
@@ -18,8 +21,8 @@ public class BasicEnemy : MonoBehaviour
     public int BodyDamage = 1;      // Dano ao tocar no corpo do inimigo
     [SerializeField] GameObject HealthDrop; // Drop de vida
     public int HealthDropAdditionalRange = 1;   // Quantidade adicional de vida que o inimigo pode dropar (0 dropa até 1)(-1 impede que drope vida)
-    private PlayerControl target;       // Player
-    private Rigidbody2D m_RigidBody;
+    [SerializeField] PlayerControl target;       // Player
+    [SerializeField] Rigidbody2D m_RigidBody;
     IEnemy enemy;   // Interface atrelada ao script especifico de  cada inimigo
 
     public bool LockMovement {get ; private set;}   // Trava o movimento do inimigo no script especifico
@@ -40,7 +43,11 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
-    public void Damage(int value, bool knockback)   // Danifica o inimigo
+    public void Kill()
+    {
+        Damage(Health);
+    }
+    public void Damage(int value, bool knockback = false)   // Danifica o inimigo
     {
         if (!Alive) return;
 
@@ -88,6 +95,12 @@ public class BasicEnemy : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         LockMovement = false;
+    }
+
+    public void KillPermanently()
+    {
+        if(GameControl.Instance.currentLevel != "Shallows") return;
+        if(!GameControl.Instance.KilledTentaclesNames.Contains(this.name)) GameControl.Instance.KilledTentaclesNames.Add(this.name);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -77,6 +77,7 @@ public class ComicStrip : MonoBehaviour
         pages[currentPage].gameObject.SetActive(false);
         pages[currentPage-1].gameObject.SetActive(true);
         panels = pages[currentPage-1].GetComponent<ComicPage>().panelCount;
+        if(panels == 1) nextPageButton.SetActive(true);
         currentPage--;
         StartCoroutine(TransitionDelay());
     }
@@ -85,7 +86,10 @@ public class ComicStrip : MonoBehaviour
     {
         if(midTransition) return;
 
-        if(currentPage + 1 == pages.Length) SceneManager.LoadScene("Main Menu");
+        if(currentPage + 1 == pages.Length) {
+            SceneManager.LoadScene("Main Menu");
+            return;
+        }
 
         pages[currentPage].SetTrigger("Restart");   // Reiniica a animacao na pagina atual
         currentPanel = 1;
@@ -93,12 +97,12 @@ public class ComicStrip : MonoBehaviour
         pages[currentPage+1].gameObject.SetActive(true);
         panels = pages[currentPage+1].GetComponent<ComicPage>().panelCount;
 
-        if(currentPage == maxPageReached)
+        if(currentPage >= maxPageReached)
         {
             if(panels > 1) nextPageButton.SetActive(false); // Desativa o botao de prox pagina caso esteja indo a uma pagina nova
         }
 
-        previousPageButton.gameObject.SetActive(true);
+        previousPageButton.SetActive(true);
         
         currentPage++;
 

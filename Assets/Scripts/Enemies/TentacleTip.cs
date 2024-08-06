@@ -9,7 +9,7 @@ public class TentacleTip : MonoBehaviour, IEnemy
         Cabeca do tentaculo que bloqueia travessia pelo mapa, deve ser morto para progredir
     */
     [SerializeField, HideInInspector] BasicEnemy basicEnemy;
-    private Animator m_Animator;
+    [SerializeField] Animator m_Animator;
 
     private void OnValidate()
     {
@@ -39,11 +39,15 @@ public class TentacleTip : MonoBehaviour, IEnemy
     {
         m_Animator.SetTrigger("Death");
 
+        Destroy(transform.GetChild(0).gameObject);
+
         foreach(Transform i in transform)   // "Mata" todos os segmentos de tentaculo associados
         {
             if(i.name == "Barrier") continue;
             i.GetComponent<Animator>().SetTrigger("Death");
         }
+
+        basicEnemy.KillPermanently();
 
         basicEnemy.DeathStall(55);
     }

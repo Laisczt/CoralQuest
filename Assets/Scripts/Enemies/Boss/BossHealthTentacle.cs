@@ -78,6 +78,7 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
     }
     public void Kill()
     {
+        parentBoss.Damage(3);
         m_Animator.SetTrigger("Death");
         basicEnemy.Alive = false;
 

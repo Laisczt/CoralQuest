@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameControl : MonoBehaviour
+public class GameControl : MonoBehaviour, IDataSaver
 {
     /*
 
@@ -17,13 +22,23 @@ public class GameControl : MonoBehaviour
     private UIControlButton ReviveButton;   // Botao de reviver
     private PlayerControl playerC;      // Player
 
+    timerData timeroffsets;
+    TimeSpan time;
+    bool newBestTime;
+    bool timerOn;
+    bool levelFinished;
+
     private bool usingMobileControls;   // verdadeiro caso a HUD Mobile estiver ativa
 
     [HideInInspector]public bool isGameOver;    // verdadeiro caso o player tenha morrido
+    [HideInInspector]public string currentLevel;    // O nome do nivel(cena) atual
+
+    [HideInInspector]public List<string> KilledTentaclesNames;
 
     void Awake()
     {
         Instance = this;
+        currentLevel = SceneManager.GetActiveScene().name;
     }
 
     void Start()
@@ -37,10 +52,11 @@ public class GameControl : MonoBehaviour
             UseMobileControls(true);
         }
 
-        // Carrega os dados em cena do savefile WIP
+        // Carrega os dados em cena do savefile
         if(dataSaverManager.instance != null)
         {
             dataSaverManager.instance.dataHandler = new fileDataHandler(Application.persistentDataPath, dataSaverManager.instance.fileName);
+            dataSaverManager.instance.timerAuxFile = new fileDataHandler(Application.persistentDataPath, "TimerAux");
             dataSaverManager.instance.dataSaverObjects = dataSaverManager.instance.FindAllDataSaverObjects();
             dataSaverManager.instance.loadGame();
         }
@@ -54,17 +70,7 @@ public class GameControl : MonoBehaviour
 
     private void Update()
     {
-        /* TODO
-            MAKE THIS OPEN PAUSE MENU INSTEAD, ADD A MAIN MENU BUTTON THERE
-        */
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("Main Menu");
-        }
-
-        if(!isGameOver) return;
-
-        if(ReviveButton.GetButtonDown())
+        if(isGameOver && ReviveButton.GetButtonDown())
         {
             Restart();
         }
@@ -96,12 +102,79 @@ public class GameControl : MonoBehaviour
     }
     public void GameOver()
     {
+        Timer.instance.pause();
         GameOverMenu.SetActive(true);
         isGameOver = true;
     }
 
     public void Restart(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Timer.instance.pauseAndLock();
+        savePartialTimer();
+        SceneManager.LoadScene(currentLevel);
+    }
+
+    public void MainMenu(){
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    private void savePartialTimer()    // Salva o timer parcial 
+    {
+        if(levelFinished) time = new TimeSpan();
+        else time = Timer.instance.getTimeElapsed();
+
+        if(currentLevel == "Shallows") dataSaverManager.instance.timer_offsets.elapsedTimeLevel1 = time.ToString("mm':'ss'.'fff");
+        else if(currentLevel == "Depths") dataSaverManager.instance.timer_offsets.elapsedTimeLevel2 = time.ToString("mm':'ss'.'fff");
+        dataSaverManager.instance.savePartialTimers();
+    }
+
+    public void ChangeLevel(string sceneName)   // muda de cena (ao completar o nível)
+    {
+        if(levelFinished) return;
+        levelFinished = true;
+
+        time = Timer.instance.getTimeElapsed();
+
+        PlayerControl.Instance.LastSavePos = new Vector3(0,0, -100);
+
+        TimeSpan previoustime;
+        if(currentLevel == "Shallows")
+        {
+            dataSaverManager.instance.SetReachedLevel2();
+            KilledTentaclesNames = new List<string>();
+
+            previoustime = TimeSpan.ParseExact(dataSaverManager.instance.game_data.bestTimeLevel1, "mm\\:ss\\.fff", CultureInfo.InvariantCulture);
+            Debug.Log("Time - " + time);
+            Debug.Log("Previous time - " + previoustime);
+            if(time < previoustime || previoustime == TimeSpan.Zero)
+            {
+                newBestTime = true;
+            }
+            Debug.Log("Improvement? " + newBestTime);
+            
+        }
+        else if(currentLevel == "Depths")
+        {
+            previoustime = TimeSpan.ParseExact(dataSaverManager.instance.game_data.bestTimeLevel2, "mm\\:ss\\.fff", CultureInfo.InvariantCulture);
+            if(time < previoustime || previoustime == TimeSpan.Zero)
+            {
+                newBestTime = true;
+            }
+        }
+        dataSaverManager.instance.saveGame(true);
+        StartCoroutine(stallChangeScene(sceneName));
+    }
+
+    IEnumerator stallChangeScene(string sceneName)
+    {
+        var i = 1.5f;
+
+        while(i > 0)
+        {
+            Debug.Log("Mudando de cena em " + i + "...");
+            yield return new WaitForSecondsRealtime(0.25f);
+            i-= 0.25f;
+        }
+        SceneManager.LoadScene(sceneName);
     }
 
     IEnumerator LoadUI()    // Carrega a a HUD em jogo
@@ -109,11 +182,11 @@ public class GameControl : MonoBehaviour
 
         var isInv = playerC.PlayerHealth.DEBUG_INVINCIBLE;
 
-        playerC.PlayerHealth.DEBUG_INVINCIBLE = true;
+        playerC.PlayerHealth.DEBUG_INVINCIBLE = true;   // Mantém o player invencível enquanto a UI carrega
 
-        _UIScene = SceneManager.LoadScene("UI", new LoadSceneParameters(LoadSceneMode.Additive));
+        _UIScene = SceneManager.LoadScene("UI", new LoadSceneParameters(LoadSceneMode.Additive));   // Carrega a UI por cima da cena inicial
 
-        while(!_UIScene.isLoaded)
+        while(!_UIScene.isLoaded)   // Espera até a UI estar carregada
         {
             yield return null;
         }
@@ -122,7 +195,7 @@ public class GameControl : MonoBehaviour
 
         if(GameOverMenu == null)
         {
-            Debug.LogError("Game Over Overlay not found, did you rename the UI Scene / root object?");
+            Debug.LogError("Game Over Overlay not found, did you rename or reorder it?");
         }
 
         ReviveButton = GameOverMenu.transform.GetChild(0).GetComponent<UIControlButton>();
@@ -131,7 +204,63 @@ public class GameControl : MonoBehaviour
             Debug.LogError("Revive Button not found, did you rename it?");
         }
 
+        var savebadge = _UIScene.GetRootGameObjects()[0].transform.GetChild(1).gameObject;
+        if(savebadge == null)
+        {
+            Debug.Log("Save Badge not found, saving animation will not be played in this scene");
+        }
+        else 
+        {
+            dataSaverManager.instance.SaveBadge = savebadge;
+        }
+
+        timerbutton = _UIScene.GetRootGameObjects()[0].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<ToggleTimerButton>();
+        if(timerOn) timerbutton.On();
+
+
+        if(currentLevel == "Shallows") 
+            Timer.instance.SetOffset(TimeSpan.ParseExact(timeroffsets.elapsedTimeLevel1, "mm\\:ss\\.fff", CultureInfo.InvariantCulture));
+        else if(currentLevel == "Depths") 
+            Timer.instance.SetOffset(TimeSpan.ParseExact(timeroffsets.elapsedTimeLevel2, "mm\\:ss\\.fff", CultureInfo.InvariantCulture));
 
         if (!isInv) playerC.PlayerHealth.DEBUG_INVINCIBLE = false;
+
+        
+    }
+    ToggleTimerButton timerbutton;
+    public void loadData(gameData data)
+    {
+        if(currentLevel == "Shallows")
+        {
+            KilledTentaclesNames = data.KilledTentacles;
+            StartCoroutine(killTents(KilledTentaclesNames));
+            
+        }
+        timeroffsets = dataSaverManager.instance.timer_offsets;
+        timerOn = data.ShowTimer;
+    }
+    IEnumerator killTents(List<string> tents)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);  // Um pequeno delay é necessario para que os tentáculos sejam instanciados corretamente
+        foreach(var t in tents)
+        {
+            GameObject.Find(t).GetComponent<BasicEnemy>().Kill();
+        }
+    }
+
+    public void saveData(ref gameData data)
+    { 
+        if(currentLevel == "Shallows")
+        {
+            data.KilledTentacles = KilledTentaclesNames;
+            if(newBestTime) data.bestTimeLevel1 = time.ToString("mm':'ss'.'fff");
+        }
+        else if(currentLevel == "Depths")
+        {
+            if(newBestTime) data.bestTimeLevel2 = time.ToString("mm':'ss'.'fff");
+        }
+        data.ShowTimer = timerbutton.IsOn();
+
+        savePartialTimer();
     }
 }

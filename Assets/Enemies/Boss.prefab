@@ -181,12 +181,12 @@ MonoBehaviour:
   AttackCooldownP1: 40
   AttackCooldownP2: 30
   SummonTentacleAttemptCooldown: 30
-  TentacleChance: 0.2
+  TentacleChance: 0.05
   ArenaWidth: 27
   phase2: 0
   sliceSize: 4
-  MaxHealth: 250
-  Health: 250
+  MaxHealth: 350
+  Health: 350
   PetrifiedPlantsParent: {fileID: 0}
   ArmL: {fileID: 0}
   ArmR: {fileID: 0}

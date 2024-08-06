@@ -27,6 +27,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     [SerializeField, HideInInspector] PlayerAttack m_PlayerAttack;    // Script de ataque
     [SerializeField, HideInInspector] PlayerHealth m_PlayerHealth;    // Script de vida
 
+    public Vector3 LastSavePos;
+
     [HideInInspector] public bool Petrified;                  // Player está petrificado
     [HideInInspector] public bool Alive = true;               // Player vivo
     [HideInInspector] public int SpriteOrientation = 1;       // -1 Quando o Sprite estiver espelhado
@@ -194,17 +196,30 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_PlayerMovement.Knockback(force, xDirStrenth);
     }
 
-    /*public void loadData(gameData data){
-        this.health = data.hp;
-        this.transform.position = data.position;
+    public void loadData(gameData data){
+        if(GameControl.Instance.currentLevel == "Shallows")
+        {
+            LastSavePos = data.Level1SavePos;
+        }
+        else if(GameControl.Instance.currentLevel == "Depths")
+        {
+            LastSavePos = data.Level2SavePos;
+        }
 
-        HealthBar.Instance.UpdateHB();
+        if(LastSavePos != new Vector3(0,0,-100)) transform.position =  new Vector3(LastSavePos.x, LastSavePos.y, transform.position.z);
     }
 
     public void saveData(ref gameData data){
-        Debug.Log(health);
-        data.hp = this.health;
-        data.position = this.transform.position;
-    }*/
+        if(GameControl.Instance.currentLevel == "Shallows")
+        {
+            data.Level1SavePos = LastSavePos;
+            if(LastSavePos == new Vector3(0,0,-100))
+                data.Level2SavePos = LastSavePos;
+        }
+        else if (GameControl.Instance.currentLevel == "Depths")
+        {
+            data.Level2SavePos = LastSavePos;
+        }
+    }
 
 }

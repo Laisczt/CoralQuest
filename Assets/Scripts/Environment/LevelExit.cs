@@ -16,21 +16,9 @@ public class LevelExit : MonoBehaviour
         {
             MainCamera.Instance.Freeze = true;
             PlayerControl.Instance.LockMovement = true;
-            StartCoroutine(StallTransition());
+            Timer.instance.pauseAndLock();
+
+            GameControl.Instance.ChangeLevel(TargetScreen);
         }
-    }
-
-    IEnumerator StallTransition()
-    {
-        var i = 90;
-
-        while(i > 0)
-        {
-            i--;
-            yield return new WaitForFixedUpdate();
-        }
-        
-        SceneManager.LoadScene(TargetScreen);
-
     }
 }

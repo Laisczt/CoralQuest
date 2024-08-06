@@ -53,6 +53,20 @@ public class PlayerHealth : MonoBehaviour
         {   
             if(Health < MaxHealth) Heal(collision.GetComponent<HealingBase>().Use());
         }
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Healing Base") || collision.gameObject.CompareTag("Save Point"))    // Salva o jogo
+        {
+            if(m_PlayerControl.LastSavePos != collision.transform.position)
+            {
+                m_PlayerControl.LastSavePos = collision.transform.position;
+                Debug.Log("Checkpoint Alcançado");
+            }
+            dataSaverManager.instance.saveGame(Health < MaxHealth || m_PlayerControl.LastSavePos != collision.transform.position); // Salva o jogo (força a salvar se o player estiver com vida baixa ou este for um savepoint novo)
+        }
     }
     
     public bool Damage(int value)                   // Dano, retorna false se o player nao pode levar dano (ainda funciona quando invencivel)

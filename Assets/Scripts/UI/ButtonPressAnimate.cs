@@ -7,6 +7,7 @@ public class ButtonPressAnimate : MonoBehaviour
     /*
         Animacao de apertar botoes de UI
     */
+
     public void press()
     {
         GetComponent<Animator>().SetTrigger("Press");

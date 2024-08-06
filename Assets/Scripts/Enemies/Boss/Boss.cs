@@ -75,18 +75,12 @@ public class Boss : MonoBehaviour
     float x;
     void FixedUpdate()
     {
-        if (!active || attacking) return;
-
-        if(rAttackCooldown <= 0)    // Ataque
-        {
-            attacking = true;
-            AttackRandom();
-        }
+        if (!active) return;
 
         if(rSummonTentacleAttemptCooldown <= 0) // Tentativa de sumonar um tentaculo de vida
         {
             rSummonTentacleAttemptCooldown = SummonTentacleAttemptCooldown;
-            if(Random.Range(0f, 1f) <= TentacleChance || turnsSinceLastHealthTentacle >= 3) 
+            if((Random.Range(0f, 1f) <= TentacleChance) || turnsSinceLastHealthTentacle >= 20) 
             {
                 summonTentacle();
                 turnsSinceLastHealthTentacle = 0;
@@ -96,12 +90,22 @@ public class Boss : MonoBehaviour
             }
         }
 
+        rSummonTentacleAttemptCooldown--;
+        
+        if(attacking) return;
+
+        if(rAttackCooldown <= 0)    // Ataque
+        {
+            attacking = true;
+            AttackRandom();
+        }
+
+        
+
         // Varia levemente a posicao em x da boss
         transform.position = homePos + new Vector3(Mathf.Cos(x)/4, 0);
         x += Time.fixedDeltaTime;
 
-
-        rSummonTentacleAttemptCooldown--;
         if(rAttackCooldown > 0) rAttackCooldown--;
     }
 
@@ -421,6 +425,7 @@ public class Boss : MonoBehaviour
 
     public void Damage(int amount)  // Danifica a boss
     {
+        if(!active) return;
         Health -= amount;
         if(Health <= MaxHealth/2 && !phase2)    // Ativa a segunda fase ao alcancar metade da vida
         { 

@@ -14,10 +14,10 @@ public class fileDataHandler
         this.dataFileName = dataFileName;
     }
 
-   public bool TryLoad(out gameData loadedData)
+   public bool TryLoad<v>(out v loadedData)
    {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
-        loadedData = null;
+        loadedData = default;
 
         if (File.Exists(fullPath)){
             try{
@@ -29,11 +29,11 @@ public class fileDataHandler
                     }
                 }
 
-                loadedData = JsonUtility.FromJson<gameData>(dataToLoad);
+                loadedData = JsonUtility.FromJson<v>(dataToLoad);
                 return true;
             }
             catch(Exception e){
-                Debug.LogError("Error loading save file: " + fullPath + "\n" + e);
+                Debug.LogError("Erro ao carregar dados salvos: " + fullPath + "\n" + e);
                 return false;
             }
 
@@ -42,10 +42,11 @@ public class fileDataHandler
         return false;
    }
 
-    public void save(gameData data)
+    public void save(object data, bool playAnimation = true)
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
 
+        var success = false;
         try{
             Directory.CreateDirectory(dataDirPath);
 
@@ -56,10 +57,12 @@ public class fileDataHandler
                     writer.Write(dataToStore);
                 }
             }
+            success = true;
         }
         catch(Exception e)
         {
-            Debug.LogError("Error occurred when trying to save: " + fullPath + "\n" + e);
+            Debug.LogError("Erro ao tentar salvar dados: " + fullPath + "\n" + e);
         }
+        if(success && playAnimation) dataSaverManager.instance.PlayAnimation();
     }
 }

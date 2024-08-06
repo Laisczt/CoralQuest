@@ -63,9 +63,6 @@ public class MainCamera : MonoBehaviour
        
         if (!FreeCam)
         {
-            if(area.bounds.size.x < aspectRatioOffsetX * 2) newPos = new Vector2(area.transform.position.x + area.offset.x, newPos.y);
-            if(area.bounds.size.y < aspectRatioOffsetY * 2) newPos = new Vector2(newPos.x, area.transform.position.y + area.offset.y);
-
             if (area != null)
             {
                 /*
@@ -77,8 +74,12 @@ public class MainCamera : MonoBehaviour
                   Para as bordas verticais, podemos verificar o tamanho da c�mera usando a propriedade ortographicSize
                   Por�m, para as horizontais, devemos levar em considera��o o formato da tela do usu�rio. Fizemos esse c�lculo em start()
                  */
-
-                if (newPos.x - aspectRatioOffsetX < area.bounds.center.x - area.bounds.extents.x)                // ESQUERDA
+		if (area.bounds.size.x <= aspectRatioOffsetX * 2)
+		{
+		    newPos.x = area.transform.position.x + area.offset.x;
+		    
+		}
+                else if (newPos.x - aspectRatioOffsetX < area.bounds.center.x - area.bounds.extents.x)                // ESQUERDA
                 {
                     newPos.x = (area.bounds.center.x - area.bounds.extents.x) + aspectRatioOffsetX;
                 }
@@ -86,8 +87,13 @@ public class MainCamera : MonoBehaviour
                 {
                     newPos.x = (area.bounds.center.x + area.bounds.extents.x) - aspectRatioOffsetX;
                 }
-
-                if (newPos.y - aspectRatioOffsetY < area.bounds.center.y - area.bounds.extents.y)        // SUPERIOR
+                
+                if(area.bounds.size.y <= aspectRatioOffsetY * 2)
+                { 
+                    newPos.y = area.transform.position.y + area.offset.y;
+                    
+                }
+                else if (newPos.y - aspectRatioOffsetY < area.bounds.center.y - area.bounds.extents.y)        // SUPERIOR
                 {
                     newPos.y = (area.bounds.center.y - area.bounds.extents.y) + aspectRatioOffsetY;
                 }
