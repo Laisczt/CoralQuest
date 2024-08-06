@@ -370,7 +370,7 @@ public class Boss : MonoBehaviour
         m_Animator.SetBool("LeftSide", isPosOnLeft(target.transform.position.x));
         var arm = isPosOnLeft(target.transform.position.x) ? ArmL : ArmR;   // Escolhe o tentaculo a usar dependendo da posicao do jogador
         
-        var i = 55;
+        var i = 35;
         while(i > 0)    // roda a animacao de cavar antes do tentaculo aparecer
         {
             i--;
