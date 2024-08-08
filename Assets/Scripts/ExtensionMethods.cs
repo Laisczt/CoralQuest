@@ -52,4 +52,16 @@ public static class ExtensionMethods
         }
         return false;
     }
+
+    // Alteração do método AudioSource.PlayClipAtPoint que toca o audio no modo 2d
+    public static void PlayDetached(this AudioSource source)
+    {
+        GameObject gameObject = new GameObject("One shot audio");
+        AudioSource audioSource = (AudioSource)gameObject.AddComponent(typeof(AudioSource));
+        audioSource.clip = source.clip;
+        audioSource.spatialBlend = 0f;
+        audioSource.volume = source.volume;
+        audioSource.Play();
+        Object.Destroy(gameObject, source.clip.length * ((Time.timeScale < 0.01f) ? 0.01f : Time.timeScale));
+    }
 }

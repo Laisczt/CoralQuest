@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -8197673358363791564}
   - component: {fileID: -8603500666799495169}
   - component: {fileID: 7563423404896871007}
+  - component: {fileID: 3071529259188343333}
   m_Layer: 0
   m_Name: Boss Health Tentacle
   m_TagString: Enemy
@@ -150,10 +151,6 @@ MonoBehaviour:
   BodyDamage: 1
   HealthDrop: {fileID: 3861013056592176642, guid: fa46570df5133a443b43e325b1a2276f, type: 3}
   HealthDropAdditionalRange: 0
-  target: {fileID: 0}
-  m_RigidBody: {fileID: -1046684478410141326}
-  m_Animator: {fileID: 5877941294457133915}
-  lockMovement: 0
 --- !u!114 &-8603500666799495169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,10 +165,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentBoss: {fileID: 0}
   BubbleOriginY: -4.38
+  basicEnemy: {fileID: -8197673358363791564}
+  damageSound: {fileID: 3071529259188343333}
   Lifespan: 360
-  Bubbles:
-  - {fileID: 117025945581449306, guid: 7dd943f4d3c1c9f9baa9cb542c261204, type: 3}
-  - {fileID: 117025945581449306, guid: b25069d8bc3b94ba4af4c748a72ebd81, type: 3}
 --- !u!60 &7563423404896871007
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -201,3 +197,99 @@ PolygonCollider2D:
       - {x: 0.16674119, y: -0.4886555}
       - {x: 0.09145027, y: 0.403092}
       - {x: -0.12344744, y: 0.40480474}
+--- !u!82 &3071529259188343333
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7080359816519394629}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 256fcb2bf5c67d96cabc3d14cdb364fd, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.25
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

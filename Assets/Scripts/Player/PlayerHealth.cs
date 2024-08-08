@@ -8,11 +8,13 @@ public class PlayerHealth : MonoBehaviour
 {
     /*
         Vida do player
-        inc dano, morte, vida e reviver(DEBUG)
+        inc dano, morte e vida
     */
-    [SerializeField, HideInInspector] PlayerControl m_PlayerControl;  // Controlador
-    [SerializeField, HideInInspector] Animator m_Animator;            // Animador
-    [SerializeField, HideInInspector] PlayerMovement m_PlayerMovement;// Movimento do jogador
+    [HideInInspector] public PlayerControl m_PlayerControl;  // Controlador
+    [HideInInspector] public Animator m_Animator;            // Animador
+    [HideInInspector] public PlayerMovement m_PlayerMovement;// Movimento do jogador
+
+    public AudioSource damageSound;
     public int MaxHealth;                // Vida maxima do Player
     public int Health;                      // Vida atual do Player
     public int DamageCooldown = 60;         // Cooldown de dano do jogador (i-frames)
@@ -87,6 +89,7 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             m_Animator.SetTrigger("Damage");
+            damageSound.PlayOneShot(damageSound.clip);
         }
         HealthBar.Instance.UpdateHB();
         return true;
@@ -104,17 +107,6 @@ public class PlayerHealth : MonoBehaviour
             Health = MaxHealth;
         }
         HealthBar.Instance.UpdateHB();
-    }
-
-    [ContextMenu("Recover")]
-    public void Recover()                           // Revive o jogador sem reiniciar o nível (Acessivel pelo editor)
-    {
-        m_PlayerControl.Alive = true;
-        Heal(MaxHealth);
-        m_Animator.SetTrigger("DEBUG REVIVE");
-        m_PlayerMovement.LockMovement = false;
-        m_PlayerMovement.PreventMovement = false;
-        m_PlayerControl.Petrified = false;
     }
 
     [ContextMenu("Kill")]

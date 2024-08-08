@@ -11,8 +11,10 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
     */
     public Boss parentBoss;     // Boss
     [HideInInspector] public float BubbleOriginY;   // Altura na qual sao criadas bolhas (que indicam onde vai surgir um tentaculo)
-    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    [HideInInspector]public BasicEnemy basicEnemy;
     private Animator m_Animator;
+
+    public AudioSource damageSound;
 
     public int Lifespan = 360;  // Quantos frames o tentaculo dura antes de desaparecer
 
@@ -46,7 +48,7 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
             i--;
             if(i % 20 == 0) // Spawna bolhas vermelhas no local onde o tentáculo irá surgir
             {
-               BubbleManager.Instance.SpawnBubble(new Vector3 (transform.position.x, BubbleOriginY, transform.position.z - 0.25f), 'R');
+               BubbleManager.Instance.SpawnBubble(new Vector3 (transform.position.x, BubbleOriginY, transform.position.z - 0.25f), BubbleType.Red);
             }
             yield return new WaitForFixedUpdate();
         }
@@ -75,11 +77,13 @@ public class BossHealthTentacle : MonoBehaviour, IEnemy
     {
         parentBoss.Damage(amount);
         m_Animator.SetTrigger("Damage");
+        damageSound.PlayOneShot(damageSound.clip);
     }
     public void Kill()
     {
         parentBoss.Damage(3);
         m_Animator.SetTrigger("Death");
+        damageSound.PlayDetached();
         basicEnemy.Alive = false;
 
         Destroy(gameObject);

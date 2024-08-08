@@ -60,7 +60,7 @@ public class BubbleManager : MonoBehaviour
                 
                 if(Random.Range(0f,1f) <= BubbleChance)
                 {
-                    SpawnBubbleFromTilemap(i, tiles[i].name[0]); // Passa a posição do tilemap e o nome da tile 
+                    SpawnBubbleFromTilemap(i, (BubbleType)tiles[i].name[0]); // Passa a posição do tilemap e o nome da tile 
                 }
             }
         }
@@ -68,7 +68,7 @@ public class BubbleManager : MonoBehaviour
         count++;
     }
 
-    private void SpawnBubbleFromTilemap(int index, char type)    // Calcula a posição da bolha no mundo e chama spawnbubble
+    private void SpawnBubbleFromTilemap(int index, BubbleType type)    // Calcula a posição da bolha no mundo e chama spawnbubble
     {
         Vector3 worldpos = new Vector3(Mathf.Floor(lastPlayerPos.x - size.x/2) + (index % size.x),
                                        Mathf.Floor(lastPlayerPos.y - size.y/2) + (index / size.x),
@@ -78,34 +78,48 @@ public class BubbleManager : MonoBehaviour
         SpawnBubble(worldpos, type);
     }
 
-    public void SpawnBubble(Vector3 position, char type, int lifespan = 72)    // Instancia uma bolha e agenda sua destruição
+    public void SpawnBubble(Vector3 position, BubbleType type, int lifespan = 72)    // Instancia uma bolha e agenda sua destruição
     {
         int bubindex = -1;
-        switch(type)    // Define o tipo de bolha a instanciar
+
+        if(type == BubbleType.None){
+            return;
+        }
+
+        switch(type)    // Pega o índice da bolha a ser instanciada
         {
-            case 'C':   // C instancia cluster
+            case BubbleType.Cluster:
                 bubindex = 0;
                 break;
-            case 'S':   // S instancia small
+            case BubbleType.Small:   
                 bubindex = 1;
                 break;
-            case 'M':   // M instancia medium
+            case BubbleType.Medium:   
                 bubindex = 2;
                 break;
-            case 'L':   // L instancia large
+            case BubbleType.Large:   
                 bubindex = 3;
                 break;
-            case 'P':   // P instancia cluster ou small
+            case BubbleType.Small_And_Cluster:   
                 bubindex = Random.Range(0, 2);
                 break;
-            case 'O':   // O instancia small, medium ou large
+            case BubbleType.Single:   
                 bubindex = Random.Range(1, 4);
                 break;
-            case 'A':   // A instancia qualquer bolha comum
+            case BubbleType.Any:   
                 bubindex = Random.Range(0, 4);
                 break;
-            case 'R':   // R instancia qualquer bolha vermelha
+            case BubbleType.Red:  
                 bubindex = Random.Range(4,6);
+                break;
+            case BubbleType.Red_Cluster:
+                bubindex = 4;
+                break;
+            case BubbleType.Red_Medium:
+                bubindex = 5;
+                break;
+            case BubbleType.Any_Inc_Red:
+                bubindex = Random.Range(0,6);
                 break;
         }
 

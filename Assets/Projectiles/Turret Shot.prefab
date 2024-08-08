@@ -51,11 +51,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   value: 1
-  lifespan: 210
+  lifespan: 300
   breaksOnSolidHit: 1
   breaksOnPlayerHit: 1
   IsHealingDrop: 0
   hasBreakSprite: 0
+  breakDuration: 0
+  breakSound: {fileID: 0}
 --- !u!50 &7808435985166101163
 Rigidbody2D:
   serializedVersion: 4

@@ -19,10 +19,10 @@ public class BasicEnemy : MonoBehaviour
     
     public float KnockbackMultiplier = 1f;  // Quao sucetivel a knockback o inimigo eh
     public int BodyDamage = 1;      // Dano ao tocar no corpo do inimigo
-    [SerializeField] GameObject HealthDrop; // Drop de vida
+    public GameObject HealthDrop; // Drop de vida
     public int HealthDropAdditionalRange = 1;   // Quantidade adicional de vida que o inimigo pode dropar (0 dropa até 1)(-1 impede que drope vida)
-    [SerializeField] PlayerControl target;       // Player
-    [SerializeField] Rigidbody2D m_RigidBody;
+    [HideInInspector] PlayerControl target;       // Player
+    Rigidbody2D m_RigidBody;
     IEnemy enemy;   // Interface atrelada ao script especifico de  cada inimigo
 
     public bool LockMovement {get ; private set;}   // Trava o movimento do inimigo no script especifico
@@ -51,8 +51,6 @@ public class BasicEnemy : MonoBehaviour
     {
         if (!Alive) return;
 
-        enemy.Damage(Mathf.Min(Health, value));
-
         Health -= value;
 
         if (Health <= 0)
@@ -67,6 +65,10 @@ public class BasicEnemy : MonoBehaviour
                     Instantiate(HealthDrop, transform.position + new Vector3(0, 0.2f), Quaternion.identity);
                 }
             }
+        }
+        else
+        {
+            enemy.Damage(Mathf.Min(Health, value));
         }
 
         // KNOCKBACK

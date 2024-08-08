@@ -20,12 +20,12 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         Controlador do jogador
         interacoes com o jogador a partir de outros scripts sempre passam por aqui
     */
-    [SerializeField, HideInInspector] Rigidbody2D m_RigidBody;        // Corpo Rigido para fisica
-    [SerializeField, HideInInspector] Animator m_Animator;            // Animador
-    [SerializeField, HideInInspector] PlayerMovement m_PlayerMovement;// Script de movimento do jogador
-    [SerializeField, HideInInspector] PlayerPetrification m_Petrify;  // Script de petrificação
-    [SerializeField, HideInInspector] PlayerAttack m_PlayerAttack;    // Script de ataque
-    [SerializeField, HideInInspector] PlayerHealth m_PlayerHealth;    // Script de vida
+    Rigidbody2D m_RigidBody;        // Corpo Rigido para fisica
+    Animator m_Animator;            // Animador
+    PlayerMovement m_PlayerMovement;// Script de movimento do jogador
+    PlayerPetrification m_Petrify;  // Script de petrificação
+    PlayerAttack m_PlayerAttack;    // Script de ataque
+    PlayerHealth m_PlayerHealth;    // Script de vida
 
     public Vector3 LastSavePos;
 
@@ -34,6 +34,8 @@ public class PlayerControl : MonoBehaviour, IDataSaver
     [HideInInspector] public int SpriteOrientation = 1;       // -1 Quando o Sprite estiver espelhado
 
     [HideInInspector] public float DefaultGravityScale;       // Gravidade padrao
+
+    public AudioSource deathSound;
 
     public static PlayerControl Instance { get; private set; }  // Singleton instance
     public PlayerHealth PlayerHealth {  // Acesso ao PlayerHealth script
@@ -166,6 +168,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_RigidBody.velocity = new Vector2(0, m_RigidBody.velocity.y);
 
         m_Animator.SetTrigger("Death");
+        deathSound.Play();
 
         StartCoroutine(gameOver());
     }
@@ -177,7 +180,7 @@ public class PlayerControl : MonoBehaviour, IDataSaver
 
         Time.timeScale = 0.5f; // Drama
 
-        while(i > 70){
+        while(i > 75){
             i--;
             yield return new WaitForFixedUpdate();
         }

@@ -191,7 +191,7 @@ public class GameControl : MonoBehaviour, IDataSaver
             yield return null;
         }
 
-        GameOverMenu = _UIScene.GetRootGameObjects()[0].transform.GetChild(0).gameObject;
+        GameOverMenu = _UIScene.GetRootGameObjects()[0].transform.Find("Overlays").GetChild(1).gameObject;
 
         if(GameOverMenu == null)
         {
@@ -204,7 +204,7 @@ public class GameControl : MonoBehaviour, IDataSaver
             Debug.LogError("Revive Button not found, did you rename it?");
         }
 
-        var savebadge = _UIScene.GetRootGameObjects()[0].transform.GetChild(1).gameObject;
+        var savebadge = _UIScene.GetRootGameObjects()[0].transform.Find("Overlays").transform.GetChild(2).gameObject;
         if(savebadge == null)
         {
             Debug.Log("Save Badge not found, saving animation will not be played in this scene");
@@ -214,7 +214,7 @@ public class GameControl : MonoBehaviour, IDataSaver
             dataSaverManager.instance.SaveBadge = savebadge;
         }
 
-        timerbutton = _UIScene.GetRootGameObjects()[0].transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<ToggleTimerButton>();
+        timerbutton = _UIScene.GetRootGameObjects()[0].transform.Find("Overlays").GetChild(0).GetChild(0).GetChild(0).GetComponent<ToggleTimerButton>();
         if(timerOn) timerbutton.On();
 
 
@@ -244,7 +244,7 @@ public class GameControl : MonoBehaviour, IDataSaver
         yield return new WaitForSecondsRealtime(0.5f);  // Um pequeno delay é necessario para que os tentáculos sejam instanciados corretamente
         foreach(var t in tents)
         {
-            GameObject.Find(t).GetComponent<BasicEnemy>().Kill();
+            Destroy(GameObject.Find(t));
         }
     }
 

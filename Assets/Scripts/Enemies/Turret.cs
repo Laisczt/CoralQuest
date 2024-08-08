@@ -16,16 +16,20 @@ public class Turret : MonoBehaviour, IEnemy
     private int rAttentionSpan; // '' atual
 
 
-    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    [HideInInspector]public BasicEnemy basicEnemy;
     private Animator m_Animator;
     private PlayerControl target;
     
-    [SerializeField] GameObject shot; // O projetil atirado
+    public GameObject shot; // O projetil atirado
     
     private Vector3 offset = new Vector3(0 , 0.48f, 0); // Offset para a posicao da cabeca
     private float shotSpawnDistance = 0.4f; // distancia da cabeca na direcao do tiro onde o projetil vai aparecer
     private Vector3 headPos;    // Posicao da cabeca 
     private bool attacking;     // Se esta atacando
+
+    public AudioSource damageSound;
+    public AudioSource deathSound;
+    public AudioSource attackSound;
 
     LayerMask playerMask;
     private void OnValidate()
@@ -97,6 +101,9 @@ public class Turret : MonoBehaviour, IEnemy
         projec.GetComponent<Projectile_Straight>().SetDirection(direction);
         projec.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
 
+
+        attackSound.PlayOneShot(attackSound.clip);
+
         rCooldown = Cooldown;
         attacking = false;
     }
@@ -122,11 +129,14 @@ public class Turret : MonoBehaviour, IEnemy
 
         StopAllCoroutines();
         attacking = false;
+
+        damageSound.PlayOneShot(damageSound.clip);
     }
 
     public void Kill()
     {
         m_Animator.SetTrigger("Death");
+        deathSound.PlayDetached();
         basicEnemy.DeathStall(72);
     }
 }

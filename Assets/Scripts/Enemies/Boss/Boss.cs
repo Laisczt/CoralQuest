@@ -12,6 +12,7 @@ public class Boss : MonoBehaviour
     [SerializeField] List<GameObject> arenaGates;   // Portoes da arena (que trancam quando a boss spawna)
 
     [SerializeField] AudioSource Scream;            // Audio de grito
+    public AudioSource digSound;
     [SerializeField] AudioSource SliceSound;        // Audio do slice
     [SerializeField] AudioSource PetrifyChargeSound;// Audio do inicio do petrify
     [SerializeField] Animator m_Animator;           // Animator
@@ -23,6 +24,7 @@ public class Boss : MonoBehaviour
     public int AttackCooldownP2;    // Cooldown entre ataques na segunda fase
     private int rAttackCooldown;    // Cooldown faltante
     private int turnsSinceLastPetrify;  // Quantidade de ataques desde a última vez que o petrify foi usado
+    private int turnsSinceLastSlice;
 
     public int SummonTentacleAttemptCooldown;   // Cooldown das tentativas de spawnar um tentaculo de vida
     private int rSummonTentacleAttemptCooldown; // Cooldown faltante
@@ -80,7 +82,7 @@ public class Boss : MonoBehaviour
         if(rSummonTentacleAttemptCooldown <= 0) // Tentativa de sumonar um tentaculo de vida
         {
             rSummonTentacleAttemptCooldown = SummonTentacleAttemptCooldown;
-            if((Random.Range(0f, 1f) <= TentacleChance) || turnsSinceLastHealthTentacle >= 20) 
+            if((Random.Range(0f, 1f) <= TentacleChance) || turnsSinceLastHealthTentacle >= 15) 
             {
                 summonTentacle();
                 turnsSinceLastHealthTentacle = 0;
@@ -118,10 +120,15 @@ public class Boss : MonoBehaviour
         var maxRange = (!phase2) ? 4 : 5;   // Numero de ataques a depender da fase (fase 2 comeca a usar petrify)
 
         int rand;
-        do  // Seleciona um ataque aleatorio diferente do ultimo usado (so podendo usar petrify depois de 2 ataques diferentes)
+        if(turnsSinceLastSlice >= 3) rand = 1;
+        else
         {
-            rand = Random.Range(1, maxRange);
-        } while (rand == lastAttack || (rand == 4 && turnsSinceLastPetrify <= 2));   
+            do  // Seleciona um ataque aleatorio diferente do ultimo usado (so podendo usar petrify depois de 2 ataques diferentes)
+            {
+                rand = Random.Range(1, maxRange);
+            } while (rand == lastAttack || (rand == 4 && turnsSinceLastPetrify <= 2));   
+        }
+        
 
         if(rand == 4)
         {
@@ -130,6 +137,15 @@ public class Boss : MonoBehaviour
         else
         {
             turnsSinceLastPetrify++;
+        }
+        
+        if (rand == 1)
+        {
+            turnsSinceLastSlice = 0;
+        }
+        else
+        {
+            turnsSinceLastSlice++;
         }
 
         switch (rand){
@@ -354,13 +370,13 @@ public class Boss : MonoBehaviour
         }
 
         // bolhas nos limites esquerdo e direito do ataque
-        BubbleManager.Instance.SpawnBubble(new Vector3(leftX, height), 'A'); 
-        BubbleManager.Instance.SpawnBubble(new Vector3(rightX, height), 'A');
+        BubbleManager.Instance.SpawnBubble(new Vector3(leftX, height), BubbleType.Any); 
+        BubbleManager.Instance.SpawnBubble(new Vector3(rightX, height), BubbleType.Any);
 
         // bolhas em posicoes aleatorias entre os limites
         for (var i = bubbleCount - 2; i > 0; i--)
         {
-            BubbleManager.Instance.SpawnBubble(new Vector3(Random.Range(leftX, rightX), height), 'A');
+            BubbleManager.Instance.SpawnBubble(new Vector3(Random.Range(leftX, rightX), height), BubbleType.Any);
         }
     }
 
@@ -370,7 +386,17 @@ public class Boss : MonoBehaviour
         m_Animator.SetBool("LeftSide", isPosOnLeft(target.transform.position.x));
         var arm = isPosOnLeft(target.transform.position.x) ? ArmL : ArmR;   // Escolhe o tentaculo a usar dependendo da posicao do jogador
         
-        var i = 35;
+
+        var i = 15;
+        while(i > 0)
+        {
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+
+        digSound.Play();
+
+        i = 20;
         while(i > 0)    // roda a animacao de cavar antes do tentaculo aparecer
         {
             i--;
@@ -384,6 +410,7 @@ public class Boss : MonoBehaviour
     public void StopDigging()   // Finaliza o dig
     {
         idle();
+        digSound.Stop();
     }
 
     private IEnumerator decayStage()

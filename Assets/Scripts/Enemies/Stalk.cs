@@ -17,12 +17,14 @@ public class Stalk : MonoBehaviour, IEnemy
     public float TopSpeed = 4.5f;   // Velocidade maxima
     private float speed = 0;        // Velocidade atual
     private float baseSpeed = 1f;   // Velocidade base
-    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    [HideInInspector] public BasicEnemy basicEnemy;
     private PlayerControl target;
     private Animator m_Animator;
     private Rigidbody2D m_RigidBody;
 
-    [SerializeField] AudioSource chaseSound;    // Som que toca enquanto esta perseguindo o jogador
+    public AudioSource damageSound;    // Som de dano
+    public AudioSource deathSound;     // Som de morte
+    public AudioSource chaseSound;    // Som que toca enquanto esta perseguindo o jogador
     private bool chasing;   // Se esta perseguindo o jogador
     private bool moving;    // Se esta se movendo
 
@@ -104,11 +106,13 @@ public class Stalk : MonoBehaviour, IEnemy
     public void Damage(int _value)
     {
         m_Animator.SetTrigger("Damage");
+        damageSound.PlayOneShot(damageSound.clip);
     }
 
     public void Kill()
     {
         chaseSound.Stop();
+        deathSound.PlayDetached();
         m_Animator.SetTrigger("Death");
         basicEnemy.DeathStall(55);
     }

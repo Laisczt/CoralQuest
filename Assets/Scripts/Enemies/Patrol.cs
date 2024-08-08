@@ -13,11 +13,15 @@ public class Patrol : MonoBehaviour, IEnemy
 
     private int direction = 1;  // Direcao atual
 
-    [SerializeField] AudioSource bonkSound; // Audio que toca ao bater na parede
+    public AudioSource bonkSound; // Audio que toca ao bater na parede
 
-    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
+    [HideInInspector]public BasicEnemy basicEnemy;
     private Rigidbody2D m_RigidBody;
     private Animator m_Animator;
+
+    public AudioSource deathSound;
+    public AudioSource boneDamageSound;
+    public AudioSource defaultDamageSound;
 
 
     private void OnValidate()
@@ -47,7 +51,7 @@ public class Patrol : MonoBehaviour, IEnemy
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player")) // Voyages só colidem com players e objetos solidos (parede, tentáculos), se o objeto n for o player, deve ser sólido 
+        if (!(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player Attack"))) // Voyages só colidem com players e objetos solidos (parede, tentáculos), se o objeto n for o player, deve ser sólido 
         {
             // Raycasts para a esquerda e para a direita, usados para definir para que direcao o inimigo deve ir
             // A troca de direcao eh feita dessa forma para evitar que o inimigo fique preso dentro das paredes
@@ -84,6 +88,8 @@ public class Patrol : MonoBehaviour, IEnemy
     public void Damage(int _value)
     {
         m_Animator.SetTrigger("Damage");
+        boneDamageSound.PlayOneShot(boneDamageSound.clip);
+        defaultDamageSound.PlayOneShot(defaultDamageSound.clip);
     }
     public void Knockback()
     {
@@ -92,7 +98,8 @@ public class Patrol : MonoBehaviour, IEnemy
 
     public void Kill()
     {
-        basicEnemy.DeathStall(32);
+        basicEnemy.DeathStall(40);
         m_Animator.SetTrigger("Death");
+        deathSound.PlayDetached();
     }
 }

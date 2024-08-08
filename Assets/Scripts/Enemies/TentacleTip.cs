@@ -8,9 +8,10 @@ public class TentacleTip : MonoBehaviour, IEnemy
     /*
         Cabeca do tentaculo que bloqueia travessia pelo mapa, deve ser morto para progredir
     */
-    [SerializeField, HideInInspector] BasicEnemy basicEnemy;
-    [SerializeField] Animator m_Animator;
+    [HideInInspector] public BasicEnemy basicEnemy;
+    [HideInInspector] public Animator m_Animator;
 
+    public AudioSource damageSound;
     private void OnValidate()
     {
         basicEnemy = GetComponent<BasicEnemy>();
@@ -30,6 +31,7 @@ public class TentacleTip : MonoBehaviour, IEnemy
     public void Damage(int _value)
     {
         m_Animator.SetTrigger("Damage");
+        damageSound.PlayOneShot(damageSound.clip);
     }
     public void Knockback()
     {
@@ -38,6 +40,8 @@ public class TentacleTip : MonoBehaviour, IEnemy
     public void Kill()
     {
         m_Animator.SetTrigger("Death");
+
+        damageSound.PlayDetached();
 
         Destroy(transform.GetChild(0).gameObject);
 

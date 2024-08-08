@@ -17,6 +17,8 @@ public class BasicProjectile : MonoBehaviour
     public bool hasBreakSprite;     // Se possui animacao de quebrar
     public int breakDuration;      // Duracao da animacao de quebra (antes de destruir o gameobject)
 
+    public AudioSource breakSound;
+
     private void FixedUpdate()
     {
         lifespan--;
@@ -49,12 +51,17 @@ public class BasicProjectile : MonoBehaviour
     }
 
     public void BreakProjectile(){  // Quebra do projetil
-        if(hasBreakSprite){
-                GetComponent<Animator>().SetTrigger("Break");
-                GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                StartCoroutine(deathStall());
-            }
-            else Destroy(gameObject);
+        if(breakSound) {
+            breakSound.PlayDetached();
+        }
+        if(hasBreakSprite)
+        {
+            GetComponent<Animator>().SetTrigger("Break");
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            StartCoroutine(deathStall());
+        }
+        else Destroy(gameObject);
+
     }
 
     private IEnumerator deathStall(){

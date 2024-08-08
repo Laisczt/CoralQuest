@@ -9,7 +9,8 @@ public class LevelMusicPlayer : MonoBehaviour
     */
     public static LevelMusicPlayer Instance;
 
-    private AudioSource levelMusic;     // Audio
+    public AudioSource levelMusic;     // Audio
+    public AudioSource ambiance;     // Audio
     private AudioLowPassFilter muffle;  // Abafador 
     private bool keepMuffled;           // Trava do abafador
 
@@ -20,7 +21,6 @@ public class LevelMusicPlayer : MonoBehaviour
     
     void Start()
     {
-        levelMusic = GetComponent<AudioSource>();
         muffle = GetComponent<AudioLowPassFilter>();
         muffle.enabled = false;
     }
@@ -28,16 +28,6 @@ public class LevelMusicPlayer : MonoBehaviour
     public void Play()      // Toca a musica
     {
         levelMusic.Play();
-    }
-    public void Pause(bool boolvalue)   // Pausa/Despausa
-    {
-        if(boolvalue)
-        {
-            Pause();
-        }else
-        {
-            UnPause();
-        }
     }
     public void Pause()     // Pausa
     {
@@ -47,6 +37,15 @@ public class LevelMusicPlayer : MonoBehaviour
     public void UnPause()   // Despausa
     {
         levelMusic.UnPause();
+    }
+
+    public void PauseAmbiance() // Pausa o som de fundo
+    {
+        ambiance.Pause();
+    }
+    public void UnPauseAmbiance() // Despausa o som de fundo
+    {
+        ambiance.UnPause();
     }
 
     public void Muffle(bool value, bool keepMuffled = false)
