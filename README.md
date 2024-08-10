@@ -1,5 +1,6 @@
 
 ![Coral Quest jogo banner](https://github.com/Laisczt/CoralQuest/assets/112433653/f3cee4c9-6251-4189-ab6b-614939955329)
+GitPage: https://laisczt.github.io/CoralQuest/
 
 Coral Quest é um jogo criado como material de estudo de gamedev em Unity, e foi feito como continuação da [Workshop Unity for Women](https://github.com/BOSS-BigOpenSourceSibling/unity-for-women), desenvolvida pela BOSS, a iniciativa da UnB com o objetivo de promover participação de minorias na comunidade Open Source.
 
@@ -9,7 +10,7 @@ Coral quest é um platformer 2D, feito inteiramente com pixel art, de forma a le
 O jogo possui:
 * 2 fases, sendo uma delas uma arena para boss fight
 * 5 inimigos únicos
-* 150+ Assets de uso livre, feitos por nós que incluem sprites e audios
+* 150+ Assets de uso livre, feitos por nós que incluem sprites e parte dos audios
 
 ![player_running](https://github.com/Laisczt/CoralQuest/assets/92321749/6c4b2e20-5ea2-48ec-91e9-0daaa2ed8d7a)
 
