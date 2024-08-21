@@ -22,7 +22,7 @@ public class BasicProjectile : MonoBehaviour
     private void FixedUpdate()
     {
         lifespan--;
-        if (lifespan <= 0) BreakProjectile();
+        if (lifespan <= 0) Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

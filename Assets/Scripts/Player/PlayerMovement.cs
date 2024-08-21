@@ -71,18 +71,16 @@ public class PlayerMovement : MonoBehaviour
             if (inputX == 0 && UsingMobileControls)
             {
                 inputX = Joystick.Horizontal;
-
-                if(m_PlayerControl.Petrified && inputX != lastJoystickInput && Mathf.Abs(inputX) == 1){
-                    m_Petrify.Shake();
-                }
-
+                
                 lastJoystickInput = inputX;
             }
 
         }
         if(inputX != 0)
         {
+            var prev = inputXdiscrete;
             inputXdiscrete = (short)Mathf.Sign(inputX);
+            if(inputXdiscrete != prev) m_Petrify.Shake();
         }
         else
         {
@@ -96,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         var rawInput = inputX;
         if (Mathf.Abs(rawInput) != 1) rawInput = 0;
 
-        if (rawInput > 0)
+        if (inputXdiscrete > 0)
         {
             inputRightBuffer = walljumpbuffer;
         }
@@ -109,7 +107,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") || (UsingMobileControls && JumpButton.GetButtonDown()))
         {
             jumping = 5;
-            if(m_PlayerControl.Petrified) m_Petrify.Shake();
         }
     }
 
@@ -169,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
             if (canWallJump && !grounded && ((wallJumpDirection == 1 && inputLeftBuffer > 0) || ( wallJumpDirection == -1 && inputRightBuffer > 0)))
             // Realiza wall jump se o player estiver deslizando numa parede e se movendo na dire��o dela
             {
-                StartCoroutine(WallJumpKick(wallJumpDirection));
+                _wallkickcoroutine = StartCoroutine(WallJumpKick(wallJumpDirection));
 
                 if (rjumps == MaxJumps) rjumps--; // Desconta um pulo se esse for o primeiro (wall jumps costumam nao gastar pulos)
                 jumping = 0;
@@ -214,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
         if (jumping > 0) jumping--;
     }
 
+    Coroutine _wallkickcoroutine;
     IEnumerator WallJumpKick(int direction)
     // Mantem velocidade horizontal do jogador por uma duração logo após um wall jump
     {
@@ -223,11 +221,6 @@ public class PlayerMovement : MonoBehaviour
         
         while (i < 12)
         {
-            if (wallJumpDirection != direction) // Interrompe o impulso se o player bater em outra parede
-            {
-                PreventMovement = false;
-                break;
-            }
             i++;
             yield return new WaitForFixedUpdate();
         }
@@ -262,6 +255,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Solid"))
         {
+            var olddir = wallJumpDirection;
             // Define direção para wall jump
             if (Vector2.Distance(collision.contacts[0].normal, Vector2.left) < 0.1f) // Se o player estiver tocando uma parede à direita
             {
@@ -273,6 +267,10 @@ public class PlayerMovement : MonoBehaviour
                 wallJumpDirection = 1;
                 canWallJump = true;
             }
+            if(olddir != wallJumpDirection && _wallkickcoroutine != null){
+                StopCoroutine(_wallkickcoroutine);
+                PreventMovement = false;
+            } 
         }
     }
 

@@ -27,9 +27,6 @@ public class GameControl : MonoBehaviour, IDataSaver
     bool newBestTime;
     bool timerOn;
     bool levelFinished;
-
-    private bool usingMobileControls;   // verdadeiro caso a HUD Mobile estiver ativa
-
     [HideInInspector]public bool isGameOver;    // verdadeiro caso o player tenha morrido
     [HideInInspector]public string currentLevel;    // O nome do nivel(cena) atual
 
@@ -46,11 +43,6 @@ public class GameControl : MonoBehaviour, IDataSaver
         playerC = PlayerControl.Instance;
 
         StartCoroutine(LoadUI());   // Carrega o HUD
-        
-        if (Application.isMobilePlatform || usingMobileControls)    // Ativa os controles de celular quando necessário
-        {
-            UseMobileControls(true);
-        }
 
         // Carrega os dados em cena do savefile
         if(dataSaverManager.instance != null)
@@ -78,24 +70,21 @@ public class GameControl : MonoBehaviour, IDataSaver
 
     private bool UILinked = false;  // true quando os controles mobile já foram conectados ao script do jogador
 
-    [ContextMenu("Toggle Mobile Controls")] // Ativa ou desativa os controles de celular
-    public void ToggleMobileControls()
+    [ContextMenu("Use Mobile Controls")] // Ativa os controles de celular
+    private void UseMobileControls()  // Conecta os controles de celular no canvas ao script do jogador
     {
-        UseMobileControls(!usingMobileControls);
-    }
-    private void UseMobileControls(bool doUse)  // Conecta os controles de celular no canvas ao script do jogador
-    {
-        usingMobileControls = doUse;
-        playerC.UsingMobileControls = doUse;
-
-        var controls = GameObject.FindGameObjectsWithTag("Mobile UI");
-        foreach(GameObject element in controls)
+        var controls = _UIScene.GetRootGameObjects()[0].transform.GetChild(0)/*always active*/;
+        List<Transform> uicontrols = new List<Transform>();
+        foreach(Transform child in controls)
         {
-            element.transform.GetChild(0).gameObject.SetActive(doUse);
+            if(child.tag == "Mobile UI") {
+                child.GetChild(0).gameObject.SetActive(true);
+                uicontrols.Add(child);
+            }
         }
         if (!UILinked)
         {
-            playerC.SetMobileControls(controls);
+            playerC.SetMobileControls(uicontrols);
             UILinked = true;
         }
         
@@ -114,6 +103,7 @@ public class GameControl : MonoBehaviour, IDataSaver
     }
 
     public void MainMenu(){
+        savePartialTimer();
         SceneManager.LoadScene("Main Menu");
     }
 
@@ -163,7 +153,6 @@ public class GameControl : MonoBehaviour, IDataSaver
         dataSaverManager.instance.saveGame(true);
         StartCoroutine(stallChangeScene(sceneName));
     }
-
     IEnumerator stallChangeScene(string sceneName)
     {
         var i = 1.5f;
@@ -179,7 +168,6 @@ public class GameControl : MonoBehaviour, IDataSaver
 
     IEnumerator LoadUI()    // Carrega a a HUD em jogo
     {
-
         var isInv = playerC.PlayerHealth.DEBUG_INVINCIBLE;
 
         playerC.PlayerHealth.DEBUG_INVINCIBLE = true;   // Mantém o player invencível enquanto a UI carrega
@@ -198,7 +186,7 @@ public class GameControl : MonoBehaviour, IDataSaver
             Debug.LogError("Game Over Overlay not found, did you rename or reorder it?");
         }
 
-        ReviveButton = GameOverMenu.transform.GetChild(0).GetComponent<UIControlButton>();
+        ReviveButton = GameOverMenu.transform.GetChild(1).GetComponent<UIControlButton>();
         if(ReviveButton == null)
         {
             Debug.LogError("Revive Button not found, did you rename it?");
@@ -210,18 +198,24 @@ public class GameControl : MonoBehaviour, IDataSaver
             Debug.Log("Save Badge not found, saving animation will not be played in this scene");
         }
         else 
-        {
+        {   
             dataSaverManager.instance.SaveBadge = savebadge;
         }
 
-        timerbutton = _UIScene.GetRootGameObjects()[0].transform.Find("Overlays").GetChild(0).GetChild(0).GetChild(0).GetComponent<ToggleTimerButton>();
+        timerbutton = _UIScene.GetRootGameObjects()[0].transform.Find("Overlays").GetChild(0).GetChild(0).GetChild(1).GetComponent<ToggleTimerButton>();
         if(timerOn) timerbutton.On();
 
-
-        if(currentLevel == "Shallows") 
+        if(currentLevel == "Shallows") {
             Timer.instance.SetOffset(TimeSpan.ParseExact(timeroffsets.elapsedTimeLevel1, "mm\\:ss\\.fff", CultureInfo.InvariantCulture));
-        else if(currentLevel == "Depths") 
+        }
+        else if(currentLevel == "Depths"){
             Timer.instance.SetOffset(TimeSpan.ParseExact(timeroffsets.elapsedTimeLevel2, "mm\\:ss\\.fff", CultureInfo.InvariantCulture));
+        }
+
+        if (Application.isMobilePlatform)    // Ativa os controles de celular quando necessário
+        {
+            UseMobileControls();
+        }
 
         if (!isInv) playerC.PlayerHealth.DEBUG_INVINCIBLE = false;
 

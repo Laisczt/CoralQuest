@@ -27,4 +27,14 @@ public class GameStart : MonoBehaviour, IDataSaver
         reachedLevel2 = data.ReachedLevel2;
     }
 
+    public void MainMenu()
+    {
+        if(GameControl.Instance == null) {
+            Debug.LogWarning("Game Controller não encontrado");
+            return;
+        }
+
+        GameControl.Instance.MainMenu();
+    }
+
 }

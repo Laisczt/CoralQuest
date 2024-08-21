@@ -14,12 +14,10 @@ public class ScreenZone : MonoBehaviour
     public static ScreenZone currentArea;   // Variavel estatica que guarda a tela atual da camera
 
     Rigidbody2D rb;
-    Collider2D col;
     Collider2D m_col;
     void Start()
     {
         rb = PlayerControl.Instance.GetComponent<Rigidbody2D>();
-        col = PlayerControl.Instance.GetComponent<Collider2D>();
         m_col = GetComponent<Collider2D>();
     }
 
@@ -72,7 +70,7 @@ public class ScreenZone : MonoBehaviour
     {
         rb.gravityScale = PlayerControl.Instance.DefaultGravityScale;
         
-        if(rb.velocity.y > 8f) // se a transicao entre telas for para cima, damos um empulso ao jogador
+        if(rb.velocity.y > 7f) // se a transicao entre telas for para cima, damos um empulso ao jogador
         {
             rb.velocity = new Vector2(0, PlayerControl.Instance.JumpPower * 1f);
             rb.gravityScale = 0f;

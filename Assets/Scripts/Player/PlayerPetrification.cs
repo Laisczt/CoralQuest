@@ -38,8 +38,8 @@ public class PlayerPetrification : MonoBehaviour
         var touchcount = Input.touchCount;
         var touchProgress = touchcount > prevTouchCount;
         prevTouchCount = touchcount;
-        if(Input.anyKeyDown) shaking = 1;   // Clicks no teclado "sacodem" por 1 frame
-        if(touchProgress) shaking = 5;      // Toques na tela "sacodem" por 5
+        if(Input.anyKeyDown && shaking < 1) shaking = 1;   // Clicks no teclado "sacodem" por 1 frame
+        if(touchProgress && shaking < 3) shaking = 4;      // Toques na tela "sacodem" por 5
 
 
         progressDecayCounter += Time.deltaTime;
@@ -75,7 +75,8 @@ public class PlayerPetrification : MonoBehaviour
         if(shaking > 0) shaking--;
     }
 
-    public void Shake(){
-        shaking = 1;
+    public void Shake()
+    {
+        if(shaking < 3) shaking = 3;
     }
 }

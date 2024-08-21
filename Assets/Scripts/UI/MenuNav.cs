@@ -12,7 +12,13 @@ public class MenuNav : MonoBehaviour
     public void ChangeTab()
     {
         DestinationTab.SetActive(true);
-        transform.parent.gameObject.SetActive(false);
+
+        var t = transform.parent;
+        while(t.GetComponent<Canvas>() == null)
+        {
+            t = t.parent;
+        }
+        t.gameObject.SetActive(false);
     }
 
     public void DelayedChange()

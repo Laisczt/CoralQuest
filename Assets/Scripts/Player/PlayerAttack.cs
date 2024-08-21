@@ -37,10 +37,9 @@ public class PlayerAttack : MonoBehaviour
     {
         // Input de ataque
         if (( Input.GetButton("Fire1")   ||   (UsingMobileControls && AttackButton.GetButtonDown())  )
-            && rAttackCooldown == 0 )
+            && rAttackCooldown == 0  && !m_PlayerControl.Petrified)
         {
-            if(m_PlayerControl.Petrified) m_Petrify.Shake();    // Atacar ajuda a escapar a petrificacao
-            else attacking = true;
+            attacking = true;
         }
     }
 

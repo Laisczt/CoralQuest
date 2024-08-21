@@ -24,6 +24,11 @@ public class ComicStrip : MonoBehaviour
         StartCoroutine(waitToStart());
     }
 
+    void Update()
+    {
+        if(Input.anyKeyDown) NextPanel();
+    }
+
     IEnumerator waitToStart()       // Espera alguns segundos antes de comecar o quadrinho
     {
         yield return new WaitForSecondsRealtime(3f);

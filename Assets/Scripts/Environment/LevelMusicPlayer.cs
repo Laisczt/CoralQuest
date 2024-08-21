@@ -48,15 +48,13 @@ public class LevelMusicPlayer : MonoBehaviour
         ambiance.UnPause();
     }
 
-    public void Muffle(bool value, bool keepMuffled = false)
+    public void Muffle(bool value, bool lockmuffle = false)
     // Abafa/Desabafa o audio
-    // keepMuffled impede que outras chamadas da função ativem ou desativem o abafo do audio
+    // lockmuffle impede que outras chamadas da função ativem ou desativem o abafo do audio
     {
-        if(keepMuffled && !value) Debug.LogWarning("Avoid setting keepMuffled to true when unmuffling audio");
-
-        this.keepMuffled = keepMuffled;
-
-        muffle.enabled = this.keepMuffled ? true : value;
+        if(keepMuffled) return;
+        keepMuffled = lockmuffle;
+        muffle.enabled = value;
     }
     
 }

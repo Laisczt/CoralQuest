@@ -9,15 +9,16 @@ public class Boss : MonoBehaviour
         Script mestre da Boss
         Lida com funcionalidades de movimento, ataque, e vida (exc. barra de vida)
     */
-    [SerializeField] List<GameObject> arenaGates;   // Portoes da arena (que trancam quando a boss spawna)
+    public List<GameObject> arenaGates;   // Portoes da arena (que trancam quando a boss spawna)
 
-    [SerializeField] AudioSource Scream;            // Audio de grito
+    public AudioSource Scream;            // Audio de grito
     public AudioSource digSound;
-    [SerializeField] AudioSource SliceSound;        // Audio do slice
-    [SerializeField] AudioSource PetrifyChargeSound;// Audio do inicio do petrify
-    [SerializeField] Animator m_Animator;           // Animator
-    [SerializeField] BossHealthTentacle HealthTentaclePF; // Prefab tentaculo de vida
-    [SerializeField] GameObject Rock;               // Prefab da rocha do ataque tossrock
+    public AudioSource AttackSound;
+    public AudioSource SliceSound;        // Audio do slice
+    public AudioSource PetrifyChargeSound;// Audio do inicio do petrify
+    Animator m_Animator;           // Animator
+    public BossHealthTentacle HealthTentaclePF; // Prefab tentaculo de vida
+    public GameObject Rock;               // Prefab da rocha do ataque tossrock
     private PlayerControl target;                   // Player
 
     public int AttackCooldownP1;    // Cooldown entre ataques na primeira fase
@@ -54,6 +55,7 @@ public class Boss : MonoBehaviour
 
     void Start()
     {
+        m_Animator = GetComponent<Animator>();
         Health = MaxHealth;
         homePos = transform.position;
         rAttackCooldown = AttackCooldownP1;
@@ -219,6 +221,8 @@ public class Boss : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
+        
+        AttackSound.PlayOneShot(AttackSound.clip);
         Instantiate(Rock, transform.position + new Vector3(0, 5, -0.25f), Quaternion.identity);
 
         i = 30;
@@ -231,14 +235,23 @@ public class Boss : MonoBehaviour
         idle();
 
     }
+
     private IEnumerator petrify()   // Petrifica a player
     {
         m_Animator.SetTrigger("Petrify");
 
         PetrifyChargeSound.PlayOneShot(PetrifyChargeSound.clip);
 
-        var i = 84;
+        var i = 79;
 
+        while(i > 0)
+        {
+            i--;
+            yield return new WaitForFixedUpdate();
+        }
+        AttackSound.PlayOneShot(AttackSound.clip);
+
+        i = 5;
         while(i > 0)
         {
             i--;
@@ -421,6 +434,8 @@ public class Boss : MonoBehaviour
         var stages = PetrifiedPlantsParent.childCount;  // numero de estagios de decay
         var step = decayDuration / stages;  // duracao de cada estagio
         
+        PlayerControl.Instance.Petrify();
+
         var i = 0;
         foreach (Transform child in PetrifiedPlantsParent)
         {

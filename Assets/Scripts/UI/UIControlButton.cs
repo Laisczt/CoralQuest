@@ -7,20 +7,24 @@ public class UIControlButton : MonoBehaviour
     /*
         Para botoes de UI (em jogo)
     */
-    private ushort pressed = 0;
+    private bool pressed;
+    private bool justPressed;
     public bool GetButtonDown()
     {
-        return pressed > 0;
+        justPressed = false;
+        return pressed;
     }
 
     private void Update()
     {
-        if (pressed > 0) pressed--;
+        if (!justPressed) pressed = false;
+        justPressed = false;
     }
 
     public void Press()
     {
-        pressed = 2;
+        pressed = true;
+        justPressed = true;
     }
 
 

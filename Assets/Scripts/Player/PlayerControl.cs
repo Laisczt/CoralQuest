@@ -58,19 +58,9 @@ public class PlayerControl : MonoBehaviour, IDataSaver
             return m_PlayerMovement.JumpPower;
         }
     }
-
-    public bool UsingMobileControls {   // Verdadeiro quando os controles de UI para celular estao ativos
-        get {
-            return UsingMobileControls;
-        }
-        set {
-            m_PlayerMovement.UsingMobileControls = value;
-            m_PlayerAttack.UsingMobileControls = value;
-            UsingMobileControls = value;
-        }
-    }
-
-    void OnValidate()
+    
+    // Awake is called when an enabled script instance is being loaded.
+    void Awake()
     {
         m_Petrify = GetComponent<PlayerPetrification>();
         m_Petrify.enabled = false;
@@ -79,11 +69,6 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         m_RigidBody = GetComponent<Rigidbody2D>();
         m_PlayerHealth = GetComponent<PlayerHealth>();
         m_Animator = GetComponent<Animator>();
-    }
-    
-    // Awake is called when an enabled script instance is being loaded.
-    void Awake()
-    {
 	    Instance = this;
     }
 
@@ -111,29 +96,37 @@ public class PlayerControl : MonoBehaviour, IDataSaver
         if(idle) m_Animator.SetTrigger("Depetrify");
     }
     
-    public void SetMobileControls(GameObject[] controls)    // Ativa os controles mobile
-    {
-        foreach (var element in controls)
-        {
-            switch (element.name)
-            {
-                case "Joystick":
-                    m_PlayerMovement.Joystick = element.transform.GetChild(0).GetComponent<Joystick>();
-                    break;
-                case "Jump":
-                    m_PlayerMovement.JumpButton = element.transform.GetChild(0).GetComponent<UIControlButton>();
-                    break;
-                case "Attack":
-                    m_PlayerAttack.AttackButton = element.transform.GetChild(0).GetComponent<UIControlButton>();
-                    break;
-                default:
-                    Debug.LogError("Mobile UI element not recognized, did you rename something?");
-                    break;
-            }
+    bool uilinked;
 
-            m_PlayerMovement.UsingMobileControls = true;
-            m_PlayerAttack.UsingMobileControls = true;
+    public void SetMobileControls(List<Transform> controls)    // Ativa os controles mobile
+    {
+        Debug.Log("Usando controles de celular");
+        if(!uilinked)
+        {
+            foreach (var element in controls)
+            {
+                switch (element.name)
+                {
+                    case "Joystick":
+                        m_PlayerMovement.Joystick = element.GetChild(0).GetComponent<Joystick>();
+                        break;
+                    case "Jump":
+                        m_PlayerMovement.JumpButton = element.GetChild(0).GetComponent<UIControlButton>();
+                        break;
+                    case "Attack":
+                        m_PlayerAttack.AttackButton = element.GetChild(0).GetComponent<UIControlButton>();
+                        break;
+                    default:
+                        Debug.LogError("Mobile UI element not recognized, did you rename something?");
+                        break;
+                }
+            }
+        
+            uilinked = true;
         }
+        m_PlayerAttack.UsingMobileControls = true;
+        m_PlayerMovement.UsingMobileControls = true;
+        
     }
 
     public bool Damage(int value)   // Danifica o jogador
