@@ -4,7 +4,7 @@
 Bem vindo ao Coral Quest! Neste documento explicaremos como é feita a coleta de dados durante o uso da nossa aplicação.
 
 ## Coleta de dados
-Felizmente, NÃO COLETAMOS QUAISQUER DADOS PESSOAIS que possaM te identificar, sejam estes, por exemplo:
+Felizmente, NÃO COLETAMOS QUAISQUER DADOS PESSOAIS que possam te identificar, sejam estes, por exemplo:
 - Nome
 - Endereço de Email
 - Endereço de IP
