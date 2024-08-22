@@ -25,5 +25,5 @@ Ao utilizar nossos serviços e fornecer seus dados pessoais após tais modifica�
 
 ## Contate-nos
 
-Para qualquer perguntas sobre essa política de privacidade, contate-nos em [rocha.carla@gmail.com].
+Para qualquer perguntas sobre essa política de privacidade, contate-nos em rocha.carla@gmail.com.
 
