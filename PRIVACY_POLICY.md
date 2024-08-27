@@ -16,7 +16,8 @@ Links para as políticas de privacidade dos provedores de serviço de terceiros.
 ## Alterações Nesta Política de Privacidade
 
 Posso atualizar nossa Política de Privacidade de tempos em tempos. Portanto, você é aconselhado a revisar esta página periodicamente para quaisquer alterações. Essas alterações são eficazes imediatamente após serem publicadas nesta página.
-Esta é a segunda edição da nossa política de privacidade, elaborada em 27/08/2024.
+
+Esta é a segunda edição da nossa Política de Privacidade, elaborada em 27/08/2024.
 
 ## Dados de Registro
 
