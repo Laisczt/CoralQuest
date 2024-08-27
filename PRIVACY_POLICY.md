@@ -41,7 +41,7 @@ Posso contratar empresas e indivíduos de terceiros pelos seguintes motivos:
 Gostaria de informar aos usuários deste Serviço que esses terceiros têm acesso às suas Informações Pessoais. A razão é para realizar as tarefas que lhes foram atribuídas em nosso nome. No entanto, eles estão obrigados a não divulgar ou usar as informações para qualquer outro propósito.
 ## Segurança
 
-Eu valorizo sua confiança ao nos fornecer suas Informações Pessoais, portanto, estamos nos esforçando para usar meios comercialmente aceitáveis para protegê-las. Mas lembre-se de que nenhum método de transmissão pela internet, ou método de armazenamento eletrônico, é 100% seguro e confiável, e eu não posso garantir sua segurança absoluta.
+Nós valorizamos sua confiança ao nos fornecer suas Informações Pessoais, portanto, estamos nos esforçando para usar meios comercialmente aceitáveis para protegê-las. Mas lembre-se de que nenhum método de transmissão pela internet, ou método de armazenamento eletrônico, é 100% seguro e confiável, e eu não posso garantir sua segurança absoluta.
 
 ## Links para Outros Sites
 
