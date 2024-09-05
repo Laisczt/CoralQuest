@@ -30,9 +30,10 @@ twitter_username: jekyllrb
 github_username:  jekyll
 
 # Build settings
-theme: alembic-jekyll-theme
+remote_theme: daviddarnes/alembic@main
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
   
 navigation_header:
 - title: Home
