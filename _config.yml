@@ -33,6 +33,7 @@ github_username:  jekyll
 theme: alembic-jekyll-theme
 plugins:
   - jekyll-feed
+  -jekyll-remote-theme
   
 navigation_header:
 - title: Home
