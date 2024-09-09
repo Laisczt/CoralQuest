@@ -30,8 +30,8 @@ url: "https://laisczt.github.io" # the base hostname & protocol for your site, e
 github_username:  Laisczt
 
 # Build settings
-theme: alembic-jekyll-theme
-#remote_theme: daviddarnes/alembic@main
+#theme: alembic-jekyll-theme
+remote_theme: daviddarnes/alembic@main
 plugins:
   - jekyll-feed
 navigation_header:
