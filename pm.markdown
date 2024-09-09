@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 
-### Laís Cecília
+### Laís Soares
 
 ### Lopes
 Cursando engenharia de software e criadore de todas as sprites e desenhos do jogo, também como editora dos efeitos sonoros e
