@@ -21,9 +21,7 @@
 title: Coral Quest
 email: laissopaes@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine
 baseurl: "/CoralQuest" # the subpath of your site, e.g. /blog
 url: "https://laisczt.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
@@ -39,14 +37,10 @@ navigation_header:
   url: /
 - title: Tutoriais
   url: /tutoriais/
-#- title: Blog
-#  url: /blog/
-#- title: Categories
-#  url: /categories/
-#- title: Search
-#  url: /search/
+- title: Créditos
+  url: /creditos/
 - title: Github
-  url: https://github.com/Laisczt/CoralQuest 
+  url: https://github.com/Laisczt/CoralQuest
 
 
 # Exclude from processing.

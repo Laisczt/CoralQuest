@@ -3,13 +3,13 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: page
-title: Home
+title: Bem vindo ao Coral Quest!
 
 ---
 ![Coral Quest jogo banner](https://github.com/Laisczt/CoralQuest/assets/112433653/f3cee4c9-6251-4189-ab6b-614939955329)
 
 ## O que é Coral Quest?
-Coral Quest é um jogo criado como material de estudo de gamedev em Unity, e foi feito como continuação da [Workshop Unity for Women](https://github.com/BOSS-BigOpenSourceSibling/unity-for-women), desenvolvida pela BOSS, a iniciativa da UnB com o objetivo de promover participação de minorias na comunidade Open Source.
+Coral Quest é um jogo criado como material de estudo de GameDev em Unity, e foi feito como continuação da [Workshop Unity for Women](https://github.com/BOSS-BigOpenSourceSibling/unity-for-women), desenvolvida pela BOSS, a iniciativa da UnB com o objetivo de promover participação de minorias na comunidade Open Source.
 
 ## Como é o jogo?
 Coral quest é um platformer 2D, feito inteiramente com pixel art, de forma a lembrar jogos retro mais símples, o gameplay foi inspirado pelo gênero de Metroidvania, especialmente Hollow Knight, apesar de não ser muito longo.
@@ -30,43 +30,21 @@ Essas ferramentas incluem:
 - Raycasts
 - Diferênciação do uso de Update (input) e FixedUpdate(física)
 - Tilemaps
-- Animação a partir de Spritesheets
-- Uso de cenas aditivas para UI
+- Spritesheets para Animação
+- Cenas Aditivas
 - Extension Classes
 - [Padrão de Design Singleton](https://gamedevbeginner.com/singletons-in-unity-the-right-way/)
 - Uso de várias câmeras simultâneamente
-- Interfaces
-
-Este repositório é disponibilizado sobre a licensa MIT.
+- Interfaces(Orientação à Objetos)
 
 ## Unity
-Foi usada a versão 2021.3.25f1 do editor Unity com o template 2D, e essa é a versão recomendada ao rodar o projeto
+Foi usada a versão 2021.3.25f1 do editor Unity com o template 2D, e essa é a versão recomendada ao rodar o projeto.
 
 ![Healing_Tree](https://github.com/Laisczt/CoralQuest/assets/92321749/941aba84-db79-4083-9f8a-c606f549fe9e)
 
+Também foi utilizado o pacote Universal Render Pipeline(URP).
 
-Pacotes:
-- Universal Render Pipeline
-- Android Logcat
-- [Joystick Pack](https://assetstore.unity.com/packages/tools/input-management/joystick-pack-107631) (Asset Store)
+## Licensa
+O [Repositório](https://github.com/Laisczt/CoralQuest/) e jogo são disponibilizados sobre a licensa MIT .
 
-## Créditos
-* Idealização - Carla Rocha
-  
-### Conteúdo original
-* Programação - Laís Soares
-* Arte - Wonnz Lopes
-* Música - [Herbert Kiragon](https://www.instagram.com/kiragon_obardo/)
-* Efeitos Sonoros - Laís Soares, Wonnz Lopes, Herbert Kiragon
-
-### Assets livres - Efeitos sonoros
-- [pixabay](https://pixabay.com/) 
-- [jofae](https://pixabay.com/users/2612324/) 
-- [Sslc2022](https://pixabay.com/users/sslc2022-31978155/)
-- [LordSonny](https://pixabay.com/users/lordsonny-38439655/) 
-- [floraphonic](https://pixabay.com/users/floraphonic-38928062/)
-- [UNIVERSFIELD](https://pixabay.com/users/28281460/)
-- [VoiceBosch](https://pixabay.com/users/voicebosch-30143949/)
-### Assets livres - Música(menu e cena final)
-- [Pix](https://www.youtube.com/@Pixverses)
 

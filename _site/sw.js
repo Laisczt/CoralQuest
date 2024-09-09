@@ -1,8 +1,8 @@
-const version = '20240909095215';
+const version = '20240909105052';
 const cacheName = `static::${version}`;
 
 const buildContentBlob = () => {
-  return ["/CoralQuest/jekyll/update/2024/08/21/welcome-to-jekyll.html","/CoralQuest/","/CoralQuest/about/","/CoralQuest/tutoriais/","/CoralQuest/manifest.json","/CoralQuest/assets/search.json","/CoralQuest/assets/styles.css","/CoralQuest/redirects.json","/CoralQuest/feed.xml","/CoralQuest/sitemap.xml","/CoralQuest/robots.txt","", "/CoralQuest/assets/default-offline-image.png", "/CoralQuest/assets/scripts/fetch.js"
+  return ["/CoralQuest/2024/08/30/aaaa.html","/CoralQuest/creditos/","/CoralQuest/","/CoralQuest/about/","/CoralQuest/tutoriais/","/CoralQuest/manifest.json","/CoralQuest/assets/search.json","/CoralQuest/assets/styles.css","/CoralQuest/redirects.json","/CoralQuest/feed.xml","/CoralQuest/sitemap.xml","/CoralQuest/robots.txt","", "/CoralQuest/assets/default-offline-image.png", "/CoralQuest/assets/scripts/fetch.js"
   ]
 }
 
