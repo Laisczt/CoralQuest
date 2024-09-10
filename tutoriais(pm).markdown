@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/e06b2b8d-3896-494b-94fa-b6821debfc40)---
+---
 layout: post
 title: Nossa Experiência
 permalink: /experience/
@@ -16,5 +16,5 @@ A segunda foi a água-viva fantasma gigante, as cores e aperência da criatura �
 
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/design%26Boss.png)
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/save%20point%20ver1.png)
-
+![](https://github.com/user-attachments/assets/e06b2b8d-3896-494b-94fa-b6821debfc40)
 
