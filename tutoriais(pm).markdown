@@ -9,6 +9,6 @@ Durante o processo de aprendizado eu comecei a desenvolver o desing da protagoni
 ![v1](https://github.com/Laisczt/CoralQuest/blob/page/img/primeira%20versao.png) 
 
 A primeira versão dela não fez muito sentido, mas na hora eu estaa tenanto construir um personagem ao redor da ideia das mãos de tentáculo, como poder ser visto na imagem.
-
+### :3
 
 - stuffy duffy
