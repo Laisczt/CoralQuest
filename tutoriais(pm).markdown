@@ -16,5 +16,5 @@ A segunda foi a água-viva fantasma gigante, as cores e aperência da criatura �
 
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/design%26Boss.png)
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/save%20point%20ver1.png)
-![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/solei.png)
+
 
