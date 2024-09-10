@@ -3,11 +3,10 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: page
-title: Bem vindo ao Coral Quest!
+
 feature_image: https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/tittle.png
 
 ---
-![Coral Quest jogo banner](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/tittle.png)
 
 ## O que é Coral Quest?
 Coral Quest é um jogo criado como material de estudo de GameDev em Unity, e foi feito como continuação da [Workshop Unity for Women](https://github.com/BOSS-BigOpenSourceSibling/unity-for-women), desenvolvida pela BOSS, a iniciativa da UnB com o objetivo de promover participação de minorias na comunidade Open Source.
