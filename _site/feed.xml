@@ -1,17 +1,205 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/CoralQuest/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CoralQuest/" rel="alternate" type="text/html" /><updated>2024-09-09T10:50:52-03:00</updated><id>http://localhost:4000/CoralQuest/feed.xml</id><title type="html">Coral Quest</title><subtitle>Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine</subtitle><entry><title type="html">wah</title><link href="http://localhost:4000/CoralQuest/2024/08/30/aaaa.html" rel="alternate" type="text/html" title="wah" /><published>2024-08-30T12:00:00-03:00</published><updated>2024-08-30T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/08/30/aaaa</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/08/30/aaaa.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/CoralQuest/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CoralQuest/" rel="alternate" type="text/html" /><updated>2024-09-09T22:44:07-03:00</updated><id>http://localhost:4000/CoralQuest/feed.xml</id><title type="html">Coral Quest</title><subtitle>Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine</subtitle><entry><title type="html">Padrão Singleton</title><link href="http://localhost:4000/CoralQuest/2024/09/03/Singleton.html" rel="alternate" type="text/html" title="Padrão Singleton" /><published>2024-09-03T12:00:00-03:00</published><updated>2024-09-03T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/03/Singleton</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/03/Singleton.html"><![CDATA[<p>Nem todos os objetos em Unity são criados da mesma forma, alguns tem maior importância. Você pode, por exemplo, ter um objeto GameManager, que possui funções como a de gameover, lida com o placar e mudanças de cena. Esse objeto será referenciado por várias classes pelo jogo, porém ele não pode ser estático, então referências à ele teriam que ser feitas da forma GameObject.Find(“Manager”) ou algo do tipo. Isso não é ideal, já que a função Find() não é eficiente, isso é o caso para a maioria das funções que atravéssam a hierarquia para encontrar um objeto, em graus diferentes.</p>
 
-<p>Jekyll requires blog post files to be named according to the following format:</p>
+<p>O GameManager possui uma característica que pode nos ajudar a referênciá-lo de forma eficiente, isto é o fato que só pode existir um destes objetos ativos em um dado momento. Isso nos possibilita o uso do padrão Singleton de design.</p>
 
-<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">GameManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+	<span class="c1">//</span>
+	<span class="c1">//    ...</span>
+	<span class="c1">//</span>
+	<span class="k">public</span> <span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="n">GameManager</span> <span class="n">Instance</span><span class="p">;</span>
+	
+	<span class="k">void</span> <span class="nf">Awake</span><span class="p">()</span>	<span class="c1">// Awake ocorre ainda antes do Start()</span>
+	<span class="p">{</span>
+		<span class="n">Instance</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="c1">//</span>
+	<span class="c1">//    ...</span>
+	<span class="c1">//</span>
 
-<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<span class="p">}</span></code></pre></figure>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>Referências ao GameManager podem então ser feitas assim:</p>
 
-<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">print_hi</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">){</span>
-  <span class="n">Debug</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span> <span class="s">"Hi, "</span> <span class="p">+</span> <span class="n">name</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">MinhaClasse</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+	<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">Debug</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="n">GameManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">a</span><span class="p">);</span>
+		<span class="c1">// =&gt; 3</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><a href="https://gamedevbeginner.com/singletons-in-unity-the-right-way/">Mais sobre o padrão Singleton</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Nem todos os objetos em Unity são criados da mesma forma, alguns tem maior importância. Você pode, por exemplo, ter um objeto GameManager, que possui funções como a de gameover, lida com o placar e mudanças de cena. Esse objeto será referenciado por várias classes pelo jogo, porém ele não pode ser estático, então referências à ele teriam que ser feitas da forma GameObject.Find(“Manager”) ou algo do tipo. Isso não é ideal, já que a função Find() não é eficiente, isso é o caso para a maioria das funções que atravéssam a hierarquia para encontrar um objeto, em graus diferentes.]]></summary></entry><entry><title type="html">Helper Classes &amp;amp; Extension Methods</title><link href="http://localhost:4000/CoralQuest/2024/09/02/MetodosExtensao.html" rel="alternate" type="text/html" title="Helper Classes &amp;amp; Extension Methods" /><published>2024-09-02T12:00:00-03:00</published><updated>2024-09-02T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/02/MetodosExtensao</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/02/MetodosExtensao.html"><![CDATA[<p>Às vezes, no nosso jogo, existem “funções” que precisamos utilizar em vários scripts diferentes. Ao invés de ter uma cópia dessa função em cada classe que precisa utilizá-la, podemos fazer uso de helper classes.</p>
+
+<p>Uma helper Class é uma classe estática (pode ser chamada de qualquer parte do código) que guarda esse tipo de função que é útil em vários cenários.</p>
+
+<p>O Código a seguir implementa uma helper class com uma função que eleva um número ao quadrado e o divide por 3</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Helpers</span> <span class="c1">// note que essa classe não herda de MonoBehaviour</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="kt">float</span> <span class="nf">SquareAndCut3</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="n">x</span> <span class="p">*</span> <span class="n">x</span> <span class="p">/</span> <span class="m">3</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Essa função pode então ser utilizada em outras classes:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">MinhaClasse</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">a</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+	<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="n">Debug</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="n">Helpers</span><span class="p">.</span><span class="nf">SquareAndCut3</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+		<span class="n">a</span><span class="p">++;</span>
+		<span class="c1">// Imprime ao console o resultado da equação todo frame e incrementa o valor de entrada</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Uma ideia similar à de Helper Classes é Extension Classes.</p>
+
+<p>Nós não temos acesso ao código das classes já presentes no Unity (ex.: Transform, AudioSource, Vector3), porém existem situações em que seria conveniente adicionar uma função à uma dessas classes.</p>
+
+<p>Por exemplo, você pode achar que caso queira rotacionar um Vector2 em um ângulo específico, deve existir uma função Vector2.Rotate(angulo), porém essa função não existe.
+Uma solução para isso seria implementar uma função RotateVector2() numa helper class, porém há uma solução mais elegante utilizando uma classe de extenção.:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">ExtensionMethods</span>
+<span class="p">{</span>
+
+	<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Rotate</span><span class="p">(</span><span class="k">this</span> <span class="n">Vector2</span> <span class="n">vec</span><span class="p">,</span> <span class="kt">float</span> <span class="n">delta</span><span class="p">)</span> 	<span class="c1">// O termo 'this' no primeiro argumento define que isso é uma extensão da classe Vector2</span>
+	<span class="p">{</span>
+		<span class="n">vec</span> <span class="p">=</span>  <span class="k">new</span> <span class="nf">Vector2</span><span class="p">(</span>
+			<span class="n">vec</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Cos</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="p">-</span> <span class="n">vec</span><span class="p">.</span><span class="n">y</span> <span class="p">*</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Sin</span><span class="p">(</span><span class="n">delta</span><span class="p">),</span>
+			<span class="n">vec</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Sin</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="p">+</span> <span class="n">vec</span><span class="p">.</span><span class="n">y</span> <span class="p">*</span> <span class="n">Mathf</span><span class="p">.</span><span class="nf">Cos</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+		<span class="p">);</span>
+	<span class="p">}</span>
+
+
+<span class="p">}</span></code></pre></figure>
+
+<p>Podemos então usar a função da seguinte forma:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">MinhaClasse</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+	<span class="n">Vector2</span> <span class="n">v</span><span class="p">;</span>
+	<span class="kt">float</span> <span class="n">angulo</span> <span class="p">=</span> <span class="m">3.14159f</span><span class="p">;</span>
+	
+ 	<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+ 	<span class="p">{</span>
+ 		<span class="n">v</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Vector2</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+ 		<span class="n">v</span><span class="p">.</span><span class="nf">Rotate</span><span class="p">(</span><span class="n">angulo</span><span class="p">);</span>	<span class="c1">// o primeiro argumento da função é o próprio vetor, não é necessário especificá-lo</span>
+ 		<span class="n">Debug</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+ 		<span class="c1">// =&gt; (-1, 0)</span>
+ 	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[Às vezes, no nosso jogo, existem “funções” que precisamos utilizar em vários scripts diferentes. Ao invés de ter uma cópia dessa função em cada classe que precisa utilizá-la, podemos fazer uso de helper classes.]]></summary></entry><entry><title type="html">Raycasts</title><link href="http://localhost:4000/CoralQuest/2024/09/01/Raycasts.html" rel="alternate" type="text/html" title="Raycasts" /><published>2024-09-01T12:00:00-03:00</published><updated>2024-09-01T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/01/Raycasts</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/01/Raycasts.html"><![CDATA[<p>Um raycast é, reduzidamente, uma linha traçada entre um ponto de origem e um de um ponto destino, a utilidade disto vem de que podemos detectar com quais objetos essa linha colidiu em seu trajeto.</p>
+
+<p>Exemplos de uso de Raycast:</p>
+<ul>
+  <li>Determinar se um inimigo consegue ver o jogador quando há obstáculos no caminho</li>
+  <li>Saber se o jogador está olhando para um objeto interajível</li>
+  <li>Simular tiros de armas quando não queremos usar projéteis</li>
+  <li>Calcular o quão longe o jogador está do chão</li>
+</ul>
+
+<p>O último pode ser feito da seguinte forma:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">LayerMask</span> <span class="n">chaoMask</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">distanciaChao</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">chaoMask</span> <span class="p">=</span> <span class="n">LayerMask</span><span class="p">.</span><span class="nf">GetMask</span><span class="p">(</span><span class="s">"Chao"</span><span class="p">);</span>
+	<span class="c1">// Define uma máscara para a camada chão</span>
 <span class="p">}</span>
-<span class="nf">print_hi</span><span class="p">(</span><span class="s">"Tom"</span><span class="p">);</span>
-<span class="c1">//=&gt; prints 'Hi, Tom' to Console.</span></code></pre></figure>
 
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">var</span> <span class="n">hit</span> <span class="p">=</span> <span class="n">Physics2D</span><span class="p">.</span><span class="nf">Raycast</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">down</span><span class="p">,</span> <span class="m">100.0f</span><span class="p">,</span> <span class="n">chaoMask</span><span class="p">)</span>
+	<span class="c1">// Faz um Raycast da posição do jogador para baixo, com uma distância máxima de 100 unidades, que só pode colidir com objetos na camada Chao</span>
+	<span class="c1">// a variável hit guarda as informações da primeira colisão desse raycast</span>
+	
+	<span class="k">if</span><span class="p">(</span><span class="n">hit</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="c1">// se o raycast recordou uma colisão, pegamos sua distância</span>
+	<span class="p">{</span>
+		<span class="n">distanciaChao</span> <span class="p">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">distance</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">else</span>
+	<span class="p">{</span>
+		<span class="n">distanciaChao</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[Um raycast é, reduzidamente, uma linha traçada entre um ponto de origem e um de um ponto destino, a utilidade disto vem de que podemos detectar com quais objetos essa linha colidiu em seu trajeto.]]></summary></entry><entry><title type="html">Update(), FixedUpdate() e deltaTime</title><link href="http://localhost:4000/CoralQuest/2024/08/31/Update-FixedUpdate.html" rel="alternate" type="text/html" title="Update(), FixedUpdate() e deltaTime" /><published>2024-08-31T12:00:00-03:00</published><updated>2024-08-31T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/08/31/Update-FixedUpdate</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/08/31/Update-FixedUpdate.html"><![CDATA[<p>Vimos que a parte principal do código de objetos dinâmicos é feita dentro da função Update(), isto é, esse código rodará todo frame. Mas existe um problema com isso, um frame ocorre sempre que o Unity finaliza a execução de todo o código dentro de todos os Update()’s, o tempo entre frames pode variar à medida que o jogo cresce e, principalmente, a depender do hardware em que o jogo está rodando. Caso você desenvolva seu jogo em um computador que é capaz de rodar o jogo à 120 FPS (frames por segundo), um usuário com um computador que só é capaz de 60 FPS irá experienciar seu jogo em câmera lenta.</p>
+
+<p>Para solucionar isso existem duas formas: uso de deltaTime e FixedUpdate().</p>
+
+<h2 id="deltatime">deltaTime</h2>
+
+<p>Time.deltaTime é uma variável do Unity que guarda o tempo em segundos que o computador demorou para calcular o último frame. Podemos utilizar esse valor para padronizar o movimento de objetos.</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">right</span> <span class="p">*</span> <span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>O Script acima move o objeto para a direita todo frame. Ao multiplicar a distância movida por deltaTime, garantimos que ela será proporcional a taxa de quadros e igual em qualquer computador</p>
+
+<p>OBS: NEM SEMPRE O USO DE DELTATIME É TÃO SÍMPLES, E O EXEMPLO ACIMA SÓ SE APLICA À MOVIMENTO LINEAR (sem aceleração). <a href="https://www.youtube.com/watch?v=yGhfUcPjXuE&amp;t=205s&amp;pp=ygUJZGVsdGFUaW1l">CLIQUE AQUI</a> PARA MAIS DETALHES SOBRE USO DE DELTATIME</p>
+
+<p>Geralmente, utilizar deltaTime é a forma mais versátil de garantir consistência no comportamento de seu jogo, porém pode ser complicado em algumas situações.</p>
+
+<h2 id="fixedupdate">FixedUpdate()</h2>
+
+<p>FixedUpdate(), por outro lado, ocorre exatamente 60 vezes por segundo(configurável), por isso sempre é consistente entre máquinas*. Apesar disso, Time.fixedDeltaTime está disponível caso necessário.</p>
+
+<p>* Contanto que o computador seja capaz de calcular 60 quadros por segundo. Se esse não for o caso, Update() deve ser utilizado</p>
+
+<p>FixedUpdate() também tem outra característica importante: todo o cálculo de física em Unity (colisões, RigidBody, etc.) é feito nele, então é uma boa ideia colocar partes do código que interajam com a física dentro de FixedUpdate().</p>
+
+<p>Dado isso, existe uma parte do código que é recomendada sempre estar em Update(): Input do usuário.</p>
+
+<p>Um exemplo de movimento horizontal usando Update() e FixedUpdate():</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">RigidBody2D</span> <span class="n">myRB</span><span class="p">;</span>
+<span class="n">Float</span> <span class="n">InputX</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">myRB</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">RigidBody2D</span><span class="p">&gt;();</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">InputX</span> <span class="p">=</span> <span class="n">Input</span><span class="p">.</span><span class="nf">GetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">);</span>
+	<span class="c1">// Esse valor varia entre -1 (esquerda), 0 (parado) e 1(direita)</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">FixedUpdate</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">myRB</span><span class="p">.</span><span class="n">velocity</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Vector2</span><span class="p">(</span><span class="n">InputX</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[Vimos que a parte principal do código de objetos dinâmicos é feita dentro da função Update(), isto é, esse código rodará todo frame. Mas existe um problema com isso, um frame ocorre sempre que o Unity finaliza a execução de todo o código dentro de todos os Update()’s, o tempo entre frames pode variar à medida que o jogo cresce e, principalmente, a depender do hardware em que o jogo está rodando. Caso você desenvolva seu jogo em um computador que é capaz de rodar o jogo à 120 FPS (frames por segundo), um usuário com um computador que só é capaz de 60 FPS irá experienciar seu jogo em câmera lenta.]]></summary></entry><entry><title type="html">GetComponent()</title><link href="http://localhost:4000/CoralQuest/2024/08/30/GetComponent.html" rel="alternate" type="text/html" title="GetComponent()" /><published>2024-08-30T12:00:00-03:00</published><updated>2024-08-30T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/08/30/GetComponent</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/08/30/GetComponent.html"><![CDATA[<p>Quando precisamos que um script interaja com outros componentes em nossos objetos, vimos que é possível referenciá-los declarando uma variável pública e arrastando o componente no editor. Porém nem sempre é possível fazer isso; por exemplo, como você referenciaria o RigidBody2D de um objeto que foi instanciado depois de apertar play?</p>
+
+<p>Para fazer isso, utilizamos a função GetComponent(). Dada uma referência ao GameObject do qual queremos pegar um componente, podemos usar:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">RigidBody2D</span> <span class="n">otherRigidBody</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+ <span class="n">otherRigidBody</span> <span class="p">=</span> <span class="n">otherGameObject</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">RigidBody2D</span><span class="p">&gt;();</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Existem várias formas de conseguir a referência ao GameObject, algumas são:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">otherGameObject</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="nf">Find</span><span class="p">(</span><span class="s">"nome objeto"</span><span class="p">);</span>
+<span class="c1">// encontra um objeto a partir do nome</span>
+
+<span class="n">childGameObject</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="nf">Find</span><span class="p">(</span><span class="s">"nome pai/nome filho"</span><span class="p">);</span>
+<span class="c1">// encontra um objeto dentro de uma hierarquia</span>
+
+<span class="n">taggedObject</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="nf">FindWithTag</span><span class="p">(</span><span class="s">"nome tag"</span><span class="p">);</span>
+<span class="c1">// encontra um objeto com uma determinada tag</span>
+
+<span class="n">firstChild</span> <span class="p">=</span> <span class="n">Parent</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="nf">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">gameObject</span><span class="p">;</span>
+<span class="c1">// Pega o primeiro filho de um objeto conhecido (travessia pela hierarquia geralmente é feita pelo Transform, não GameObject)</span></code></pre></figure>
+
+<p>Como todos os objetos em Unity possuem GameObject e Transform, estes podem ser adquiridos usando “.transform” ou “.gameObject” a partir de qualquer componente</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Quando precisamos que um script interaja com outros componentes em nossos objetos, vimos que é possível referenciá-los declarando uma variável pública e arrastando o componente no editor. Porém nem sempre é possível fazer isso; por exemplo, como você referenciaria o RigidBody2D de um objeto que foi instanciado depois de apertar play?]]></summary></entry></feed>
