@@ -4,6 +4,7 @@
 
 layout: page
 title: Bem vindo ao Coral Quest!
+feature_image: https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/tittle.png
 
 ---
 ![Coral Quest jogo banner](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/tittle.png)
