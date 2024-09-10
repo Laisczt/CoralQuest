@@ -20,7 +20,7 @@
 <meta property="og:url" content="http://localhost:4000/CoralQuest/tutoriais/" />
 <meta property="og:site_name" content="Coral Quest" />
 <script type="application/ld+json">
-{"headline":"Tutoriais","url":"http://localhost:4000/CoralQuest/tutoriais/","@type":"WebPage","description":"Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine","@context":"https://schema.org"}</script>
+{"url":"http://localhost:4000/CoralQuest/tutoriais/","@type":"WebPage","description":"Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine","headline":"Tutoriais","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
     
@@ -162,7 +162,7 @@
 
       
         <h1>Tutoriais</h1>
-        <p>Antes de criarmos o jogo tivemos um estudo de 6 meses do uso da ferramenta <a href="https://unity.com/pt">Unity</a> e, nesse período desenvolvemos tutoriais para <a href="https://github.com/Laisczt/unity-for-women/tree/master">BOSS:Unity for women</a></p>
+        <p>Estes tutoriais assumem um conhecimento das ferramentas básicas do Unity, que podem ser vistas em <a href="https://github.com/Laisczt/unity-for-women/tree/master">BOSS:Unity for women</a>.</p>
 
 
         
@@ -177,7 +177,81 @@
         <li class="item  item--post">
           <article class="article  article--post">
 
-            <h2><a href="/CoralQuest/2024/08/30/aaaa.html">wah</a></h2>
+            <h2><a href="/CoralQuest/2024/09/03/Singleton.html">Padrão Singleton</a></h2>
+            
+
+<small class="small  post-meta">
+  
+  
+    
+  &nbsp;&middot;&nbsp;<time datetime="2024-09-03T12:00:00-03:00" class="time">03 Sep 2024</time>
+</small>
+
+            <p>Nem todos os objetos em Unity são criados da mesma forma, alguns tem maior importância. Você pode, por exemplo, ter um objeto GameManager, que possui funções como a de gameover, lida com o placar e mudanças de cena. Esse objeto será referenciado por várias classes pelo jogo, porém ele não pode ser estático, então referências à ele teriam que ser...
+
+          </article>
+        </li>
+      
+        <li class="item  item--post">
+          <article class="article  article--post">
+
+            <h2><a href="/CoralQuest/2024/09/02/MetodosExtensao.html">Helper Classes & Extension Methods</a></h2>
+            
+
+<small class="small  post-meta">
+  
+  
+    
+  &nbsp;&middot;&nbsp;<time datetime="2024-09-02T12:00:00-03:00" class="time">02 Sep 2024</time>
+</small>
+
+            <p>Às vezes, no nosso jogo, existem “funções” que precisamos utilizar em vários scripts diferentes. Ao invés de ter uma cópia dessa função em cada classe que precisa utilizá-la, podemos fazer uso de helper classes.</p>
+
+
+          </article>
+        </li>
+      
+        <li class="item  item--post">
+          <article class="article  article--post">
+
+            <h2><a href="/CoralQuest/2024/09/01/Raycasts.html">Raycasts</a></h2>
+            
+
+<small class="small  post-meta">
+  
+  
+    
+  &nbsp;&middot;&nbsp;<time datetime="2024-09-01T12:00:00-03:00" class="time">01 Sep 2024</time>
+</small>
+
+            <p>Um raycast é, reduzidamente, uma linha traçada entre um ponto de origem e um de um ponto destino, a utilidade disto vem de que podemos detectar com quais objetos essa linha colidiu em seu trajeto.</p>
+
+
+          </article>
+        </li>
+      
+        <li class="item  item--post">
+          <article class="article  article--post">
+
+            <h2><a href="/CoralQuest/2024/08/31/Update-FixedUpdate.html">Update(), FixedUpdate() e deltaTime</a></h2>
+            
+
+<small class="small  post-meta">
+  
+  
+    
+  &nbsp;&middot;&nbsp;<time datetime="2024-08-31T12:00:00-03:00" class="time">31 Aug 2024</time>
+</small>
+
+            <p>Vimos que a parte principal do código de objetos dinâmicos é feita dentro da função Update(), isto é, esse código rodará todo frame. Mas existe um problema com isso, um frame ocorre sempre que o Unity finaliza a execução de todo o código dentro de todos os Update()’s, o tempo entre frames pode variar à medida que o jogo cresce...
+
+          </article>
+        </li>
+      
+        <li class="item  item--post">
+          <article class="article  article--post">
+
+            <h2><a href="/CoralQuest/2024/08/30/GetComponent.html">GetComponent()</a></h2>
             
 
 <small class="small  post-meta">
@@ -187,7 +261,7 @@
   &nbsp;&middot;&nbsp;<time datetime="2024-08-30T12:00:00-03:00" class="time">30 Aug 2024</time>
 </small>
 
-            <p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+            <p>Quando precisamos que um script interaja com outros componentes em nossos objetos, vimos que é possível referenciá-los declarando uma variável pública e arrastando o componente no editor. Porém nem sempre é possível fazer isso; por exemplo, como você referenciaria o RigidBody2D de um objeto que foi instanciado depois de apertar play?</p>
 
 
           </article>
