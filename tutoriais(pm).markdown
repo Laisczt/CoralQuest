@@ -11,7 +11,9 @@ Durante o perído de estudo do Unity eu comecei a desenvolver o desing da protag
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/primeira%20versao.png) 
 
 A primeira versão dela não fez muito sentido, mas na hora eu estaa tenanto construir um personagem ao redor da ideia das mãos de tentáculo, como poder ser visto na imagem. No fim eu não gostei do eu estava produzindo então decidi pesquisar sobre animais aquaticos para inspirção, e em algum momento me deparei com a minha nova inspiração: lesmas do mar, especificamente a ovelha-folha, a lesma que faz fotossíntese. 
+
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/segunda%20versao.png)
 
-
+A ideia veio quase instatanement na minha cabeça e só tive que fazer minímos reajsutes para a versão final
+![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/segunda%20versao.png) ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/final%20v.png)
 - stuffy duffy
