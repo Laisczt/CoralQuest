@@ -12,5 +12,8 @@ Como a primeira versão não fez muito sentido, comecei a pesquisar por criatura
 
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/segunda%20versao.png) ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/final%20v.png)
 
-A segunda foi a água-viva fantasma gigante
+A segunda foi a água-viva fantasma gigante, as cores e aperência da criatura é tão bonito que eu quase fiz a protagonista ser uma água-viva, mas decidi permanecer co desing da lesma e reutilizar esse design de outra forma.
+
+![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/design%26Boss.png)
+![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/save%20point%20ver1.png)
 
