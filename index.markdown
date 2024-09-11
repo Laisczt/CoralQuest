@@ -4,7 +4,7 @@
 
 layout: page
 
-feature_image: https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/tittle.png
+feature_image: https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/Main_tittle.png
 
 ---
 
