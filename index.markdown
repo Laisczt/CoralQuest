@@ -38,7 +38,7 @@ Essas ferramentas incluem:
 - Interfaces(Orientação à Objetos)
 
 ### Unity
-Foi usada a versão 2021.3.25f1 do editor Unity com o template 2D, e essa é a versão recomendada ao rodar o projeto.
+Foi usada a versão 2021.3.43f1 do editor Unity com o template 2D, e essa é a versão recomendada ao rodar o projeto.
 
 ![Healing_Tree](https://github.com/Laisczt/CoralQuest/assets/92321749/941aba84-db79-4083-9f8a-c606f549fe9e)
 
