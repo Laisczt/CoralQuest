@@ -3,7 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: page
-
+tittle: Yipeee
 feature_image: https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/Main_tittle.png
 
 ---
