@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Sobre Nós
-permalink: /about/
+permalink: /aboutUs/
 ---
 
 
