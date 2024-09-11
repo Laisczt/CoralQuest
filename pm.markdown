@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ⠀
+title: ⠀Sobre Nós
 permalink: /about/
 ---
 
