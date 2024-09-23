@@ -1,4 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/CoralQuest/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CoralQuest/" rel="alternate" type="text/html" /><updated>2024-09-09T22:44:07-03:00</updated><id>http://localhost:4000/CoralQuest/feed.xml</id><title type="html">Coral Quest</title><subtitle>Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine</subtitle><entry><title type="html">Padrão Singleton</title><link href="http://localhost:4000/CoralQuest/2024/09/03/Singleton.html" rel="alternate" type="text/html" title="Padrão Singleton" /><published>2024-09-03T12:00:00-03:00</published><updated>2024-09-03T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/03/Singleton</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/03/Singleton.html"><![CDATA[<p>Nem todos os objetos em Unity são criados da mesma forma, alguns tem maior importância. Você pode, por exemplo, ter um objeto GameManager, que possui funções como a de gameover, lida com o placar e mudanças de cena. Esse objeto será referenciado por várias classes pelo jogo, porém ele não pode ser estático, então referências à ele teriam que ser feitas da forma GameObject.Find(“Manager”) ou algo do tipo. Isso não é ideal, já que a função Find() não é eficiente, isso é o caso para a maioria das funções que atravéssam a hierarquia para encontrar um objeto, em graus diferentes.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/CoralQuest/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CoralQuest/" rel="alternate" type="text/html" /><updated>2024-09-22T22:11:23-03:00</updated><id>http://localhost:4000/CoralQuest/feed.xml</id><title type="html">Coral Quest</title><subtitle>Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine</subtitle><entry><title type="html">Multiplas Câmeras</title><link href="http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras.html" rel="alternate" type="text/html" title="Multiplas Câmeras" /><published>2024-09-07T12:00:00-03:00</published><updated>2024-09-07T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras.html"><![CDATA[<p>Existem várias formas de utilizar várias câmeras simultaneamente no Unity.</p>
+
+<p>Coral Quest utiliza uma câmera principal que vê o nível, e uma câmera de background que somente vê o plano de fundo.</p>
+
+<p>Para alcançar esse efeito, posicione sua tela de fundo em algum lugar em sua cena com uma câmera apontando para ela (garanta que a câmera não possua a tag ‘Main Camera’)</p>
+
+<p><img src="../../../img/telacam.png" alt="Camera e tela de fundo em cena" /></p>
+
+<p>Em seguida, crie um Render Texture na aba de projeto, e o configure com as dimensões desejadas</p>
+
+<p><img src="../../../img/rendertexture.png" alt="Propriedades Render Texture" /></p>
+
+<p>Passe a render texture criada como textura de output da camera</p>
+
+<p><img src="../../../img/outputtexture.png" alt="Atribuição output texture" /></p>
+
+<p>Crie um canvas como objeto filho da câmera principal, e defina o modo de renderização como Screen Space - Camera</p>
+
+<p><img src="../../../img/cameracanvas.png" alt="Canvas filho" /></p>
+
+<p>Crie uma Raw Image como filha do canvas em UI &gt; Raw Image e utilize a render texture como textura</p>
+
+<p><img src="../../../img/texturecanvas.png" alt="Textura no Canvas" /></p>
+
+<p>Por fim, defina a ancoração da imagem para stretch em ambas as direções, segurando alt para copiar a posição</p>
+
+<p><img src="../../../img/anchorpresets.png" alt="Anchor Presets" /></p>
+
+<p>Veja também outras formas de utilizar múltiplas câmeras:</p>
+
+<p><a href="https://www.youtube.com/watch?v=4A-ptevH6-w">https://www.youtube.com/watch?v=4A-ptevH6-w</a></p>
+
+<p><a href="https://www.youtube.com/watch?v=bbnVpPiQ_rU">https://www.youtube.com/watch?v=bbnVpPiQ_rU</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Existem várias formas de utilizar várias câmeras simultaneamente no Unity.]]></summary></entry><entry><title type="html">Interfaces</title><link href="http://localhost:4000/CoralQuest/2024/09/06/Interfaces.html" rel="alternate" type="text/html" title="Interfaces" /><published>2024-09-06T12:00:00-03:00</published><updated>2024-09-06T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/06/Interfaces</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/06/Interfaces.html"><![CDATA[<p>Uma interface, nesse contexto, não se trata da interface de usuário(UI), mas de uma ferramenta de Orientação à Objetos que nos permite abstrair classes à um conjunto de métodos comuns a todas elas.</p>
+
+<p>Pegue por exemplo, Um ataque do jogador que pode atingir inimigos e objetos quebráveis, podemos implementá-lo da seguinte forma:</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">interface</span> <span class="nc">IDamageable</span>
+<span class="p">{</span>
+	<span class="k">void</span> <span class="nf">Damage</span><span class="p">(</span><span class="kt">int</span> <span class="n">amount</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>No script do ataque</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">OnTriggerEnter2D</span><span class="p">(</span><span class="n">Collider2D</span> <span class="n">collision</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">hit</span> <span class="p">=</span> <span class="n">collision</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">IDamageable</span><span class="p">&gt;()</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">hit</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">hit</span><span class="p">.</span><span class="nf">Damage</span><span class="p">(</span><span class="n">dano</span><span class="p">);</span> 
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>No script do inimigo</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">Enemy</span><span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IDamageable</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">health</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+	<span class="cm">/* Implementação da classe
+	.
+	.
+	.
+	*/</span>
+	
+	
+	<span class="k">void</span> <span class="nf">Damage</span><span class="p">(</span><span class="kt">int</span> <span class="n">amount</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">health</span> <span class="p">-=</span> <span class="n">amount</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>No script do objeto quebrável</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">Crate</span><span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IDamageable</span>
+<span class="p">{</span>
+	<span class="cm">/* Implementação da classe
+	.
+	.
+	.
+	*/</span>
+	
+	<span class="k">void</span> <span class="nf">BreakObject</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="nf">Destroy</span><span class="p">(</span><span class="n">gameObject</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="k">void</span> <span class="nf">Damage</span><span class="p">(</span><span class="kt">int</span> <span class="n">amount</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nf">BreakObject</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[Uma interface, nesse contexto, não se trata da interface de usuário(UI), mas de uma ferramenta de Orientação à Objetos que nos permite abstrair classes à um conjunto de métodos comuns a todas elas.]]></summary></entry><entry><title type="html">Corotinas</title><link href="http://localhost:4000/CoralQuest/2024/09/05/Corotinas.html" rel="alternate" type="text/html" title="Corotinas" /><published>2024-09-05T12:00:00-03:00</published><updated>2024-09-05T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/05/Corotinas</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/05/Corotinas.html"><![CDATA[<p>Uma das ferramentas mais importantes da Unity são as Corotinas, elas permitem dividir o fluxo de execução do script e fazer com que uma função seja executada ao longo de vários frames.</p>
+
+<p>Corotinas são declaradas como funçãos com tipo IEnumerator e devem ser chamadas com a função StartCoroutine().</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Update</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="nf">GetKeyDown</span><span class="p">(</span><span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">))</span>
+	<span class="p">{</span>
+		<span class="nf">StartCoroutine</span><span class="p">(</span><span class="nf">DashForward</span><span class="p">(</span><span class="m">10</span><span class="p">));</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">IEnumerator</span> <span class="nf">DashForward</span><span class="p">(</span><span class="kt">int</span> <span class="n">duracao</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cm">/*
+	Força o jogador a se mover rapidamente para a direita por alguns frames
+*/</span>
+	<span class="n">mRigidBody</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">RigidBody2D</span><span class="p">&gt;();</span>
+	
+	<span class="k">while</span><span class="p">(</span><span class="n">duracao</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+	<span class="p">{</span>	
+		<span class="n">mRigidBody</span><span class="p">.</span><span class="n">velocity</span> <span class="p">=</span> <span class="n">Vector2</span><span class="p">.</span><span class="n">right</span> <span class="p">*</span> <span class="m">5</span><span class="p">;</span>
+		<span class="n">duracao</span><span class="p">--;</span>
+		<span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Dentro de uma corotina, devemos usar a palavra ´yield´ para indicar onde a execução será pausada até o próximo frame. Podemos também utilizar outros valores no lugar de null, entre eles: ´yield return new WaitForFixedUpdate()´ retomará a execução no proximo frame de fixed update, ‘yield return new WaitForSeconds(3)’ retomará após 3 segundos.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Uma das ferramentas mais importantes da Unity são as Corotinas, elas permitem dividir o fluxo de execução do script e fazer com que uma função seja executada ao longo de vários frames.]]></summary></entry><entry><title type="html">Cenas Aditivas</title><link href="http://localhost:4000/CoralQuest/2024/09/04/CenasAditivas.html" rel="alternate" type="text/html" title="Cenas Aditivas" /><published>2024-09-04T12:00:00-03:00</published><updated>2024-09-04T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/04/CenasAditivas</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/04/CenasAditivas.html"><![CDATA[<p>A UI é uma parte muito importante de qualquer jogo, mais importante ainda é que ela seja consistente entre fases diferentes. A forma que vimos para criar UIs até agora não é ideal, pois ao fazer alterações, precisamos replicá-las em todas as cenas que a usam.</p>
+
+<p>Uma forma mais versátil de fazer nossa UI é colocá-la numa cena própria, e então carregar tal cena de forma aditiva(ou, por cima) da cena da fase.</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="nf">StartCoroutine</span><span class="p">(</span><span class="nf">LoadUI</span><span class="p">());</span>
+<span class="p">}</span>
+<span class="n">IEnumerator</span> <span class="nf">LoadUI</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">var</span> <span class="n">_UIScene</span> <span class="p">=</span> <span class="n">SceneManager</span><span class="p">.</span><span class="nf">LoadScene</span><span class="p">(</span><span class="s">"UI"</span><span class="p">,</span> <span class="k">new</span> <span class="nf">LoadSceneParameters</span><span class="p">(</span><span class="n">LoadSceneMode</span><span class="p">.</span><span class="n">Additive</span><span class="p">));</span>   <span class="c1">// Carrega a UI por cima da cena inicial</span>
+
+        <span class="k">while</span><span class="p">(!</span><span class="n">_UIScene</span><span class="p">.</span><span class="n">isLoaded</span><span class="p">)</span>   <span class="c1">// Espera até a UI estar carregada</span>
+        <span class="p">{</span>
+            <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+        <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note que carregar cenas aditivamente pode demorar um pouco, por isso é recomendado usar uma <a href="../../../2024/09/05/Corotinas.html">Corotina</a></p>
+
+<p>A desvantagem desse método é que referências entre objetos da UI e da fase devem ser tratadas com mais atenção. Utilizar o <a href="../../../2024/09/03/Singleton.html">Padrão Singleton</a>, e tags pode ajudar bastante. Outra forma é utilizar a referência a cena retornada pela função LoadScene().</p>
+
+<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">_UIScene</span><span class="p">.</span><span class="nf">GetRootGameObjects</span><span class="p">()[</span><span class="m">0</span><span class="p">].</span><span class="n">transform</span><span class="p">.</span><span class="nf">Find</span><span class="p">(</span><span class="s">"Health Bar"</span><span class="p">).</span><span class="nf">SetFullHP</span><span class="p">();</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[A UI é uma parte muito importante de qualquer jogo, mais importante ainda é que ela seja consistente entre fases diferentes. A forma que vimos para criar UIs até agora não é ideal, pois ao fazer alterações, precisamos replicá-las em todas as cenas que a usam.]]></summary></entry><entry><title type="html">Padrão Singleton</title><link href="http://localhost:4000/CoralQuest/2024/09/03/Singleton.html" rel="alternate" type="text/html" title="Padrão Singleton" /><published>2024-09-03T12:00:00-03:00</published><updated>2024-09-03T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/03/Singleton</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/03/Singleton.html"><![CDATA[<p>Nem todos os objetos em Unity são criados da mesma forma, alguns tem maior importância. Você pode, por exemplo, ter um objeto GameManager, que possui funções como a de gameover, lida com o placar e mudanças de cena. Esse objeto será referenciado por várias classes pelo jogo, porém ele não pode ser estático, então referências à ele teriam que ser feitas da forma GameObject.Find(“Manager”) ou algo do tipo. Isso não é ideal, já que a função Find() não é eficiente, isso é o caso para a maioria das funções que atravéssam a hierarquia para encontrar um objeto, em graus diferentes.</p>
 
 <p>O GameManager possui uma característica que pode nos ajudar a referênciá-lo de forma eficiente, isto é o fato que só pode existir um destes objetos ativos em um dado momento. Isso nos possibilita o uso do padrão Singleton de design.</p>
 
