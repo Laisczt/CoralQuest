@@ -1,4 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/CoralQuest/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CoralQuest/" rel="alternate" type="text/html" /><updated>2024-09-22T22:11:23-03:00</updated><id>http://localhost:4000/CoralQuest/feed.xml</id><title type="html">Coral Quest</title><subtitle>Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine</subtitle><entry><title type="html">Multiplas Câmeras</title><link href="http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras.html" rel="alternate" type="text/html" title="Multiplas Câmeras" /><published>2024-09-07T12:00:00-03:00</published><updated>2024-09-07T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras.html"><![CDATA[<p>Existem várias formas de utilizar várias câmeras simultaneamente no Unity.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/CoralQuest/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CoralQuest/" rel="alternate" type="text/html" /><updated>2024-09-23T16:45:06-03:00</updated><id>http://localhost:4000/CoralQuest/feed.xml</id><title type="html">Coral Quest</title><subtitle>Coral quest é um jogo desenvolvido por alunos de Engenharia de Software da UnB-FGA como um passo intermediário para desenvolvimento de jogos em Unity a partir do aprendizado dos básicos da engine</subtitle><entry><title type="html">Sprite Sheets e Animação por Sprites</title><link href="http://localhost:4000/CoralQuest/2024/09/09/SpriteSheets.html" rel="alternate" type="text/html" title="Sprite Sheets e Animação por Sprites" /><published>2024-09-09T12:00:00-03:00</published><updated>2024-09-09T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/09/SpriteSheets</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/09/SpriteSheets.html"><![CDATA[<p>Uma Sprite Sheet é, simplesmete, um conjunto de sprites em um só arquivo</p>
+
+<p><img src="../../../img/player_idle-Sheet.png" alt="Player Idle" /></p>
+
+<p>Utilizar spritesheets nos ajuda a manter os arquivos do projeto mais organizados, e facilita na hora de importar animações e tilemaps.</p>
+
+<p>Vamos implementar a animação de idle da jogadora! Primeiro importe a imagem acima ao seu projeto e a configure da seguinte forma:</p>
+
+<p><img src="../../../img/importingss.png" alt="configuração sheet" /></p>
+
+<p>O que define que estamos usando uma sprite sheet é que selecionamos o Sprite Mode “Multiple”. Note que caso queira usar uma imagem que não é pixel art, não é necessário mudar o filter mode ou a forma de compressão.</p>
+
+<p>Para definir onde ficam as divisões entre os sprites, clique em Sprite Editor, em seguida em Slice &gt; Grid by Cell Count(ou cell size, se preferir), defina o número de linhas e colunas (ou o tamanho delas)
+, clique em slice e então apply no canto superior direito.</p>
+
+<p><img src="../../../img/slicing.png" alt="Usando o Sprite Editor" /></p>
+
+<p>E pronto, os sprites individuais podem ser vistos ao clicar na setinha na sprite sheet no projeto!</p>
+
+<p><img src="../../../img/slicedsprite.png" alt="Sprite no projeto" /></p>
+
+<h1 id="animações-por-sprites">Animações por sprites</h1>
+
+<p>Para transformar sprites em animação, primeiro abra a janela de animação em Window &gt; Animation &gt; Animation (ou aperte ctrl + 6). Com a janela aberta, Selecione o objeto ao qual deseja adicionar animações e clique Create. Uma janela vai aparecer para que você crie um arquivo de animação, dê o nome de idle.anim (ou o que quiser!).</p>
+
+<p>Arraste os sprites da animação à timeline, duplicando o ultimo frame. Você pode então definir a velocidade desejada aumentando a distancia entre os frames (lembre que por padrão há 60 frames em um segundo).</p>
+
+<p><img src="../../../img/addingssanimation.gif" alt="Animação" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Uma Sprite Sheet é, simplesmete, um conjunto de sprites em um só arquivo]]></summary></entry><entry><title type="html">Tilemaps</title><link href="http://localhost:4000/CoralQuest/2024/09/08/Tilemaps.html" rel="alternate" type="text/html" title="Tilemaps" /><published>2024-09-08T12:00:00-03:00</published><updated>2024-09-08T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/08/Tilemaps</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/08/Tilemaps.html"><![CDATA[<p>Tilemaps fornecem uma forma muito mais símples de criar mapas para jogos, permite que os “bloquinhos” que compõe os níveis sejam agrupados por suas propriedades, ao invés de cada um ser um GameObject próprio, também permitindo que sejam posicionados de maneira mais precisa em uma grade.</p>
+
+<p>Para começar a usar tilemaps, primeiro precisamos de alguns sprites. Adicione os sprites que quiser ao seu projeto ou utilize esses:</p>
+
+<p><img src="../../../img/sand_block.png" alt="Areia Topo" /></p>
+
+<p><img src="../../../img/sand_block_below.png" alt="Areia" /></p>
+
+<p><img src="../../../img/walk_rock_block.png" alt="Pedra Topo" /></p>
+
+<p><img src="../../../img/rock_block.png" alt="Pedra" /></p>
+
+<p>Importe as imagens ao seu projeto no Unity, e configure o campo pixel per unit (quantos pixeis do bloco encaixam em uma unidade de comprimento da engine Unity, geralmente igual ao comprimento do lado da imagem):</p>
+
+<p><img src="../../../img/imgcfg.png" alt="Configuração de images" /></p>
+
+<p>*Note que como os sprites do Coral Quest são pixel art, trocamos o filter mode para “point” e a compressão para “none”, você não precisa fazer isso com imagens maiores</p>
+
+<p>Em seguida, no projeto, crie uma Tile Palette com Create &gt; 2D &gt; Tile Palette &gt; Rectangular, não é necessário mudar as opções padrões.</p>
+
+<p>Em Window &gt; 2D &gt; Tile Palette, abra a janela de tile palette</p>
+
+<p><img src="../../../img/tilepalette.png" alt="Janela Tile Palette" /></p>
+
+<p>Para criar suas tiles, arraste as imagens à tile palette, posicionando elas onde desejar.</p>
+
+<p><img src="../../../img/tilesinpalette.png" alt="Tiles na Palette" /></p>
+
+<p>Na hierarquia, crie um tilemap em 2D Object &gt; Tilemap &gt; Rectangular</p>
+
+<p>Selecione o tilemap criado na palette, agora você ja pode desenhar seus níveis!</p>
+
+<p><img src="../../../img/usingpalette.gif" alt="Usando Tilemap" /></p>
+
+<p>Alguns controles úteis:</p>
+<ul>
+  <li>B para usar o pincel</li>
+  <li>Segure shift para apagar</li>
+  <li>Segure ctrl para copiar o objeto que clicar (clique e arraste para selecionar varias tiles de uma só vez)</li>
+</ul>
+
+<p>ps.: Para adicionar colisão ao seu tilemap, adicione o componente Tilemap Collider 2D.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Tilemaps fornecem uma forma muito mais símples de criar mapas para jogos, permite que os “bloquinhos” que compõe os níveis sejam agrupados por suas propriedades, ao invés de cada um ser um GameObject próprio, também permitindo que sejam posicionados de maneira mais precisa em uma grade.]]></summary></entry><entry><title type="html">Multiplas Câmeras</title><link href="http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras.html" rel="alternate" type="text/html" title="Multiplas Câmeras" /><published>2024-09-07T12:00:00-03:00</published><updated>2024-09-07T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/09/07/MultipleCameras.html"><![CDATA[<p>Existem várias formas de utilizar várias câmeras simultaneamente no Unity.</p>
 
 <p>Coral Quest utiliza uma câmera principal que vê o nível, e uma câmera de background que somente vê o plano de fundo.</p>
 
@@ -315,29 +383,4 @@ Uma solução para isso seria implementar uma função RotateVector2() numa help
 <span class="k">void</span> <span class="nf">FixedUpdate</span><span class="p">()</span>
 <span class="p">{</span>
 	<span class="n">myRB</span><span class="p">.</span><span class="n">velocity</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Vector2</span><span class="p">(</span><span class="n">InputX</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
-<span class="p">}</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[Vimos que a parte principal do código de objetos dinâmicos é feita dentro da função Update(), isto é, esse código rodará todo frame. Mas existe um problema com isso, um frame ocorre sempre que o Unity finaliza a execução de todo o código dentro de todos os Update()’s, o tempo entre frames pode variar à medida que o jogo cresce e, principalmente, a depender do hardware em que o jogo está rodando. Caso você desenvolva seu jogo em um computador que é capaz de rodar o jogo à 120 FPS (frames por segundo), um usuário com um computador que só é capaz de 60 FPS irá experienciar seu jogo em câmera lenta.]]></summary></entry><entry><title type="html">GetComponent()</title><link href="http://localhost:4000/CoralQuest/2024/08/30/GetComponent.html" rel="alternate" type="text/html" title="GetComponent()" /><published>2024-08-30T12:00:00-03:00</published><updated>2024-08-30T12:00:00-03:00</updated><id>http://localhost:4000/CoralQuest/2024/08/30/GetComponent</id><content type="html" xml:base="http://localhost:4000/CoralQuest/2024/08/30/GetComponent.html"><![CDATA[<p>Quando precisamos que um script interaja com outros componentes em nossos objetos, vimos que é possível referenciá-los declarando uma variável pública e arrastando o componente no editor. Porém nem sempre é possível fazer isso; por exemplo, como você referenciaria o RigidBody2D de um objeto que foi instanciado depois de apertar play?</p>
-
-<p>Para fazer isso, utilizamos a função GetComponent(). Dada uma referência ao GameObject do qual queremos pegar um componente, podemos usar:</p>
-
-<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">RigidBody2D</span> <span class="n">otherRigidBody</span><span class="p">;</span>
-
-<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
-<span class="p">{</span>
- <span class="n">otherRigidBody</span> <span class="p">=</span> <span class="n">otherGameObject</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">RigidBody2D</span><span class="p">&gt;();</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>Existem várias formas de conseguir a referência ao GameObject, algumas são:</p>
-
-<figure class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="n">otherGameObject</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="nf">Find</span><span class="p">(</span><span class="s">"nome objeto"</span><span class="p">);</span>
-<span class="c1">// encontra um objeto a partir do nome</span>
-
-<span class="n">childGameObject</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="nf">Find</span><span class="p">(</span><span class="s">"nome pai/nome filho"</span><span class="p">);</span>
-<span class="c1">// encontra um objeto dentro de uma hierarquia</span>
-
-<span class="n">taggedObject</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="nf">FindWithTag</span><span class="p">(</span><span class="s">"nome tag"</span><span class="p">);</span>
-<span class="c1">// encontra um objeto com uma determinada tag</span>
-
-<span class="n">firstChild</span> <span class="p">=</span> <span class="n">Parent</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="nf">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">gameObject</span><span class="p">;</span>
-<span class="c1">// Pega o primeiro filho de um objeto conhecido (travessia pela hierarquia geralmente é feita pelo Transform, não GameObject)</span></code></pre></figure>
-
-<p>Como todos os objetos em Unity possuem GameObject e Transform, estes podem ser adquiridos usando “.transform” ou “.gameObject” a partir de qualquer componente</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Quando precisamos que um script interaja com outros componentes em nossos objetos, vimos que é possível referenciá-los declarando uma variável pública e arrastando o componente no editor. Porém nem sempre é possível fazer isso; por exemplo, como você referenciaria o RigidBody2D de um objeto que foi instanciado depois de apertar play?]]></summary></entry></feed>
+<span class="p">}</span></code></pre></figure>]]></content><author><name></name></author><summary type="html"><![CDATA[Vimos que a parte principal do código de objetos dinâmicos é feita dentro da função Update(), isto é, esse código rodará todo frame. Mas existe um problema com isso, um frame ocorre sempre que o Unity finaliza a execução de todo o código dentro de todos os Update()’s, o tempo entre frames pode variar à medida que o jogo cresce e, principalmente, a depender do hardware em que o jogo está rodando. Caso você desenvolva seu jogo em um computador que é capaz de rodar o jogo à 120 FPS (frames por segundo), um usuário com um computador que só é capaz de 60 FPS irá experienciar seu jogo em câmera lenta.]]></summary></entry></feed>

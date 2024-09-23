@@ -1,8 +1,8 @@
-const version = '20240922221123';
+const version = '20240923164506';
 const cacheName = `static::${version}`;
 
 const buildContentBlob = () => {
-  return ["/CoralQuest/2024/09/07/MultipleCameras.html","/CoralQuest/2024/09/06/Interfaces.html","/CoralQuest/2024/09/05/Corotinas.html","/CoralQuest/2024/09/04/CenasAditivas.html","/CoralQuest/2024/09/03/Singleton.html","/CoralQuest/2024/09/02/MetodosExtensao.html","/CoralQuest/2024/09/01/Raycasts.html","/CoralQuest/2024/08/31/Update-FixedUpdate.html","/CoralQuest/2024/08/30/GetComponent.html","/CoralQuest/creditos/","/CoralQuest/","/CoralQuest/aboutUs/","/CoralQuest/experience/","/CoralQuest/tutoriais/","/CoralQuest/manifest.json","/CoralQuest/assets/search.json","/CoralQuest/assets/styles.css","/CoralQuest/redirects.json","/CoralQuest/feed.xml","/CoralQuest/sitemap.xml","/CoralQuest/robots.txt","", "/CoralQuest/assets/default-offline-image.png", "/CoralQuest/assets/scripts/fetch.js"
+  return ["/CoralQuest/2024/09/09/SpriteSheets.html","/CoralQuest/2024/09/08/Tilemaps.html","/CoralQuest/2024/09/07/MultipleCameras.html","/CoralQuest/2024/09/06/Interfaces.html","/CoralQuest/2024/09/05/Corotinas.html","/CoralQuest/2024/09/04/CenasAditivas.html","/CoralQuest/2024/09/03/Singleton.html","/CoralQuest/2024/09/02/MetodosExtensao.html","/CoralQuest/2024/09/01/Raycasts.html","/CoralQuest/2024/08/31/Update-FixedUpdate.html","/CoralQuest/creditos/","/CoralQuest/","/CoralQuest/aboutUs/","/CoralQuest/experience/","/CoralQuest/tutoriais/","/CoralQuest/manifest.json","/CoralQuest/assets/search.json","/CoralQuest/assets/styles.css","/CoralQuest/redirects.json","/CoralQuest/feed.xml","/CoralQuest/sitemap.xml","/CoralQuest/robots.txt","", "/CoralQuest/assets/default-offline-image.png", "/CoralQuest/assets/scripts/fetch.js"
   ]
 }
 
