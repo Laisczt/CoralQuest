@@ -8,7 +8,7 @@ permalink: /aboutUs/
 ### Laís Soares
 Estudante cursando enegnharia de softaware e principal programadora do jogo, assim como editora dos efeitos sonoros.
 
-### Lopes
+### Júlia Lopes
 Cursando engenharia de software e criadora de todas as sprites e desenhos do jogo, e também criadora e editora dos efeitos sonoros.
 
 ### Hebert Kiragon
