@@ -4,7 +4,7 @@ title: Nossa Experiência
 permalink: /experience/
 ---
 
-### Lopes
+### Júlia Lopes
 A criação desse jogo foi uma nova experiência na vida, já que é a primeira vez que tive que trabalhar em um projeto sério e não um trabalho designado por uma matéria. O processo de criação dos designs dos personagens foi uma das partes mais divertidas para mim. O tema do jogo desde o começo era aquático, mas eu decidi fazer a primeira versão da protagonista um robô com braços de tentáculo (a única característica da primeira versão que tinha algo a ver com o tema do jogo).
 
 ![](https://raw.githubusercontent.com/Laisczt/CoralQuest/page/img/primeira%20versao.png) 
