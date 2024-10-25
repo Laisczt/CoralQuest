@@ -42,6 +42,11 @@ navigation_header:
 - title: Github
   url: https://github.com/Laisczt/CoralQuest
 
+navigation_footer:
+- title: Voltar ao topo
+  url: "#top"
+- title: Nossa Experiência
+  url: /experience/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
