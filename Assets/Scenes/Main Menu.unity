@@ -1044,7 +1044,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'v3 2024-09-11
+  m_text: 'v5 2024-11-01
 
 '
   m_isRightToLeft: 0
@@ -3076,7 +3076,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Arte - Wonnz Lopes
+  m_text: 'Arte - Julia Lopes
 
 '
   m_isRightToLeft: 0
