@@ -10,10 +10,27 @@ public class GameStart : MonoBehaviour, IDataSaver
     */
     public string Screen;
     bool reachedLevel2;
+    private bool DEBUGUNLOCKED = false;
+
+    public AudioSource ding;
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F9)) {
+           DebugUnlockLevelSelect();
+        }
+    }
+
+    public void DebugUnlockLevelSelect()
+    {
+        DEBUGUNLOCKED = true;
+        Debug.Log("DEBUG - LEVEL SELECT SCREEN UNLOCKED");
+        ding.Play();
+    }
     
     public void ClickPlay()
     {
-        if(reachedLevel2) GetComponent<MenuNav>().DelayedChange();
+        if(reachedLevel2 || DEBUGUNLOCKED) GetComponent<MenuNav>().DelayedChange();
         else LoadScreen();
     }
     public void LoadScreen()
